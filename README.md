@@ -1,2 +1,6 @@
-# cool-site
- Very cool site made for very cool business
+# Frontend
+
+```
+cd frontend
+npm run dev
+```
