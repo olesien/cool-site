@@ -1,13 +1,10 @@
 import { Outlet, NavLink } from 'react-router-dom'
 
 const navigation = [
-    { name: 'Home', href: '/' },
-    { name: 'About', href: '/about' },
+    { name: 'Home', href: '/' }, { name: 'About', href: '/about' }, {name:"Style", href:'/style'}
 ]
 
-function classNames(...classes: string[]) {
-    return classes.filter(Boolean).join(' ')
-}
+function classNames(...classes: string[]) { return classes.filter(Boolean).join(' ') }
 
 export default function Layout() {
     //const { isDark, setIsDark } = useAppContext()
