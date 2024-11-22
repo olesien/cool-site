@@ -80,53 +80,75 @@ header {
     display: flex;
     justify-content: flex-end;
 
-    .categories {
-        padding: 1rem 4rem;
+    .desktop-categories {
+        padding: 0.5rem 4rem;
         font-weight: 800;
         font-size: 1.3em;
         display: flex;
         gap: 1.5rem;
         color: colors.$black;
-        margin-right: 50px; //Offset for dropdowns
+
+        // Dropdown
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+            padding: 12px 16px;
+            z-index: 1;
+            flex-direction: column;
+            gap: 0.5rem;
+            right: 0;
+        }
+
+        .dropdown:hover {
+            color: colors.$blue;
+        }
+        .dropdown:hover .dropdown-content {
+            display: flex;
+        }
     }
-}
 
-// Dropdown
+    .mobile-categories {
+        position: relative;
+        margin-right: 40px;
+        .icon {
+            font-size: 1.5em;
+        }
+        .dropdown {
+            display: flex;
+            position: absolute;
+            background-color: #f9f9f9;
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+            padding: 12px 16px;
+            z-index: 1;
+            flex-direction: column;
+            gap: 0.5rem;
+            right: 0;
+        }
 
-.dropdown {
-    position: relative;
-    display: inline-block;
-}
+        .subcatlink {
+            margin-left: 0.5rem;
+        }
+    }
 
-.dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #f9f9f9;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-    padding: 12px 16px;
-    z-index: 1;
-    flex-direction: column;
-    gap: 0.5rem;
-}
-
-.dropdown-content li {
-    list-style: none;
-    color: colors.$blue;
-
-    :hover {
+    // Applies to both mobile and desktop
+    li {
+        list-style: none;
+        color: colors.$blue;
+        a {
+            text-decoration: none;
+        }
+    }
+    li:hover {
         color: colors.$lightblue;
         cursor: pointer;
     }
-
-    a {
-        text-decoration: none;
-    }
-}
-
-.dropdown:hover {
-    color: colors.$blue;
-}
-.dropdown:hover .dropdown-content {
-    display: flex;
 }
