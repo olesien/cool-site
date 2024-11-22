@@ -1,3 +1,5 @@
+@use "colors.scss";
+
 @font-face {
     font-family: "Noto Sans";
     src: url("/fonts/NotoSans-Regular.ttf") format("truetype");
@@ -36,4 +38,33 @@
 .image {
     width: "100px";
     height: "auto";
+}
+
+header {
+    display: flex;
+    .logo {
+        padding: 2rem;
+        width: 400px;
+        max-width: 30%;
+        font-size: 40px;
+    }
+
+    nav {
+        width: 100%;
+        display: flex;
+        justify-content: flex-end;
+        .inner-nav {
+            height: fit-content;
+            max-width: 350px;
+            display: flex;
+            gap: 1rem;
+            background-color: colors.$black;
+            padding: 1rem 2rem;
+            border-radius: 0 0 0 10px;
+            a {
+                color: colors.$blue;
+                text-decoration: none;
+            }
+        }
+    }
 }
