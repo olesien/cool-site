@@ -1,3 +1,10 @@
 export default function Home() {
-    return <p>Home Page</p>
+    return <div><p>Home Page</p> <div>
+        <img
+            src="/images/02142133700-e1-removebg-preview.png"
+            alt="Sample"
+            loading="lazy"
+            className="image"
+        />
+    </div></div>
 }
