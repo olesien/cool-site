@@ -1,0 +1,35 @@
+.item-card {
+    border-radius: 0.5rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e5e7eb;
+    transition: box-shadow 0.3s ease-in-out;
+  }
+  
+  .item-card:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  .item-image {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    border-top-left-radius: 0.5rem;
+    border-top-right-radius: 0.5rem;
+  }
+  
+  .item-details {
+    padding: 1rem;
+  }
+  
+  .item-name {
+    font-size: 1.125rem;
+    font-weight: bold;
+    color: #1f2937;
+    margin-bottom: 0.5rem;
+  }
+  
+  .item-price {
+    font-size: 0.875rem;
+    text-align: end;
+    color: #4b5563;
+  }
