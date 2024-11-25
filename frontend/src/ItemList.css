@@ -1,0 +1,26 @@
+.displayed-items {
+    margin-top: 3rem;
+    text-align: center;
+}
+
+.collection-title {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 2rem;
+}
+
+.item-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.5rem;
+    padding: 0 1rem;
+}
+
+.item-list-card {
+    flex: 1 1 calc(25% - 1.5rem);
+    max-width: calc(25% - 1.5rem);
+    min-width: 18rem;
+    box-sizing: border-box;
+}
