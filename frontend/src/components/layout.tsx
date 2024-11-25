@@ -1,7 +1,7 @@
 import { Outlet, NavLink } from 'react-router-dom'
 
 const navigation = [
-    { name: 'Home', href: '/' }, { name: 'About', href: '/about' }, { name: "Style", href: '/style' }
+    { name: 'Home', href: '/' }, { name: 'About', href: '/about' }, { name: "Style", href: '/style' }, { name: "New", href: '/new' }
 ]
 
 function classNames(...classes: string[]) { return classes.filter(Boolean).join(' ') }
