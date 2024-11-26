@@ -1,8 +1,9 @@
-import { Space, Table, TableColumnsType } from "antd";
+import { Button, Space, Table, TableColumnsType } from "antd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons/faTrash";
+import { faPlus } from "@fortawesome/free-solid-svg-icons/faPlus";
 import { useMemo } from "react";
-
+import categorystyles from "./category.module.scss";
 export type SubCategory = {
     id: number;
     categories_id: number;
@@ -29,12 +30,20 @@ export default function Categories() {
         { title: 'Category', dataIndex: 'name', key: 'name' },
         { title: 'Link', dataIndex: 'link_name', key: 'link_name' },
         {
-            title: 'Action', key: 'operation', render: () => <FontAwesomeIcon
-                aria-label="Remove item"
-                className="icon"
-                icon={faTrash}
-                onClick={() => console.log("Delete")}
-            />
+            title: 'Action', key: 'operation', render: () => <div className={categorystyles.iconContainer}>
+                <FontAwesomeIcon
+                    title="Remove category"
+                    aria-label="Remove category"
+                    className={categorystyles.deleteIcon}
+                    icon={faTrash}
+                    onClick={() => console.log("Delete")}
+                /> <FontAwesomeIcon
+                    aria-label="Add Subcategory"
+                    title="Add Subcateogry"
+                    className={categorystyles.addIcon}
+                    icon={faPlus}
+                    onClick={() => console.log("Add")}
+                /></div>
         },
     ], []);
     const subcategories: TableColumnsType<SubCategory> = useMemo(() => [
@@ -46,8 +55,9 @@ export default function Categories() {
             render: () => (
                 <Space size="middle">
                     <FontAwesomeIcon
-                        aria-label="Remove item"
-                        className="icon"
+                        title="Remove subcategory"
+                        aria-label="Remove subcategory"
+                        className={categorystyles.deleteIcon}
                         icon={faTrash}
                         onClick={() => console.log("Delete")}
                     />
@@ -56,10 +66,16 @@ export default function Categories() {
         },
     ], []);
     return (
-        <div><h2>Admin cats</h2><Table<Category>
-            columns={columns}
-            expandable={{ expandedRowRender: (v => <RenderDropdown v={v} subcategories={subcategories} />) }}
-            dataSource={data}
-        /></div>
+        <div>
+            <div className={"header"}>
+                <h2>Admin cats</h2>
+                <Button variant="filled" color="primary">New Category</Button>
+            </div>
+            <Table<Category>
+                columns={columns}
+                expandable={{ expandedRowRender: (v => <RenderDropdown v={v} subcategories={subcategories} />) }}
+                dataSource={data}
+            />
+        </div>
     )
 }

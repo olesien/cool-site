@@ -1,0 +1,23 @@
+@use "../../../style/colors.scss";
+.iconContainer {
+    display: flex;
+    gap: 10px;
+}
+
+.deleteIcon {
+    width: 20px;
+    height: 20px;
+    color: colors.$red;
+    :hover {
+        cursor: pointer;
+    }
+}
+
+.addIcon {
+    width: 20px;
+    height: 20px;
+    color: colors.$blue;
+    :hover {
+        cursor: pointer;
+    }
+}

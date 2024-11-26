@@ -9,6 +9,7 @@ import Home from './pages/home';
 import About from './pages/about';
 import Login from './pages/login/login';
 import AdminCategories from './pages/admin/categories';
+import AdminWrapper from './components/adminwrapper';
 
 export const publicRoutes = createBrowserRouter(
     createRoutesFromElements(
@@ -37,7 +38,7 @@ export const publicRoutes = createBrowserRouter(
                     </Suspense>
                 }
             />
-            <Route path="/admin">
+            <Route path="/admin" element={<AdminWrapper />}>
                 <Route
                     path='categories'
                     element={
