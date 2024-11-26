@@ -1,18 +1,13 @@
-import { lazy, Suspense } from 'react';
+import { Suspense } from 'react'
 import {
     createBrowserRouter,
     createRoutesFromElements,
     Route,
-} from 'react-router-dom';
-
-// LAYOUT
-const Layout = lazy(async () => await import('@/components/layout'));
-
-// PAGE
-const Home = lazy(async () => await import('@/pages/home/index'));
-
-// LOGIN
-const Login = lazy(async () => await import('@/pages/login/login'))
+} from 'react-router-dom'
+import Layout from './components/layout'
+import Home from './pages/home'
+import About from './pages/about'
+import Login from './pages/login/login'
 
 export const publicRoutes = createBrowserRouter(
     createRoutesFromElements(
@@ -26,7 +21,15 @@ export const publicRoutes = createBrowserRouter(
                 }
             />
             <Route
-                path="login"
+                path='/about'
+                element={
+                    <Suspense fallback={<></>}>
+                        <About />
+                    </Suspense>
+                }
+            />
+            <Route
+                path='/login'
                 element={
                     <Suspense fallback={<></>}>
                         <Login />
