@@ -39,6 +39,11 @@ public class MainController {
         return cookie;
     }
 
+    @GetMapping(path="/ping")
+    public @ResponseBody ResponseEntity<String> ping (HttpServletResponse response) {
+        return ResponseEntity.status(HttpStatus.OK).body("Pong");
+    }
+
     @PostMapping(path="/register") // Map ONLY POST Requests
     public @ResponseBody ResponseEntity<ApiResponse<Object>> register (HttpServletResponse response, @RequestBody RegisterForm registerForm) throws NoSuchAlgorithmException {
         Users n = new Users();
