@@ -42,11 +42,12 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     const [isDark, setIsDark] = useState<boolean>(detectSystemThemeIsDark())
 
     function detectSystemThemeIsDark() {
-        if (localStorage.getItem('theme')) {
-            return localStorage.getItem('theme') === 'dark'
-        } else {
-            return !!window?.matchMedia('(prefers-color-scheme: dark)')?.matches
-        }
+        // if (localStorage.getItem('theme')) {
+        //     return localStorage.getItem('theme') === 'dark'
+        // } else {
+        //     return !!window?.matchMedia('(prefers-color-scheme: dark)')?.matches
+        // }
+        return false //Uncomment above lines and remove this to add logic for dark mode
     }
 
     useEffect(() => {
