@@ -1,16 +1,12 @@
-import { lazy, Suspense } from 'react'
+import { Suspense } from 'react'
 import {
     createBrowserRouter,
     createRoutesFromElements,
     Route,
 } from 'react-router-dom'
-
-// LAYOUT
-const Layout = lazy(async () => await import('@/components/layout'))
-
-// PAGE
-const Home = lazy(async () => await import('@/pages/home'))
-const About = lazy(async () => await import('@/pages/about'))
+import Layout from './components/layout'
+import Home from './pages/home'
+import About from './pages/about'
 
 export const publicRoutes = createBrowserRouter(
     createRoutesFromElements(

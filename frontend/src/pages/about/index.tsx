@@ -1,24 +1,31 @@
-import { useEffect } from 'react'
-import axios from "axios";
+import {
+    useQuery,
+} from '@tanstack/react-query'
+import { getPing } from "../../services/api"
 export default function About() {
 
-    const getData = async () => {
-        const response = await axios.get<string>(
-            'http://localhost:8080/users/ping',
-            {
-                headers: {
-                    "Access-Control-Allow-Origin": "*"
-                },
-                withCredentials: true
-            }
-        )
-        alert(String(response.data));
-    }
+    // const getData = async () => {
+    //     const response = await axios.get<string>(
+    //         'http://localhost:8080/users/ping',
+    //         {
+    //             headers: {
+    //                 "Access-Control-Allow-Origin": "*"
+    //             },
+    //             withCredentials: true
+    //         }
+    //     )
+    //     alert(String(response.data));
+    // }
 
-    useEffect(() => {
-        getData();
-    }, [])
+    // useEffect(() => {
+    //     getData();
+    // }, [])
+    const { data } = useQuery({
+        queryKey: ['ping'],
+        queryFn: getPing,
+    })
+    console.log(data);
     return (
-        <div>index</div>
+        <div>API response: {String(data)}</div>
     )
 }
