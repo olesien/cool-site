@@ -2,6 +2,7 @@ import {
     useQuery,
 } from '@tanstack/react-query'
 import { getPing } from "../../services/api"
+import { Button } from 'antd';
 export default function About() {
 
     // const getData = async () => {
@@ -26,6 +27,6 @@ export default function About() {
     })
     console.log(data);
     return (
-        <div>API response: {String(data)}</div>
+        <div>API response: {String(data)} <Button>Hej fin knapp!</Button></div>
     )
 }

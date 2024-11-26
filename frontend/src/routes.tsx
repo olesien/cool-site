@@ -4,10 +4,11 @@ import {
     createRoutesFromElements,
     Route,
 } from 'react-router-dom'
-import Layout from './components/layout'
-import Home from './pages/home'
-import About from './pages/about'
-import Login from './pages/login/login'
+import Layout from './components/layout';
+import Home from './pages/home';
+import About from './pages/about';
+import Login from './pages/login/login';
+import AdminCategories from './pages/admin/categories';
 
 export const publicRoutes = createBrowserRouter(
     createRoutesFromElements(
@@ -36,6 +37,16 @@ export const publicRoutes = createBrowserRouter(
                     </Suspense>
                 }
             />
+            <Route path="/admin">
+                <Route
+                    path='categories'
+                    element={
+                        <Suspense fallback={<></>}>
+                            <AdminCategories />
+                        </Suspense>
+                    }
+                />
+            </Route>
         </Route>
     )
 );
