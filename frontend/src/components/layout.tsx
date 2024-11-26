@@ -1,7 +1,7 @@
 import { Outlet, NavLink } from 'react-router-dom'
 
 const navigation = [
-    { name: 'Home', href: '/' }, { name: 'About', href: '/about' }, { name: "Style", href: '/style' }
+    { name: 'Home', href: '/' }, { name: 'About', href: '/about' }, { name: "Log In", href: '/login' }
 ]
 
 function classNames(...classes: string[]) { return classes.filter(Boolean).join(' ') }
@@ -11,7 +11,9 @@ export default function Layout() {
     return (
         <>
             <header>
+                <NavLink to="/" className="logoLink">
                 <div className="logo">Cool Site</div>
+                </NavLink>
                 <nav>
                     <div className="inner-nav">
                         {navigation.map((item) => (

@@ -47,6 +47,12 @@ header {
         width: 400px;
         max-width: 30%;
         font-size: 40px;
+        white-space: nowrap;
+        cursor: pointer;
+    }
+
+    .logoLink {
+        text-decoration: none;
     }
 
     nav {
