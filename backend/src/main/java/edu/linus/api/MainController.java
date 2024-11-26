@@ -1,16 +1,20 @@
 package edu.linus.api;
 
 import com.auth0.jwt.interfaces.DecodedJWT;
+import edu.linus.api.entity.Category;
 import edu.linus.api.models.*;
+import edu.linus.api.repository.CategoryRepository;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 import java.util.Optional;
 
 import static edu.linus.api.Auth.*;
@@ -22,6 +26,8 @@ public class MainController {
     private final UserRepository userRepository;
     private final EncryptedMessagesRepository encryptedMessagesRepository;
     private final Environment env;
+    @Autowired
+    private CategoryRepository categoryRepository;
 
     MainController(UserRepository userRepository, EncryptedMessagesRepository encryptedMessagesRepository, Environment env) {
         this.userRepository = userRepository;
@@ -42,6 +48,12 @@ public class MainController {
     @GetMapping(path="/ping")
     public @ResponseBody ResponseEntity<String> ping (HttpServletResponse response) {
         return ResponseEntity.status(HttpStatus.OK).body("Pong");
+    }
+
+    @GetMapping(path = "/categories")
+    public ResponseEntity<List<Category>> getCategories() {
+        List<Category> categories = categoryRepository.findAll();
+        return ResponseEntity.ok(categories);
     }
 
     @PostMapping(path="/register") // Map ONLY POST Requests
