@@ -51,7 +51,6 @@ public class MainController {
     }
 
 
-
     @PostMapping(path="/register") // Map ONLY POST Requests
     public @ResponseBody ResponseEntity<ApiResponse<Object>> register (HttpServletResponse response, @RequestBody RegisterForm registerForm) throws NoSuchAlgorithmException {
         Users n = new Users();

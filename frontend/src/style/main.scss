@@ -158,3 +158,30 @@ header {
         cursor: pointer;
     }
 }
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    align-items: center;
+    padding: 0.5rem;
+    margin: 0.5rem;
+}
+
+// For admin pages we want specific max widths to make data easier to view and less stretched
+.admin-content-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    .admin-content {
+        width: 1200px;
+        max-width: 100%;
+    }
+}
+
+.loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100px;
+}
