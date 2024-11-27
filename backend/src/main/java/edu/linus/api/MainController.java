@@ -50,6 +50,11 @@ public class MainController {
         return ResponseEntity.status(HttpStatus.OK).body("Pong");
     }
 
+    @PostMapping(path="/ping")
+    public @ResponseBody ResponseEntity<String> pingPost (HttpServletResponse response, @RequestBody RegisterForm registerForm) {
+        return ResponseEntity.status(HttpStatus.OK).body(registerForm.getName());
+    }
+
     @GetMapping(path = "/categories")
     public ResponseEntity<List<Category>> getCategories() {
         List<Category> categories = categoryRepository.findAll();

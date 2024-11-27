@@ -70,7 +70,10 @@ export default function Categories() {
         <>
             <div className={"header"}>
                 <h2>Admin Categories</h2>
-                <Button variant="filled" color="primary">New Category</Button>
+                <Button variant="filled" color="primary"><FontAwesomeIcon
+                    className={categorystyles.addIcon}
+                    icon={faPlus}
+                /> New Category</Button>
             </div>
             <Table<Category>
                 columns={columns}
