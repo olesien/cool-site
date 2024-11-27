@@ -111,7 +111,7 @@ export default function Categories() {
     const handleDeleteProduct = (data: Product) => {
         Modal.confirm({
             title: `Confirm deletion`,
-            content: `Are you sure you want to delete the category ${data.name}? Note that all sub-categories under this category will also be deleted`,
+            content: `Are you sure you want to delete the product ${data.name}? Note that all images under this product will also be deleted`,
             okText: 'Delete',
             okType: 'danger',
             cancelText: 'Cancel',
