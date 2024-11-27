@@ -1,9 +1,9 @@
 import { Form, Input, Modal } from 'antd'
 import { useEffect } from 'react'
-export type SaveCategory = { name: string; link_name: string };
-export default function CategoryModal({ title, onSave, handleClose, initialData }: { title: string; onSave: (category: SaveCategory) => void, handleClose: () => void, initialData?: SaveCategory; }) {
+export type SaveProduct = { name: string; price: number; sub_categories_id: number };
+export default function ProductModal({ title, onSave, handleClose, initialData }: { title: string; onSave: (category: SaveProduct) => void, handleClose: () => void, initialData?: SaveProduct }) {
     const [form] = Form.useForm();
-    const handleSave = (values: SaveCategory) => {
+    const handleSave = (values: SaveProduct) => {
         // Basic validation happens automatically via rules
         onSave(values); // Pass the validated form data
     };
@@ -15,7 +15,7 @@ export default function CategoryModal({ title, onSave, handleClose, initialData 
             // Update form values when initialData changes
             form.setFieldsValue({
                 name: initialData.name || '',
-                link_name: initialData.link_name || '',
+                price: initialData.price || '',
             });
         }
     }, [initialData, form]);
@@ -34,24 +34,24 @@ export default function CategoryModal({ title, onSave, handleClose, initialData 
             >
                 <Form.Item
                     name="name"
-                    label="Category Name"
+                    label="Product Name"
                     rules={[{
                         required: true,
-                        message: 'Please input the category name!'
+                        message: 'Please input the product name!'
                     }]}
                 >
-                    <Input placeholder="Enter category name" />
+                    <Input placeholder="Enter product name" />
                 </Form.Item>
 
                 <Form.Item
-                    name="link_name"
-                    label="Category Link"
+                    name="price"
+                    label="Price"
                     rules={[{
                         required: true,
-                        message: 'Please input the category link name!'
+                        message: 'Please input the price!'
                     }]}
                 >
-                    <Input placeholder="Enter link name (e.g., men, women)" />
+                    <Input placeholder="Enter price" />
                 </Form.Item>
             </Form>
         </Modal>
