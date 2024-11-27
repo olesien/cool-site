@@ -9,7 +9,7 @@ const options = [
     subcategories: [
       {
         name: "Jackets",
-        link: "/woman/jackets",
+        link: "/woman-jackets",
       },
       {
         name: "Party",

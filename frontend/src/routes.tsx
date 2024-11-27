@@ -10,6 +10,7 @@ const Layout = lazy(async () => await import('@/components/layout'))
 
 // PAGE
 const Home = lazy(async () => await import('@/pages/home'))
+const ProductsList = lazy(async () => await import('@/components/ProductsList'))
 
 export const publicRoutes = createBrowserRouter(
     createRoutesFromElements(
@@ -22,6 +23,14 @@ export const publicRoutes = createBrowserRouter(
                     </Suspense>
                 }
             />
+            <Route
+                path="/:category"
+                element={
+                    <Suspense fallback={<></>}>
+                        <ProductsList />
+                    </Suspense>
+                } 
+                />
         </Route>
     )
 )

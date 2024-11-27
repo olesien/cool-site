@@ -17,6 +17,7 @@ const items: Item[] = [
   { name: 'Gray Cardigan', price: 350.90, image: '/images/06771102832-e1-removebg-preview.png' },
 ];
 
+
 export function ItemList() {
   return (
     <div className="displayed-items">
