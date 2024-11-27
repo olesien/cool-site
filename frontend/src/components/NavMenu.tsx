@@ -29,7 +29,7 @@ export function NavMenu() {
                             <ul className="dropdown-content">
                                 {cat.sub_categories.map((subcat) => (
                                     <li>
-                                        <NavLink key={subcat.link_name} to={subcat.link_name}>
+                                        <NavLink key={subcat.link_name} to={cat.link_name + "/" + subcat.link_name}>
                                             {subcat.name}
                                         </NavLink>
                                     </li>
@@ -65,7 +65,7 @@ export function NavMenu() {
                                             <>
                                                 {cat.sub_categories.map((subcat) => (
                                                     <li className="subcatlink">
-                                                        <NavLink key={subcat.link_name} to={subcat.link_name}>
+                                                        <NavLink key={subcat.link_name} to={cat.link_name + "/" + subcat.link_name}>
                                                             {subcat.name}
                                                         </NavLink>
                                                     </li>
