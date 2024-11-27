@@ -3,6 +3,7 @@ package edu.linus.api.entity;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -40,5 +41,16 @@ public class Product {
 
     public void setPrice(Double price) {
         this.price = price;
+    }
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;  // Add createdAt field
+
+    
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 }

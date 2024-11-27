@@ -1,9 +1,10 @@
 package edu.linus.api;
 
 import com.auth0.jwt.interfaces.DecodedJWT;
-import edu.linus.api.entity.Category;
+import edu.linus.api.entity.Product;
 import edu.linus.api.models.*;
 import edu.linus.api.repository.CategoryRepository;
+import edu.linus.api.repository.ProductRepository;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -29,6 +30,9 @@ public class MainController {
     @Autowired
     private CategoryRepository categoryRepository;
 
+    @Autowired
+    private ProductRepository productRepository;
+
     MainController(UserRepository userRepository, EncryptedMessagesRepository encryptedMessagesRepository, Environment env) {
         this.userRepository = userRepository;
         this.encryptedMessagesRepository = encryptedMessagesRepository;
@@ -48,6 +52,11 @@ public class MainController {
     @GetMapping(path="/ping")
     public @ResponseBody ResponseEntity<String> ping (HttpServletResponse response) {
         return ResponseEntity.status(HttpStatus.OK).body("Pong");
+    }
+    @GetMapping("/latest-products")
+    public ResponseEntity<List<Product>> getLatestProducts() {
+        List<Product> latestProducts = productRepository.findTop5ByOrderByCreatedAtDesc();
+        return ResponseEntity.ok(latestProducts);
     }
 
 
@@ -210,4 +219,6 @@ public class MainController {
         }
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new ApiResponse<>("Invalid Token", null));
     }
+
+
 }
