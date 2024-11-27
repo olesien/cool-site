@@ -10,6 +10,7 @@ import About from './pages/about'
 import Login from './pages/login/login'
 import Help from './pages/help/help'
 import AdminCategories from './pages/admin/categories';
+import AdminProducts from './pages/admin/products';
 import AdminWrapper from './components/adminwrapper';
 
 export const publicRoutes = createBrowserRouter(
@@ -53,6 +54,14 @@ export const publicRoutes = createBrowserRouter(
                     element={
                         <Suspense fallback={<></>}>
                             <AdminCategories />
+                        </Suspense>
+                    }
+                />
+                <Route
+                    path='products'
+                    element={
+                        <Suspense fallback={<></>}>
+                            <AdminProducts />
                         </Suspense>
                     }
                 />

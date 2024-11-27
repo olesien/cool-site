@@ -141,11 +141,10 @@ export default function Categories() {
         }
     }
 
-    const deleteItem = async (endUrl: string, data: unknown) => {
+    const deleteItem = async (endUrl: string) => {
         try {
-            const response = await axios.put<string>(
+            const response = await axios.delete<string>(
                 base_url + '/' + endUrl,
-                data,
                 {
                     headers: {
                         "Access-Control-Allow-Origin": "*"
@@ -174,7 +173,7 @@ export default function Categories() {
             onOk() {
                 // Perform delete action
                 console.log('Deleting item with ID:', data.id);
-                deleteItem("categories", data);
+                deleteItem("categories/" + data.id);
             },
             onCancel() {
                 console.log('Delete cancelled');
@@ -192,7 +191,7 @@ export default function Categories() {
             onOk() {
                 // Perform delete action
                 console.log('Deleting item with ID:', data.id);
-                deleteItem("sub_categories", data);
+                deleteItem("sub_categories/" + data.id);
             },
             onCancel() {
                 console.log('Delete cancelled');

@@ -1,7 +1,7 @@
 import { Form, Input, Modal } from 'antd'
 import { useEffect } from 'react'
 export type SaveCategory = { name: string; link_name: string };
-export default function CategoryModal({ title, onSave, handleClose, initialData }: { title: string; onSave: (category: SaveCategory) => void, handleClose: () => void, initialData?: { name: string; link_name: string }; }) {
+export default function CategoryModal({ title, onSave, handleClose, initialData }: { title: string; onSave: (category: SaveCategory) => void, handleClose: () => void, initialData?: SaveCategory; }) {
     const [form] = Form.useForm();
     const handleSave = (values: SaveCategory) => {
         // Basic validation happens automatically via rules
