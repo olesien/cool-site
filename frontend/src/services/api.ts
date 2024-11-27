@@ -1,9 +1,9 @@
 import { Category } from "@/pages/admin/categories";
 import axios from "axios";
-
+export const base_url = "http://localhost:8080";
 export const getPing = async () => {
     const response = await axios.get<string>(
-        'http://localhost:8080/users/ping',
+        base_url + '/users/ping',
         {
             headers: {
                 "Access-Control-Allow-Origin": "*"
@@ -16,7 +16,7 @@ export const getPing = async () => {
 
 export const getCategories = async () => {
     // const response = await axios.get<{categories: Category[]}>(
-    //     'http://localhost:8080/categories',
+    //     base_url + '/categories',
     //     {
     //         headers: {
     //             "Access-Control-Allow-Origin": "*"

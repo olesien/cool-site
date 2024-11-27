@@ -10,6 +10,7 @@
     color: colors.$red;
     :hover {
         cursor: pointer;
+        color: colors.$lightred;
     }
 }
 
@@ -19,6 +20,7 @@
     color: colors.$blue;
     :hover {
         cursor: pointer;
+        color: colors.$lightblue;
     }
 }
 

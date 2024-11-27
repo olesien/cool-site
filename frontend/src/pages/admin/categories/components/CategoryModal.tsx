@@ -1,42 +1,36 @@
 import { Form, Input, Modal } from 'antd'
-import React, { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 export type SaveCategory = { name: string; link_name: string };
 export default function CategoryModal({ title, onSave, handleClose, initialData }: { title: string; onSave: (category: SaveCategory) => void, handleClose: () => void, initialData?: { name: string; link_name: string }; }) {
-    const [category, setCategory] = useState({
-        name: '',
-        link_name: ''
-    });
-
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = e.target;
-        setCategory(prev => ({
-            ...prev,
-            [name]: value
-        }));
+    const [form] = Form.useForm();
+    const handleSave = (values: SaveCategory) => {
+        // Basic validation happens automatically via rules
+        onSave(values); // Pass the validated form data
     };
 
-    const handleSave = () => {
-        // Basic validation
-        if (!category.name || !category.link_name) {
-            // You might want to show an error message
-            return;
-        }
-
-        onSave(category);
-    };
 
     useEffect(() => {
+        console.log(initialData);
         if (initialData) {
-            setCategory({
+            // Update form values when initialData changes
+            form.setFieldsValue({
                 name: initialData.name || '',
-                link_name: initialData.link_name || ''
+                link_name: initialData.link_name || '',
             });
         }
-    }, [initialData]);
+    }, [initialData, form]);
     return (
-        <Modal title={title} open={true} onOk={handleSave} onCancel={handleClose}>
+        <Modal
+            title={title}
+            open={true}
+            onOk={() => form.submit()}
+            onCancel={handleClose}
+            okText="Save"
+        >
             <Form
+                form={form}
                 layout="vertical"
+                onFinish={handleSave}
             >
                 <Form.Item
                     name="name"
@@ -46,12 +40,7 @@ export default function CategoryModal({ title, onSave, handleClose, initialData 
                         message: 'Please input the category name!'
                     }]}
                 >
-                    <Input
-                        name="name"
-                        value={category.name}
-                        onChange={handleChange}
-                        placeholder="Enter category name"
-                    />
+                    <Input placeholder="Enter category name" />
                 </Form.Item>
 
                 <Form.Item
@@ -62,12 +51,7 @@ export default function CategoryModal({ title, onSave, handleClose, initialData 
                         message: 'Please input the category link name!'
                     }]}
                 >
-                    <Input
-                        name="link_name"
-                        value={category.link_name}
-                        onChange={handleChange}
-                        placeholder="Enter link name (e.g., men, women)"
-                    />
+                    <Input placeholder="Enter link name (e.g., men, women)" />
                 </Form.Item>
             </Form>
         </Modal>
