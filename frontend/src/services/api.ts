@@ -129,6 +129,6 @@ export const getProducts = async () => {
                 }
             }
         }
-    ]; return { categories: data };
+    ]; return { products: data };
 }
 
