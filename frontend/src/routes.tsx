@@ -4,10 +4,11 @@ import {
     createRoutesFromElements,
     Route,
 } from 'react-router-dom'
-import Layout from './components/layout';
-import Home from './pages/home';
-import About from './pages/about';
-import Login from './pages/login/login';
+import Layout from './components/layout'
+import Home from './pages/home'
+import About from './pages/about'
+import Login from './pages/login/login'
+import Help from './pages/help/help'
 import AdminCategories from './pages/admin/categories';
 import AdminWrapper from './components/adminwrapper';
 
@@ -35,6 +36,14 @@ export const publicRoutes = createBrowserRouter(
                 element={
                     <Suspense fallback={<></>}>
                         <Login />
+                    </Suspense>
+                }
+            />
+            <Route
+                path="help"
+                element={
+                    <Suspense fallback={<></>}>
+                        <Help />
                     </Suspense>
                 }
             />
