@@ -1,17 +1,15 @@
 import { NavMenu } from "@/components/NavMenu";
+import { ItemList } from "@/components/ItemList";
+import '../../collections.css'; 
 
 export default function Home() {
     return (
         <div>
             <NavMenu />
-            <p>Home Page</p>
-            <div>
-                <img
-                    src="/images/02142133700-e1-removebg-preview.png"
-                    alt="Sample"
-                    loading="lazy"
-                    className="image"
-                />
+            <div className="banner">
+            </div>
+            <div className="collection">
+                <ItemList />
             </div>
         </div>
     );
