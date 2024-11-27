@@ -1,10 +1,12 @@
-import { Outlet, NavLink } from 'react-router-dom'
+import { Outlet, NavLink } from "react-router-dom";
 
 const navigation = [
-    { name: 'Home', href: '/' }, { name: 'About', href: '/about' }, { name: "Log In", href: '/login' }
+    { name: 'Home', href: '/' }, { name: 'About', href: '/about' }, { name: "Log In", href: '/login' }, { name: "Help", href: "/help" },
 ]
 
-function classNames(...classes: string[]) { return classes.filter(Boolean).join(' ') }
+function classNames(...classes: string[]) {
+    return classes.filter(Boolean).join(" ");
+}
 
 export default function Layout() {
     //const { isDark, setIsDark } = useAppContext()
@@ -12,7 +14,7 @@ export default function Layout() {
         <>
             <header>
                 <NavLink to="/" className="logoLink">
-                <div className="logo">Cool Site</div>
+                    <div className="logo">Cool Site</div>
                 </NavLink>
                 <nav>
                     <div className="inner-nav">
