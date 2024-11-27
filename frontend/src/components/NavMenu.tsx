@@ -3,96 +3,33 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons/faBars";
 import { Fragment, useState } from "react";
 import useIsMobile from "@/hooks/useIsMobile";
-const options = [
-    {
-        name: "Woman",
-        subcategories: [
-            {
-                name: "Jackets",
-                link: "/woman/jackets",
-            },
-            {
-                name: "Party",
-                link: "/woman/party",
-            },
-            {
-                name: "Tops",
-                link: "/women/tops",
-            },
-            {
-                name: "Dresses",
-                link: "/women/dresses",
-            },
-            {
-                name: "Outerwear",
-                link: "/women/outerwear",
-            },
-
-            {
-                name: "Jeans & Pants",
-                link: "/women/jeans-pants",
-            },
-            {
-                name: "Skirts & Shorts",
-                link: "/women/skirts-shorts",
-            },
-
-            { name: "Sweaters &Cardigans", link: "/women sweaters-cardigans" },
-
-            { name: "Blazers", link: "/women/blazers" },
-
-            { name: "Sale", link: "/women/sale" },
-        ],
-    },
-    {
-        name: "Man",
-        subcategories: [
-            {
-                name: "Jackets",
-                link: "/man/jackets",
-            },
-            { name: "T-Shirts", link: "/men/t-shirts" },
-            { name: "Hoodies & Sweatshirts", link: "/men/hoodies" },
-
-            { name: "Pants & Jeans", link: "/men/pants-jeans" },
-            { name: "Shorts", link: "/men/shorts" },
-            { name: "Sweaters & Knitwear", link: "/men/sweaters-knitwear" },
-            { name: "Vests & Tank Tops", link: "/men/vests-tank-tops" },
-            { name: "Sale", link: "/men/sale" },
-        ],
-    },
-    {
-        name: "Kids",
-        subcategories: [
-            {
-                name: "Jackets",
-                link: "/kids/jackets",
-            },
-            { name: "T-Shirts", link: "/kids/t-shirts" },
-            { name: "Hoodies & Sweatshirts", link: "/kids/hoodies" },
-
-            { name: "Pants & Jeans", link: "/kids/pants-jeans" },
-            { name: "Shorts", link: "/kids/shorts" },
-            { name: "Sale", link: "/kids/sale" },
-        ],
-    },
-];
+import { useQuery } from "@tanstack/react-query";
+import { getCategories } from "@/services/api";
+import Loading from "./Loading";
 
 export function NavMenu() {
     const [showDropdown, setShowDropdown] = useState(false);
     const [showCats, setShowCats] = useState<{ [key: string]: boolean }>({});
     const isMobile = useIsMobile();
+    const { data } = useQuery({
+        queryKey: ['cats'],
+        queryFn: getCategories,
+    })
+    if (!data) {
+        return <Loading />
+    }
+    const options = data.categories;
     return (
         <div className="cat-container">
             {!isMobile && (
                 <div className="desktop-categories">
                     {options.map((cat) => (
-                        <div className="dropdown">
+                        <div className="dropdown" key={cat.id}>
                             <span>{cat.name.toUpperCase()}</span>
                             <ul className="dropdown-content">
-                                {cat.subcategories.map((subcat) => (
+                                {cat.sub_categories.map((subcat) => (
                                     <li>
-                                        <NavLink key={subcat.link} to={subcat.link}>
+                                        <NavLink key={subcat.link_name} to={subcat.link_name}>
                                             {subcat.name}
                                         </NavLink>
                                     </li>
@@ -113,7 +50,7 @@ export function NavMenu() {
                         <ul className="dropdown">
                             {options.map((cat) => {
                                 return (
-                                    <Fragment key={cat.name}>
+                                    <Fragment key={cat.id}>
                                         <li
                                             onClick={() =>
                                                 setShowCats((oldCats) => ({
@@ -126,9 +63,9 @@ export function NavMenu() {
                                         </li>
                                         {showCats[cat.name] && (
                                             <>
-                                                {cat.subcategories.map((subcat) => (
+                                                {cat.sub_categories.map((subcat) => (
                                                     <li className="subcatlink">
-                                                        <NavLink key={subcat.link} to={subcat.link}>
+                                                        <NavLink key={subcat.link_name} to={subcat.link_name}>
                                                             {subcat.name}
                                                         </NavLink>
                                                     </li>
