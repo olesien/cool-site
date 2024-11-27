@@ -50,11 +50,7 @@ public class MainController {
         return ResponseEntity.status(HttpStatus.OK).body("Pong");
     }
 
-    @GetMapping(path = "/categories")
-    public ResponseEntity<List<Category>> getCategories() {
-        List<Category> categories = categoryRepository.findAll();
-        return ResponseEntity.ok(categories);
-    }
+
 
     @PostMapping(path="/register") // Map ONLY POST Requests
     public @ResponseBody ResponseEntity<ApiResponse<Object>> register (HttpServletResponse response, @RequestBody RegisterForm registerForm) throws NoSuchAlgorithmException {
