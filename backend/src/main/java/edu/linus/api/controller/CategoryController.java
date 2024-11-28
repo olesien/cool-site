@@ -17,7 +17,6 @@ import java.util.Optional;
 @RequestMapping(path="/categories") // This means URL's start with /demo (after Application path)
 public class CategoryController {
 
-
     @Autowired
     private CategoryRepository categoryRepository;
 
@@ -57,7 +56,6 @@ public class CategoryController {
 
     }
 
-
     @PostMapping(path = "/add")
     public ResponseEntity<Category> addCategory(@RequestBody Category category){
         Category categorySave = categoryRepository.save(category);
@@ -88,7 +86,7 @@ public class CategoryController {
         }
 
         category.setName(putCategory.getName());
-        category.setLinkName(putCategory.getLinkName());
+        category.setLink_name(putCategory.getLink_name());
         categoryRepository.save(category);
         return ResponseEntity.ok(category);
     }
@@ -102,7 +100,7 @@ public class CategoryController {
         }
 
         subCategory.setName(putSubCategory.getName());
-        subCategory.setLinkName(putSubCategory.getLinkName());
+        subCategory.setLink_name(putSubCategory.getLink_name());
         subCategoryRepository.save(subCategory);
         return ResponseEntity.ok(subCategory);
     }

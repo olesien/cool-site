@@ -20,11 +20,11 @@ public class Category {
     private String name;
 
     @Column(name = "link_name")
-    private String linkName;
+    private String link_name;
 
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
     @JsonManagedReference
-    private List<SubCategory> subCategories;
+    private List<SubCategory> sub_categories;
 
 
     public String getName() {
@@ -35,19 +35,27 @@ public class Category {
         this.name = name;
     }
 
-    public String getLinkName() {
-        return linkName;
+    public String getLink_name() {
+        return link_name;
     }
 
-    public void setLinkName(String linkName) {
-        this.linkName = linkName;
+    public void setLink_name(String link_name) {
+        this.link_name = link_name;
     }
 
-    public List<SubCategory> getSubCategories() {
-        return subCategories;
+    public List<SubCategory> getSub_categories() {
+        return sub_categories;
     }
 
-    public void setSubCategories(List<SubCategory> subCategories) {
-        this.subCategories = subCategories;
+    public void setSub_categories(List<SubCategory> sub_categories) {
+        this.sub_categories = sub_categories;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

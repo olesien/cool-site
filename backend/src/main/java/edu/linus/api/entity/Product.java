@@ -57,4 +57,12 @@ public class Product {
     public void setImages(List<ProductImage> images) {
         this.images = images;
     }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 }
