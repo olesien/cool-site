@@ -44,7 +44,7 @@ export const getProducts = async () => {
             id: 1,
             name: "Brown Cardigan",
             price: 499.90,
-            product_images: [],
+            product_images: [{ id: 1, name: "test", url: "https://media.istockphoto.com/id/1316134499/photo/a-concept-image-of-a-magnifying-glass-on-blue-background-with-a-word-example-zoom-inside-the.jpg?s=612x612&w=0&k=20&c=sZM5HlZvHFYnzjrhaStRpex43URlxg6wwJXff3BE9VA=" }],
             sub_categories_id: 11,
             sub_categories: {
                 id: 11, categories_id: 2, name: "Jackets", link_name: "jackets", category: {

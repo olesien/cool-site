@@ -25,7 +25,7 @@ export type Product = {
     sub_categories_id: number;
     sub_categories: SubCategory & { category: Pick<Category, "id" | "name" | "link_name"> }
 }
-export default function Categories() {
+export default function Products() {
     const [showAddProduct, setShowAddProduct] = useState(false);
     const [editProduct, setEditProduct] = useState<Product | null>(null);
     const { data, refetch } = useQuery({
@@ -66,7 +66,7 @@ export default function Categories() {
         console.log(data);
         try {
             const response = await axios.put<string>(
-                base_url + '/categories',
+                base_url + '/products',
                 data,
                 {
                     headers: {
@@ -89,7 +89,7 @@ export default function Categories() {
     const deleteItem = async (endUrl: string) => {
         try {
             const response = await axios.delete<string>(
-                base_url + '/' + endUrl,
+                base_url + '/products/' + endUrl,
                 {
                     headers: {
                         "Access-Control-Allow-Origin": "*"
@@ -164,7 +164,7 @@ export default function Categories() {
                     dataSource={data.products}
                 />
                 {showAddProduct && <CategoryModal categories={categories} title="Add Product" onSave={saveProduct} handleClose={() => setShowAddProduct(false)} />}
-                {!!editProduct && <CategoryModal categories={categories} title="Edit Product" onSave={(v) => saveEditProduct({ ...editProduct, ...v })} handleClose={() => setEditProduct(null)} initialData={({ name: editProduct.name, price: editProduct.price, sub_category: editProduct.sub_categories })} />}
+                {!!editProduct && <CategoryModal categories={categories} title="Edit Product" onSave={(v) => saveEditProduct({ ...editProduct, ...v })} handleClose={() => setEditProduct(null)} initialData={({ name: editProduct.name, price: editProduct.price, sub_category: editProduct.sub_categories, images: editProduct?.product_images.map(v => v.url) })} />}
             </>}
 
 
