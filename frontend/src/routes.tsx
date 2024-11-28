@@ -68,7 +68,7 @@ export const publicRoutes = createBrowserRouter(
                 />
             </Route>
             <Route
-                path="/:category"
+                path="/:category/:subcategory"
                 element={
                     <Suspense fallback={<></>}>
                         <ProductsList />

@@ -23,17 +23,17 @@ interface Product {
 }
 
 export function ProductsList() {
-    const { category } = useParams<{ category: string }>();
+    const { category, subcategory } = useParams<{ category: string, subcategory: string }>();
     const items = itemsData[category || "woman-jackets"];
-
+    console.log(category, subcategory);
     return (
         <div>
             <div>
                 <NavMenu>
-                    
+
                 </NavMenu>
             </div>
-    
+
 
             <div className="collection">
                 <div className="displayed-items">
@@ -41,7 +41,7 @@ export function ProductsList() {
                         {category ? `${category.replace('-', ' ').toUpperCase()}` : 'OUR COLLECTION'}
                     </h2>
                     <div className="item-list">
-                        {items.map((item, index) => (
+                        {items?.map((item, index) => (
                             <div key={index} className="item-list-card">
                                 <Item
                                     name={item.name}
