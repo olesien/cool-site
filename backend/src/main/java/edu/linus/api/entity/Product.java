@@ -22,8 +22,7 @@ public class Product {
 
     @ManyToOne
     @JoinColumn(name = "sub_categories_id")
-    @JsonBackReference
-    private SubCategory subCategories;
+    private SubCategory sub_categories;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private List<ProductImage> images;
@@ -45,11 +44,11 @@ public class Product {
     }
 
     public SubCategory getSubCategory() {
-        return subCategories;
+        return sub_categories;
     }
 
     public void setSubCategory(SubCategory subCategory) {
-        this.subCategories = subCategory;
+        this.sub_categories = subCategory;
     }
 
     public List<ProductImage> getImages() {

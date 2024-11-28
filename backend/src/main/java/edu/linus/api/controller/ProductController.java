@@ -1,5 +1,6 @@
 package edu.linus.api.controller;
 
+import edu.linus.api.DTO.ProductDTO;
 import edu.linus.api.entity.Product;
 import edu.linus.api.entity.SubCategory;
 import edu.linus.api.repository.ProductRepository;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @CrossOrigin(origins = "http://localhost:3000/", maxAge = 3600, allowCredentials = "true", allowPrivateNetwork = "true")
 @RestController // This means that this class is a Controller
@@ -24,9 +26,12 @@ public class ProductController {
     SubCategoryRepository subCategoryRepository;
 
     @GetMapping(path = "/all")
-    public ResponseEntity<List<Product>> getAllProducts() {
+    public ResponseEntity<List<ProductDTO>> getAllProducts() {
         List<Product> products = productRepository.findAll();
-        return ResponseEntity.ok(products);
+        List<ProductDTO> dtoProducts = products.stream()
+                .map(ProductDTO::convertToDto)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(dtoProducts);
     }
 
     @GetMapping(path = "/{id}")
