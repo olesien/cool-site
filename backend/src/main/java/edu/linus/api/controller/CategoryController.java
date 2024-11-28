@@ -39,42 +39,42 @@ public class CategoryController {
     }
 
     @PostMapping(path = "/add")
-    public ResponseEntity<Category> addCategory(@RequestBody Category category){
+    public ResponseEntity<String> addCategory(@RequestBody Category category){
         Category categorySave = categoryRepository.save(category);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(categorySave);
+        return ResponseEntity.status(HttpStatus.CREATED).body("Successfully added");
     }
 
     @PostMapping("sub/{categoryId}")
-    public ResponseEntity<SubCategory> addSubcategory(@PathVariable Long categoryId, @RequestBody SubCategory subCategory){
+    public ResponseEntity<String> addSubcategory(@PathVariable Long categoryId, @RequestBody SubCategory subCategory){
          Category category = categoryRepository.findById(categoryId).orElse(null);
 
             subCategory.setCategory(category);
 
             SubCategory savedSub = subCategoryRepository.save(subCategory);
 
-            return ResponseEntity.status(HttpStatus.CREATED).body(savedSub);
+            return ResponseEntity.status(HttpStatus.CREATED).body("Successfully added");
 
 
     }
 
 
     @DeleteMapping("delete/{id}")
-    public ResponseEntity<Void> deleteCategory(@PathVariable Long id){
+    public ResponseEntity<String> deleteCategory(@PathVariable Long id){
         categoryRepository.deleteById(id);
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok().body("Successfully deleted");
     }
 
     @DeleteMapping("deletesub/{id}")
-    public ResponseEntity<Void> deleteSubCategory(@PathVariable Long id){
+    public ResponseEntity<String> deleteSubCategory(@PathVariable Long id){
         subCategoryRepository.deleteById(id);
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok().body("Successfully deleted");
     }
 
     @PutMapping("/put/{id}")
-    public ResponseEntity<Category> updateCategory(@PathVariable Long id, @RequestBody Category putCategory) {
+    public ResponseEntity<String> updateCategory(@PathVariable Long id, @RequestBody Category putCategory) {
         Category category = categoryRepository.findById(id).orElse(null);
 
         if (category == null) {
@@ -84,11 +84,11 @@ public class CategoryController {
         category.setName(putCategory.getName());
         category.setLink_name(putCategory.getLink_name());
         categoryRepository.save(category);
-        return ResponseEntity.ok(category);
+        return ResponseEntity.ok("Successfully updated");
     }
 
     @PutMapping("putsub/{id}")
-    public ResponseEntity<SubCategory>updateSubCategory(@PathVariable Long id, @RequestBody SubCategory putSubCategory){
+    public ResponseEntity<String> updateSubCategory(@PathVariable Long id, @RequestBody SubCategory putSubCategory){
         SubCategory subCategory = subCategoryRepository.findById(id).orElse(null);
 
         if (subCategory == null){
@@ -98,7 +98,7 @@ public class CategoryController {
         subCategory.setName(putSubCategory.getName());
         subCategory.setLink_name(putSubCategory.getLink_name());
         subCategoryRepository.save(subCategory);
-        return ResponseEntity.ok(subCategory);
+        return ResponseEntity.ok("Successfully updated");
     }
 
 }
