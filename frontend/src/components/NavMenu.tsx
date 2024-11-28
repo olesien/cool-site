@@ -28,7 +28,7 @@ export function NavMenu() {
                             <span>{cat.name.toUpperCase()}</span>
                             <ul className="dropdown-content">
                                 {cat.sub_categories.map((subcat) => (
-                                    <li>
+                                    <li key={subcat.id}>
                                         <NavLink key={subcat.link_name} to={subcat.link_name}>
                                             {subcat.name}
                                         </NavLink>

@@ -40,6 +40,10 @@
     height: "auto";
 }
 
+.item-image:hover {
+    transform: scale(1.1);
+}
+
 header {
     display: flex;
     .logo {
@@ -158,7 +162,13 @@ header {
         cursor: pointer;
     }
 }
-
+.collection {
+    display: flex;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 2rem;
+    background-color: #f9f9f9;
+}
 .header {
     display: flex;
     justify-content: space-between;

@@ -12,6 +12,7 @@ import Help from './pages/help/help'
 import AdminCategories from './pages/admin/categories';
 import AdminProducts from './pages/admin/products';
 import AdminWrapper from './components/adminwrapper';
+import ProductsList from './components/ProductsList'
 
 export const publicRoutes = createBrowserRouter(
     createRoutesFromElements(
@@ -66,6 +67,14 @@ export const publicRoutes = createBrowserRouter(
                     }
                 />
             </Route>
+            <Route
+                path="/:category/:subcategory"
+                element={
+                    <Suspense fallback={<></>}>
+                        <ProductsList />
+                    </Suspense>
+                }
+            />
         </Route>
     )
 );
