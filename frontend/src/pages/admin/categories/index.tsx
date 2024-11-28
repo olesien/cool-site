@@ -97,7 +97,7 @@ export default function Categories() {
         console.log(data);
         try {
             const response = await axios.put<string>(
-                base_url + '/categories',
+                base_url + '/categories/put',
                 data,
                 {
                     headers: {
@@ -121,7 +121,7 @@ export default function Categories() {
         console.log(data);
         try {
             const response = await axios.put<string>(
-                base_url + '/sub_categories',
+                base_url + '/categories/putsub',
                 data,
                 {
                     headers: {
@@ -173,7 +173,7 @@ export default function Categories() {
             onOk() {
                 // Perform delete action
                 console.log('Deleting item with ID:', data.id);
-                deleteItem("categories/" + data.id);
+                deleteItem("categories/delete/" + data.id);
             },
             onCancel() {
                 console.log('Delete cancelled');
@@ -191,7 +191,7 @@ export default function Categories() {
             onOk() {
                 // Perform delete action
                 console.log('Deleting item with ID:', data.id);
-                deleteItem("sub_categories/" + data.id);
+                deleteItem("deletesub/" + data.id);
             },
             onCancel() {
                 console.log('Delete cancelled');
