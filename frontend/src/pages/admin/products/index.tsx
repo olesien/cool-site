@@ -163,8 +163,8 @@ export default function Categories() {
                     columns={columns}
                     dataSource={data.products}
                 />
-                {showAddProduct && <CategoryModal categories={categories.categories} title="Add Product" onSave={saveProduct} handleClose={() => setShowAddProduct(false)} />}
-                {!!editProduct && <CategoryModal categories={categories.categories} title="Edit Product" onSave={(v) => saveEditProduct({ ...editProduct, ...v })} handleClose={() => setEditProduct(null)} initialData={({ name: editProduct.name, price: editProduct.price, sub_category: editProduct.sub_categories })} />}
+                {showAddProduct && <CategoryModal categories={categories} title="Add Product" onSave={saveProduct} handleClose={() => setShowAddProduct(false)} />}
+                {!!editProduct && <CategoryModal categories={categories} title="Edit Product" onSave={(v) => saveEditProduct({ ...editProduct, ...v })} handleClose={() => setEditProduct(null)} initialData={({ name: editProduct.name, price: editProduct.price, sub_category: editProduct.sub_categories })} />}
             </>}
 
 
