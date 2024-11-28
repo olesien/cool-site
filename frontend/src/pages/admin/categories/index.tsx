@@ -47,7 +47,7 @@ export default function Categories() {
         console.log(data);
         try {
             const response = await axios.post<string>(
-                base_url + '/categories',
+                base_url + '/categories/add',
                 data,
                 {
                     headers: {
@@ -72,7 +72,7 @@ export default function Categories() {
         console.log(id, data);
         try {
             const response = await axios.post<string>(
-                base_url + '/categories/' + id,
+                base_url + '/categories/sub/' + id,
                 data,
                 {
                     headers: {

@@ -30,17 +30,19 @@ public class CategoryController {
         return ResponseEntity.ok(categories);
     }
 
-    @GetMapping(path = "/all/sub")
-    public ResponseEntity<List<Category>> getAllSubCategories() {
-        List<Category> categories = categoryRepository.findAll();
-        return ResponseEntity.ok(categories);
-    }
 
     @GetMapping(path = "/{id}")
     public ResponseEntity<Optional<Category>> getCategoryById(@PathVariable Long id){
         Optional<Category> categories = categoryRepository.findById(id);
 
         return ResponseEntity.ok(categories);
+    }
+
+    @PostMapping(path = "/add")
+    public ResponseEntity<Category> addCategory(@RequestBody Category category){
+        Category categorySave = categoryRepository.save(category);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(categorySave);
     }
 
     @PostMapping("sub/{categoryId}")
@@ -56,12 +58,6 @@ public class CategoryController {
 
     }
 
-    @PostMapping(path = "/add")
-    public ResponseEntity<Category> addCategory(@RequestBody Category category){
-        Category categorySave = categoryRepository.save(category);
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(categorySave);
-    }
 
     @PostMapping("delete/{id}")
     public ResponseEntity<Void> deleteCategory(@PathVariable Long id){
