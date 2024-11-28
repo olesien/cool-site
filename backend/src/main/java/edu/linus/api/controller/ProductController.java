@@ -2,10 +2,13 @@ package edu.linus.api.controller;
 
 import edu.linus.api.DTO.ProductDTO;
 import edu.linus.api.entity.Product;
+import edu.linus.api.entity.ProductImage;
 import edu.linus.api.entity.SubCategory;
 import edu.linus.api.forms.NewProductForm;
+import edu.linus.api.repository.ProductImageRepository;
 import edu.linus.api.repository.ProductRepository;
 import edu.linus.api.repository.SubCategoryRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,17 +17,23 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @CrossOrigin(origins = "http://localhost:3000/", maxAge = 3600, allowCredentials = "true", allowPrivateNetwork = "true")
 @RestController // This means that this class is a Controller
 @RequestMapping(path="/products") // This means URL's start with /demo (after Application path)
+@Transactional
 public class ProductController {
 
-    @Autowired
     ProductRepository productRepository;
-
-    @Autowired
     SubCategoryRepository subCategoryRepository;
+    ProductImageRepository productImageRepository;
+
+    ProductController(ProductRepository productRepository, SubCategoryRepository subCategoryRepository, ProductImageRepository productImageRepository) {
+        this.productRepository = productRepository;
+        this.subCategoryRepository = subCategoryRepository;
+        this.productImageRepository = productImageRepository;
+    }
 
     @GetMapping(path = "/all")
     public ResponseEntity<List<ProductDTO>> getAllProducts() {
@@ -59,6 +68,15 @@ public class ProductController {
         product.setSubCategory(subcat.get());
         Product productSave = productRepository.save(product);
 
+        //Create images based on the created product
+
+        List<ProductImage> images = productForm.getImages().stream().map(imgUrl -> {
+            ProductImage productImage = new ProductImage();
+            productImage.setProduct(productSave);
+            productImage.setUrl(imgUrl);
+            return productImage;
+        }).toList();
+        productImageRepository.saveAll(images);
         return ResponseEntity.status(HttpStatus.CREATED).body("Successfully added");
     }
 
@@ -80,12 +98,24 @@ public class ProductController {
         product.setSubCategory(subcat.get());
 
         productRepository.save(product);
+
+        //Ideally, it checks only for those that have been added or removed, however to keep it easy, all are removed and readded.
+        productImageRepository.deleteByProductId(id);
+
+        List<ProductImage> images = productForm.getImages().stream().map(imgUrl -> {
+            ProductImage productImage = new ProductImage();
+            productImage.setProduct(product);
+            productImage.setUrl(imgUrl);
+            return productImage;
+        }).toList();
+        productImageRepository.saveAll(images);
         return ResponseEntity.ok("Successfully updated");
     }
 
     @DeleteMapping("delete/{id}")
     public ResponseEntity<String> deleteProduct (@PathVariable Long id){
         productRepository.deleteById(id);
+        productImageRepository.deleteByProductId(id);
 
         return ResponseEntity.ok().body("Successfully deleted");
     }

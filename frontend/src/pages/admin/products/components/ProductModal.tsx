@@ -104,10 +104,11 @@ export default function ProductModal({ categories, title, onSave, handleClose, i
                     label="Price"
                     rules={[{
                         required: true,
-                        message: 'Please input the price!'
+                        message: 'Please input the price!',
+                        min: 0
                     }]}
                 >
-                    <Input placeholder="Enter price" />
+                    <Input placeholder="Enter price" type='number' />
                 </Form.Item>
                 <Form.List
                     name="images"
