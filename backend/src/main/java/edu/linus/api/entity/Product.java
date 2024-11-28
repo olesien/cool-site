@@ -2,6 +2,7 @@ package edu.linus.api.entity;
 
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -22,9 +23,11 @@ public class Product {
 
     @ManyToOne
     @JoinColumn(name = "sub_categories_id")
+    @JsonBackReference
     private SubCategory sub_categories;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<ProductImage> images;
 
     public String getName() {

@@ -17,6 +17,7 @@ public class ProductImage {
 
     @ManyToOne
     @JoinColumn(name = "products_id")
+    @JsonBackReference
     private Product product;
 
     public String getUrl() {
