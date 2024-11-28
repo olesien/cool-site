@@ -1,11 +1,12 @@
 import { Button, Form, Input, Modal, Select, Image as AntImage } from 'antd'
 import { useEffect, useState } from 'react'
-import { Category, SubCategory } from '../../categories';
+import { Category } from '../../categories';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons/faPlus";
 import { faSquareMinus } from "@fortawesome/free-regular-svg-icons/faSquareMinus";
 import productstyles from "../product.module.scss";
-export type SaveProduct = { name: string; price: number; sub_category: SubCategory, images: string[] };
+import { Product } from '..';
+export type SaveProduct = { name: string; price: number; category: string, images: string[] };
 const formItemLayout = {
     labelCol: {
         xs: { span: 24 },
@@ -16,7 +17,7 @@ const formItemLayout = {
         sm: { span: 20 },
     },
 };
-export default function ProductModal({ categories, title, onSave, handleClose, initialData }: { categories: Category[]; title: string; onSave: (category: SaveProduct) => void, handleClose: () => void, initialData?: SaveProduct }) {
+export default function ProductModal({ categories, title, onSave, handleClose, initialData }: { categories: Category[]; title: string; onSave: (category: SaveProduct) => void, handleClose: () => void, initialData?: Product }) {
     const [form] = Form.useForm();
     //below code is to allow for previews
     const [previews, setPreviews] = useState<{ [key: string]: string }>({});
@@ -35,15 +36,16 @@ export default function ProductModal({ categories, title, onSave, handleClose, i
         console.log(initialData);
         if (initialData) {
             // Update form values when initialData changes
+            const images = initialData.images.map(img => img.url);
             form.setFieldsValue({
                 name: initialData.name || '',
                 price: initialData.price || '',
                 category: initialData.sub_category.name + "^" + initialData.sub_category.id,
-                images: initialData.images
+                images: images
             });
-            if (initialData.images.length > 0) {
+            if (images.length > 0) {
                 //Take the list of image urls, and then convert them to an object where the index is the key, like {["1"]: "urlhere"}
-                setPreviews(initialData.images.reduce((obj, img, i) => ({ ...obj, [String(i)]: img }), {}));
+                setPreviews(images.reduce((obj, img, i) => ({ ...obj, [String(i)]: img }), {}));
             }
         }
     }, [initialData, form]);

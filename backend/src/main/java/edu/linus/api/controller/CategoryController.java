@@ -37,12 +37,12 @@ public class CategoryController {
     }
 
 
-    @GetMapping(path = "/{id}")
-    public ResponseEntity<Optional<Category>> getCategoryById(@PathVariable Long id){
-        Optional<Category> categories = categoryRepository.findById(id);
-
-        return ResponseEntity.ok(categories);
-    }
+//    @GetMapping(path = "/{id}")
+//    public ResponseEntity<Optional<Category>> getCategoryById(@PathVariable Long id){
+//        Optional<Category> categories = categoryRepository.findById(id);
+//
+//        return ResponseEntity.ok(categories);
+//    }
 
     @PostMapping(path = "/add")
     public ResponseEntity<String> addCategory(@RequestBody Category category){

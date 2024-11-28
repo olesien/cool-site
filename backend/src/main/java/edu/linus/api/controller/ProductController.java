@@ -3,6 +3,7 @@ package edu.linus.api.controller;
 import edu.linus.api.DTO.ProductDTO;
 import edu.linus.api.entity.Product;
 import edu.linus.api.entity.SubCategory;
+import edu.linus.api.forms.NewProductForm;
 import edu.linus.api.repository.ProductRepository;
 import edu.linus.api.repository.SubCategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,30 +36,51 @@ public class ProductController {
     }
 
     @GetMapping(path = "/{id}")
-    public ResponseEntity<Optional<Product>> getProductbyID(@PathVariable Long id){
+    public ResponseEntity<ProductDTO> getProductbyID(@PathVariable Long id){
         Optional<Product> product = productRepository.findById(id);
 
-        return ResponseEntity.ok(product);
+        // Check if the product exists, and map it to DTO
+        return product
+                .map(prod -> ResponseEntity.ok(ProductDTO.convertToDto(prod)))
+                .orElse(ResponseEntity.notFound().build());
     }
 
-    /*
+
     @PostMapping(path = "/add")
-    public ResponseEntity<String> addProduct(@RequestBody Product product){
+    public ResponseEntity<String> addProduct(@RequestBody NewProductForm productForm){
+        Product product = new Product();
+        product.setName(productForm.getName());
+        product.setPrice(Double.valueOf(productForm.getPrice()));
+
+        Optional<SubCategory> subcat = subCategoryRepository.findById(productForm.getCategoryId());
+        if (subcat.isEmpty() ) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("The category could not be found");
+        }
+        product.setSubCategory(subcat.get());
         Product productSave = productRepository.save(product);
 
         return ResponseEntity.status(HttpStatus.CREATED).body("Successfully added");
     }
-     */
 
-    @PostMapping("add/{subId}")
-    public ResponseEntity<String> addProducts (@PathVariable Long subId, @RequestBody Product product){
-        SubCategory subCategory = subCategoryRepository.findById(subId).orElse(null);
+    @PutMapping("put/{id}")
+    public ResponseEntity<String> updateProduct(@PathVariable Long id, @RequestBody NewProductForm productForm){
+        Product product = productRepository.findById(id).orElse(null);
 
-        product.setSubCategory(subCategory);
+        if (product == null){
+            return ResponseEntity.notFound().build();
+        }
+
+        product.setName(productForm.getName());
+        product.setPrice(Double.valueOf(productForm.getPrice()));
+
+        Optional<SubCategory> subcat = subCategoryRepository.findById(productForm.getCategoryId());
+        if (subcat.isEmpty() ) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("The category could not be found");
+        }
+        product.setSubCategory(subcat.get());
 
         productRepository.save(product);
-
-        return ResponseEntity.status(HttpStatus.CREATED).body("Successfully added");
+        return ResponseEntity.ok("Successfully updated");
     }
 
     @DeleteMapping("delete/{id}")
@@ -66,20 +88,6 @@ public class ProductController {
         productRepository.deleteById(id);
 
         return ResponseEntity.ok().body("Successfully deleted");
-    }
-
-    @PutMapping("put/{id}")
-    public ResponseEntity<String> updateProduct(@PathVariable Long id, @RequestBody Product putProduct){
-        Product product = productRepository.findById(id).orElse(null);
-
-        if (product == null){
-            return ResponseEntity.notFound().build();
-        }
-
-        product.setName(putProduct.getName());
-        product.setPrice(putProduct.getPrice());
-        productRepository.save(product);
-        return ResponseEntity.ok("Successfully updated");
     }
     
 }
