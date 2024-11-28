@@ -16,16 +16,16 @@ export const getPing = async () => {
 }
 
 export const getCategories = async () => {
-     const response = await axios.get<{categories: Category[]}>(
-         base_url + '/categories/all',
-         {
-             headers: {
-                 "Access-Control-Allow-Origin": "*"
-             },
-             withCredentials: true
-         }
-     )
-        return response.data;
+    const response = await axios.get<Category[]>(
+        base_url + '/categories/all',
+        {
+            headers: {
+                "Access-Control-Allow-Origin": "*"
+            },
+            withCredentials: true
+        }
+    )
+    return response.data;
 }
 
 export const getProducts = async () => {

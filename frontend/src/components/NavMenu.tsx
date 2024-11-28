@@ -18,7 +18,7 @@ export function NavMenu() {
     if (!data) {
         return <Loading />
     }
-    const options = data?.categories;
+    const options = data;
     return (
         <div className="cat-container">
             {!isMobile && (
