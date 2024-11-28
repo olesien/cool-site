@@ -45,13 +45,10 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
 
     const login = () => {
         //axios post req here
+        localStorage.setItem(key, JSON.stringify(true));
+        setIsLoggedIn(true);
+        toast.success("Successfully logged in!");
 
-        // eslint-disable-next-line no-constant-condition
-        if (true) { //If login works, set it to success
-            localStorage.setItem(key, JSON.stringify(true));
-            setIsLoggedIn(true);
-            toast.success("Successfully logged in!");
-        }
 
     };
 

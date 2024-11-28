@@ -2,6 +2,8 @@ import { useState } from 'react';
 import './login.css';
 import { useAppContext } from '@/contexts/useAppContext';
 import { Navigate } from 'react-router-dom';
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 export default function Login() {
     const { login, isLoggedIn } = useAppContext();
@@ -14,8 +16,33 @@ export default function Login() {
     }
 
 
-    const loggingIn = () => {
-        login(username, password);
+    const loggingIn = async () => {
+
+        //Auth frontend validation
+
+        //Get from backend if valid (also comes with cookie for further requests)
+        try {
+            const res = await axios.post<{ message: string }>("http://localhost:8080/users/login", { username, password }, {
+                headers: {
+                    "Access-Control-Allow-Origin": "*"
+                },
+                withCredentials: true
+            });
+            console.log(res.data);
+
+            //Login on frontend
+            if (res.data) {
+                login(username, password);
+            }
+
+        } catch (err: unknown) {
+            console.error(err);
+            if (axios.isAxiosError(err)) {
+                toast.error(err.message);
+            } else {
+                toast.error("Something went wrong")
+            }
+        }
         // if (username === 'admin' && password === 'admin') {
         //     navigate('/')
         //     alert('You are now logged in as Admin')
