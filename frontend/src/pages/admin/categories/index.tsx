@@ -20,7 +20,7 @@ export type SubCategory = {
 export type Category = {
     id: number;
     name: string;
-    link_name: string;
+    link_name: string
     sub_categories: SubCategory[]
 }
 const RenderDropdown = ({ v, subcategories }: { v: Category, subcategories: TableColumnsType<SubCategory> }) => {
@@ -47,7 +47,7 @@ export default function Categories() {
         console.log(data);
         try {
             const response = await axios.post<string>(
-                base_url + '/categories',
+                base_url + '/categories/add',
                 data,
                 {
                     headers: {
@@ -55,7 +55,7 @@ export default function Categories() {
                     },
                     withCredentials: true,
                 });
-            toast.success(response.data);
+            toast.success(response?.data ?? "Success!");
             refetch()
         } catch (err: unknown) {
             console.error(err);
@@ -67,12 +67,12 @@ export default function Categories() {
         }
     }
     const saveSubCategory = async (data: SaveCategory) => {
-        const id = showAddSubCategory;
+        const id = showAddSubCategory?.id ?? -1;
         setShowAddSubCategory(null);
         console.log(id, data);
         try {
             const response = await axios.post<string>(
-                base_url + '/categories/' + id,
+                base_url + '/categories/sub/' + id,
                 data,
                 {
                     headers: {
@@ -80,7 +80,8 @@ export default function Categories() {
                     },
                     withCredentials: true,
                 });
-            toast.success(response.data);
+            console.log(response.data);
+            toast.success(response?.data ?? "Success!");
             refetch()
         } catch (err: unknown) {
             console.error(err);
@@ -97,7 +98,7 @@ export default function Categories() {
         console.log(data);
         try {
             const response = await axios.put<string>(
-                base_url + '/categories',
+                base_url + '/categories/put/' + data.id,
                 data,
                 {
                     headers: {
@@ -105,7 +106,7 @@ export default function Categories() {
                     },
                     withCredentials: true,
                 });
-            toast.success(response.data);
+            toast.success(response?.data ?? "Success!");
             refetch()
         } catch (err: unknown) {
             console.error(err);
@@ -121,7 +122,7 @@ export default function Categories() {
         console.log(data);
         try {
             const response = await axios.put<string>(
-                base_url + '/sub_categories',
+                base_url + '/categories/putsub/' + data.id,
                 data,
                 {
                     headers: {
@@ -129,7 +130,7 @@ export default function Categories() {
                     },
                     withCredentials: true,
                 });
-            toast.success(response.data);
+            toast.success(response?.data ?? "Success!");
             refetch()
         } catch (err: unknown) {
             console.error(err);
@@ -151,7 +152,7 @@ export default function Categories() {
                     },
                     withCredentials: true,
                 });
-            toast.success(response.data);
+            toast.success(response?.data ?? "Success!");
             refetch()
         } catch (err: unknown) {
             console.error(err);
@@ -173,7 +174,7 @@ export default function Categories() {
             onOk() {
                 // Perform delete action
                 console.log('Deleting item with ID:', data.id);
-                deleteItem("categories/" + data.id);
+                deleteItem("categories/delete/" + data.id);
             },
             onCancel() {
                 console.log('Delete cancelled');
@@ -191,7 +192,7 @@ export default function Categories() {
             onOk() {
                 // Perform delete action
                 console.log('Deleting item with ID:', data.id);
-                deleteItem("sub_categories/" + data.id);
+                deleteItem("categories/deletesub/" + data.id);
             },
             onCancel() {
                 console.log('Delete cancelled');
@@ -268,7 +269,7 @@ export default function Categories() {
                 expandable={{
                     expandedRowRender: (v => <RenderDropdown v={v} subcategories={subcategories} />),
                 }}
-                dataSource={data.categories}
+                dataSource={data}
             />}
             {showAddCategory && <CategoryModal title="Add Category" onSave={saveCategory} handleClose={() => setShowAddCategory(false)} />}
             {!!showAddSubCategory && <CategoryModal title={`Add Sub-Category to ${showAddSubCategory.name}`} onSave={saveSubCategory} handleClose={() => setShowAddSubCategory(null)} />}

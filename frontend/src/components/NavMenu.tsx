@@ -18,18 +18,18 @@ export function NavMenu() {
     if (!data) {
         return <Loading />
     }
-    const options = data.categories;
+    const options = data;
     return (
         <div className="cat-container">
             {!isMobile && (
                 <div className="desktop-categories">
-                    {options.map((cat) => (
+                    {options?.map((cat) => (
                         <div className="dropdown" key={cat.id}>
                             <span>{cat.name.toUpperCase()}</span>
                             <ul className="dropdown-content">
-                                {cat.sub_categories.map((subcat) => (
+                                {cat?.sub_categories?.map((subcat) => (
                                     <li key={subcat.id}>
-                                        <NavLink key={subcat.link_name} to={subcat.link_name}>
+                                        <NavLink key={subcat.link_name} to={cat.link_name + "/" + subcat.link_name}>
                                             {subcat.name}
                                         </NavLink>
                                     </li>
@@ -65,7 +65,7 @@ export function NavMenu() {
                                             <>
                                                 {cat.sub_categories.map((subcat) => (
                                                     <li className="subcatlink">
-                                                        <NavLink key={subcat.link_name} to={subcat.link_name}>
+                                                        <NavLink key={subcat.link_name} to={cat.link_name + "/" + subcat.link_name}>
                                                             {subcat.name}
                                                         </NavLink>
                                                     </li>

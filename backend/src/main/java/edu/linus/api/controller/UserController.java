@@ -2,8 +2,10 @@ package edu.linus.api.controller;
 
 import com.auth0.jwt.interfaces.DecodedJWT;
 import edu.linus.api.Auth;
+import edu.linus.api.forms.EncryptedMessageForm;
+import edu.linus.api.forms.LoginForm;
 import edu.linus.api.repository.EncryptedMessagesRepository;
-import edu.linus.api.models.RegisterForm;
+import edu.linus.api.forms.RegisterForm;
 import edu.linus.api.repository.UserRepository;
 import edu.linus.api.models.*;
 import edu.linus.api.repository.CategoryRepository;

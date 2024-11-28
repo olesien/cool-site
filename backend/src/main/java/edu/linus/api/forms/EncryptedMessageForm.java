@@ -1,4 +1,4 @@
-package edu.linus.api.models;
+package edu.linus.api.forms;
 
 public class EncryptedMessageForm {
     String title;

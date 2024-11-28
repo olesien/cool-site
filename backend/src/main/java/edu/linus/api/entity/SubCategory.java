@@ -1,7 +1,8 @@
 package edu.linus.api.entity;
 
-import edu.linus.api.entity.Category;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 
@@ -19,13 +20,15 @@ public class SubCategory {
     private String name;
 
     @Column(name = "link_name")
-    private String linkName;
+    private String link_name;
 
     @ManyToOne
     @JoinColumn(name = "categories_id")
+    @JsonBackReference
     private Category category;
 
-    @OneToMany(mappedBy = "subCategory", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "sub_categories", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<Product> products;
 
 
@@ -37,13 +40,39 @@ public class SubCategory {
         this.name = name;
     }
 
-    public String getLinkName() {
-        return linkName;
+    public String getLink_name() {
+        return link_name;
     }
 
-    public void setLinkName(String linkName) {
-        this.linkName = linkName;
+    public void setLink_name(String link_name) {
+        this.link_name = link_name;
     }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public List<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(List<Product> products) {
+        this.products = products;
+    }
+
+
 }
 
 

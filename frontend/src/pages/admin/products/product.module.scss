@@ -28,3 +28,16 @@
     margin-left: 0.5rem;
     border-left: 4px solid colors.$yellow;
 }
+
+.delicon {
+    margin-left: 1rem;
+    font-size: 20px;
+    :hover {
+        cursor: pointer;
+        color: colors.$lightred;
+    }
+}
+
+.ImageContainer {
+    margin-bottom: 10px;
+}

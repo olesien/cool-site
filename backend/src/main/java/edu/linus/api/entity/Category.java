@@ -1,6 +1,7 @@
 package edu.linus.api.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -19,10 +20,11 @@ public class Category {
     private String name;
 
     @Column(name = "link_name")
-    private String linkName;
+    private String link_name;
 
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
-    private List<SubCategory> subCategories;
+    @JsonManagedReference
+    private List<SubCategory> sub_categories;
 
 
     public String getName() {
@@ -33,11 +35,27 @@ public class Category {
         this.name = name;
     }
 
-    public String getLinkName() {
-        return linkName;
+    public String getLink_name() {
+        return link_name;
     }
 
-    public void setLinkName(String linkName) {
-        this.linkName = linkName;
+    public void setLink_name(String link_name) {
+        this.link_name = link_name;
+    }
+
+    public List<SubCategory> getSub_categories() {
+        return sub_categories;
+    }
+
+    public void setSub_categories(List<SubCategory> sub_categories) {
+        this.sub_categories = sub_categories;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

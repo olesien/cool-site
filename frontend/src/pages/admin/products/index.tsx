@@ -21,11 +21,10 @@ export type Product = {
     id: number;
     name: string;
     price: number;
-    product_images: ProductImages[];
-    sub_categories_id: number;
-    sub_categories: SubCategory & { category: Pick<Category, "id" | "name" | "link_name"> }
+    images: ProductImages[];
+    sub_category: SubCategory & { category: Pick<Category, "id" | "name" | "link_name"> }
 }
-export default function Categories() {
+export default function Products() {
     const [showAddProduct, setShowAddProduct] = useState(false);
     const [editProduct, setEditProduct] = useState<Product | null>(null);
     const { data, refetch } = useQuery({
@@ -39,10 +38,14 @@ export default function Categories() {
     const saveProduct = async (data: SaveProduct) => {
         setShowAddProduct(false);
         console.log(data);
+        const split = data.category.split("^");
+        if (split.length < 2) {
+            return toast.error("The category must be selected");
+        }
         try {
             const response = await axios.post<string>(
-                base_url + '/products',
-                data,
+                base_url + '/products/add',
+                { ...data, categoryId: Number(split[1]) },
                 {
                     headers: {
                         "Access-Control-Allow-Origin": "*"
@@ -61,13 +64,17 @@ export default function Categories() {
         }
     }
 
-    const saveEditProduct = async (data: Product) => {
+    const saveEditProduct = async (data: { old: Product, new: SaveProduct }) => {
         setEditProduct(null);
         console.log(data);
+        const split = data.new.category.split("^");
+        if (split.length < 2) {
+            return toast.error("The category must be selected");
+        }
         try {
             const response = await axios.put<string>(
-                base_url + '/categories',
-                data,
+                base_url + '/products/put/' + data.old.id,
+                { ...data.new, categoryId: Number(split[1]) },
                 {
                     headers: {
                         "Access-Control-Allow-Origin": "*"
@@ -86,10 +93,10 @@ export default function Categories() {
         }
     }
 
-    const deleteItem = async (endUrl: string) => {
+    const deleteItem = async (itemID: number) => {
         try {
             const response = await axios.delete<string>(
-                base_url + '/' + endUrl,
+                base_url + '/products/delete/' + itemID,
                 {
                     headers: {
                         "Access-Control-Allow-Origin": "*"
@@ -111,14 +118,14 @@ export default function Categories() {
     const handleDeleteProduct = (data: Product) => {
         Modal.confirm({
             title: `Confirm deletion`,
-            content: `Are you sure you want to delete the category ${data.name}? Note that all sub-categories under this category will also be deleted`,
+            content: `Are you sure you want to delete the product ${data.name}? Note that all images under this product will also be deleted`,
             okText: 'Delete',
             okType: 'danger',
             cancelText: 'Cancel',
             onOk() {
                 // Perform delete action
                 console.log('Deleting item with ID:', data.id);
-                deleteItem("products/" + data.id);
+                deleteItem(data.id);
             },
             onCancel() {
                 console.log('Delete cancelled');
@@ -129,7 +136,7 @@ export default function Categories() {
     const columns: TableColumnsType<Product> = useMemo(() => [
         { title: 'Name', dataIndex: 'name', key: 'name' },
         { title: 'Price', dataIndex: 'price', key: 'price' },
-        { title: 'Category', dataIndex: 'category_id', render: (_text, record: Product) => <span>{record.sub_categories.name} ({record.sub_categories.category.name})</span> },
+        { title: 'Category', dataIndex: 'category_id', render: (_text, record: Product) => <span>{record.sub_category.name} ({record.sub_category.category.name})</span> },
         {
             title: 'Action', key: 'operation', render: (_text, record: Product) => <div className={productstyles.iconContainer}>
                 <FontAwesomeIcon
@@ -161,10 +168,10 @@ export default function Categories() {
                 <Table<Product>
                     rowKey="id"
                     columns={columns}
-                    dataSource={data.products}
+                    dataSource={data}
                 />
-                {showAddProduct && <CategoryModal categories={categories.categories} title="Add Product" onSave={saveProduct} handleClose={() => setShowAddProduct(false)} />}
-                {!!editProduct && <CategoryModal categories={categories.categories} title="Edit Product" onSave={(v) => saveEditProduct({ ...editProduct, ...v })} handleClose={() => setEditProduct(null)} initialData={({ name: editProduct.name, price: editProduct.price, sub_category: editProduct.sub_categories })} />}
+                {showAddProduct && <CategoryModal categories={categories} title="Add Product" onSave={saveProduct} handleClose={() => setShowAddProduct(false)} />}
+                {!!editProduct && <CategoryModal categories={categories} title="Edit Product" onSave={(v) => saveEditProduct({ old: editProduct, new: v })} handleClose={() => setEditProduct(null)} initialData={editProduct} />}
             </>}
 
 

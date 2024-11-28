@@ -1,6 +1,7 @@
 package edu.linus.api.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 @Entity
@@ -16,6 +17,7 @@ public class ProductImage {
 
     @ManyToOne
     @JoinColumn(name = "products_id")
+    @JsonBackReference
     private Product product;
 
     public String getUrl() {
@@ -24,5 +26,21 @@ public class ProductImage {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
     }
 }
