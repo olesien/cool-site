@@ -55,7 +55,7 @@ export default function Categories() {
                     },
                     withCredentials: true,
                 });
-            toast.success(response.data);
+            toast.success(response?.data ?? "Success!");
             refetch()
         } catch (err: unknown) {
             console.error(err);
@@ -67,7 +67,7 @@ export default function Categories() {
         }
     }
     const saveSubCategory = async (data: SaveCategory) => {
-        const id = showAddSubCategory;
+        const id = showAddSubCategory?.id ?? -1;
         setShowAddSubCategory(null);
         console.log(id, data);
         try {
@@ -80,7 +80,8 @@ export default function Categories() {
                     },
                     withCredentials: true,
                 });
-            toast.success(response.data);
+            console.log(response.data);
+            toast.success(response?.data ?? "Success!");
             refetch()
         } catch (err: unknown) {
             console.error(err);
@@ -105,7 +106,7 @@ export default function Categories() {
                     },
                     withCredentials: true,
                 });
-            toast.success(response.data);
+            toast.success(response?.data ?? "Success!");
             refetch()
         } catch (err: unknown) {
             console.error(err);
@@ -129,7 +130,7 @@ export default function Categories() {
                     },
                     withCredentials: true,
                 });
-            toast.success(response.data);
+            toast.success(response?.data ?? "Success!");
             refetch()
         } catch (err: unknown) {
             console.error(err);
@@ -151,7 +152,7 @@ export default function Categories() {
                     },
                     withCredentials: true,
                 });
-            toast.success(response.data);
+            toast.success(response?.data ?? "Success!");
             refetch()
         } catch (err: unknown) {
             console.error(err);
