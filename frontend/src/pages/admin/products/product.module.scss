@@ -1,0 +1,30 @@
+@use "../../../style/colors.scss";
+.iconContainer {
+    display: flex;
+    gap: 10px;
+}
+
+.deleteIcon {
+    width: 20px;
+    height: 20px;
+    color: colors.$red;
+    :hover {
+        cursor: pointer;
+        color: colors.$lightred;
+    }
+}
+
+.addIcon {
+    width: 20px;
+    height: 20px;
+    color: colors.$blue;
+    :hover {
+        cursor: pointer;
+        color: colors.$lightblue;
+    }
+}
+
+.tableDropdown {
+    margin-left: 0.5rem;
+    border-left: 4px solid colors.$yellow;
+}
