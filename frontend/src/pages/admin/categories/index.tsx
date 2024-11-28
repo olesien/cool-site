@@ -20,7 +20,7 @@ export type SubCategory = {
 export type Category = {
     id: number;
     name: string;
-    link_name: string;
+    link_name: string
     sub_categories: SubCategory[]
 }
 const RenderDropdown = ({ v, subcategories }: { v: Category, subcategories: TableColumnsType<SubCategory> }) => {
@@ -268,7 +268,7 @@ export default function Categories() {
                 expandable={{
                     expandedRowRender: (v => <RenderDropdown v={v} subcategories={subcategories} />),
                 }}
-                dataSource={data.categories}
+                dataSource={data}
             />}
             {showAddCategory && <CategoryModal title="Add Category" onSave={saveCategory} handleClose={() => setShowAddCategory(false)} />}
             {!!showAddSubCategory && <CategoryModal title={`Add Sub-Category to ${showAddSubCategory.name}`} onSave={saveSubCategory} handleClose={() => setShowAddSubCategory(null)} />}
