@@ -1,6 +1,7 @@
 package edu.linus.api.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 @Entity
