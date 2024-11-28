@@ -1,4 +1,4 @@
-import { useAppContext } from "@/contexts/appContext";
+import { useAppContext } from "@/contexts/useAppContext";
 import { Outlet, NavLink } from "react-router-dom";
 
 const navigation = [

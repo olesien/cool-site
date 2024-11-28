@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import './login.css';
-import { useAppContext } from '@/contexts/appContext';
+import { useAppContext } from '@/contexts/useAppContext';
 import { Navigate } from 'react-router-dom';
 
 export default function Login() {

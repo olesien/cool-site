@@ -1,4 +1,4 @@
-import { useAppContext } from "@/contexts/appContext";
+import { useAppContext } from "@/contexts/useAppContext";
 import { Outlet } from "react-router-dom";
 
 //Wraps around every admin page to add some spacing around it

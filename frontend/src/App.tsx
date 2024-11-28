@@ -1,8 +1,7 @@
 import { ConfigProvider, theme } from 'antd'
 import { RouterProvider } from 'react-router-dom'
 import { publicRoutes } from './routes'
-import { AppProvider } from '@/contexts/appContext'
-import { useAppContext } from '@/contexts/appContext'
+import { AppProvider } from './contexts/appContext'
 
 
 
@@ -15,13 +14,13 @@ const App = () => {
 }
 
 const Main = () => {
-    const { isDark } = useAppContext();
-    const { defaultAlgorithm, darkAlgorithm } = theme
+    const { defaultAlgorithm } = theme;
 
     return (
         <ConfigProvider
             theme={{
-                algorithm: isDark ? darkAlgorithm : defaultAlgorithm,
+                // algorithm: isDark ? darkAlgorithm : defaultAlgorithm,
+                algorithm: defaultAlgorithm
             }}
         >
             <RouterProvider router={publicRoutes} />
