@@ -5,46 +5,46 @@ import React, {
     Dispatch,
     SetStateAction,
     useEffect,
-} from 'react'
+} from "react";
 //import { useNavigate } from 'react-router-dom'
 
 interface AppProviderProps {
-    children: React.ReactNode
+    children: React.ReactNode;
 }
 
 interface AppContextProps {
-    count: number
-    increment: () => void
-    decrement: () => void
-    isDark: boolean
-    setIsDark: Dispatch<SetStateAction<boolean>>
-    login: (name: string, password: string) => void
-    logout: () => void
+    count: number;
+    increment: () => void;
+    decrement: () => void;
+    isDark: boolean;
+    setIsDark: Dispatch<SetStateAction<boolean>>;
+    login: (name: string, password: string) => void;
+    logout: () => void;
     isLoggedIn: boolean;
 }
 
-const AppContext = createContext<AppContextProps | undefined>(undefined)
+const AppContext = createContext<AppContextProps | undefined>(undefined);
 
 export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [isLoggedIn, setIsLoggedIn] = useState(true);
     /**
      * counter
      */
     //const navigate = useNavigate()
-    const [count, setCount] = useState(0)
+    const [count, setCount] = useState(0);
 
     const increment = () => {
-        setCount(count + 1)
-    }
+        setCount(count + 1);
+    };
 
     const decrement = () => {
-        setCount(count - 1)
-    }
+        setCount(count - 1);
+    };
 
     /**
      * theme
      */
-    const [isDark, setIsDark] = useState<boolean>(detectSystemThemeIsDark())
+    const [isDark, setIsDark] = useState<boolean>(detectSystemThemeIsDark());
 
     function detectSystemThemeIsDark() {
         // if (localStorage.getItem('theme')) {
@@ -52,30 +52,30 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
         // } else {
         //     return !!window?.matchMedia('(prefers-color-scheme: dark)')?.matches
         // }
-        return false //Uncomment above lines and remove this to add logic for dark mode
+        return false; //Uncomment above lines and remove this to add logic for dark mode
     }
 
     useEffect(() => {
-        const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
+        const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
 
         const handleThemeChange = () => {
-            setIsDark(detectSystemThemeIsDark())
-        }
+            setIsDark(detectSystemThemeIsDark());
+        };
 
-        mediaQuery.addEventListener('change', handleThemeChange)
+        mediaQuery.addEventListener("change", handleThemeChange);
 
         return () => {
-            mediaQuery.removeEventListener('change', handleThemeChange)
-        }
-    }, [])
+            mediaQuery.removeEventListener("change", handleThemeChange);
+        };
+    }, []);
 
     useEffect(() => {
         if (isDark) {
-            localStorage.setItem('theme', 'dark')
-            document.documentElement.classList.add('dark')
+            localStorage.setItem("theme", "dark");
+            document.documentElement.classList.add("dark");
         } else {
-            localStorage.setItem('theme', 'light')
-            document.documentElement.classList.remove('dark')
+            localStorage.setItem("theme", "light");
+            document.documentElement.classList.remove("dark");
         }
     }, [isDark]);
 
@@ -83,28 +83,37 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
         //axios post req here
 
         setIsLoggedIn(true);
-    }
+    };
 
     const logout = () => {
         //axios post req here
         setIsLoggedIn(false);
-    }
+    };
     return (
         <AppContext.Provider
-            value={{ count, increment, decrement, isDark, setIsDark, login, logout, isLoggedIn }}
+            value={{
+                count,
+                increment,
+                decrement,
+                isDark,
+                setIsDark,
+                login,
+                logout,
+                isLoggedIn,
+            }}
         >
             {children}
         </AppContext.Provider>
-    )
-}
+    );
+};
 
 // Custom hook untuk mengakses context
 export const useAppContext = () => {
-    const context = useContext(AppContext)
+    const context = useContext(AppContext);
 
     if (!context) {
-        throw new Error('useAppContext must be used within an AppProvider')
+        throw new Error("useAppContext must be used within an AppProvider");
     }
 
-    return context
-}
+    return context;
+};
