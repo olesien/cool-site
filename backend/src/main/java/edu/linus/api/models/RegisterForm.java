@@ -1,4 +1,4 @@
-package edu.linus.api;
+package edu.linus.api.models;
 
 public class RegisterForm {
     String email;
