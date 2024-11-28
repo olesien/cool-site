@@ -59,14 +59,14 @@ public class CategoryController {
     }
 
 
-    @PostMapping("delete/{id}")
+    @DeleteMapping("delete/{id}")
     public ResponseEntity<Void> deleteCategory(@PathVariable Long id){
         categoryRepository.deleteById(id);
 
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("deletesub/{id}")
+    @DeleteMapping("deletesub/{id}")
     public ResponseEntity<Void> deleteSubCategory(@PathVariable Long id){
         subCategoryRepository.deleteById(id);
 
