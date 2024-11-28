@@ -51,6 +51,7 @@ public class CategoryController {
 
             subCategory.setCategory(category);
 
+
             SubCategory savedSub = subCategoryRepository.save(subCategory);
 
             return ResponseEntity.status(HttpStatus.CREATED).body("Successfully added");

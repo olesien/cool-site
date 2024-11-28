@@ -1,6 +1,7 @@
 package edu.linus.api.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -21,7 +22,8 @@ public class Product {
 
     @ManyToOne
     @JoinColumn(name = "sub_categories_id")
-    private SubCategory subCategory;
+    @JsonBackReference
+    private SubCategory subCategories;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private List<ProductImage> images;
@@ -43,11 +45,11 @@ public class Product {
     }
 
     public SubCategory getSubCategory() {
-        return subCategory;
+        return subCategories;
     }
 
     public void setSubCategory(SubCategory subCategory) {
-        this.subCategory = subCategory;
+        this.subCategories = subCategory;
     }
 
     public List<ProductImage> getImages() {

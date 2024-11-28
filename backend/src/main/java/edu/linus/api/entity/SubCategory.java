@@ -2,6 +2,7 @@ package edu.linus.api.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 
@@ -26,10 +27,9 @@ public class SubCategory {
     @JsonBackReference
     private Category category;
 
-   /* @OneToMany(mappedBy = "sub_categories", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "subCategories", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<Product> products;
-
-    */
 
 
     public String getName() {
@@ -64,7 +64,6 @@ public class SubCategory {
         this.id = id;
     }
 
-    /*
     public List<Product> getProducts() {
         return products;
     }
@@ -73,7 +72,7 @@ public class SubCategory {
         this.products = products;
     }
 
-     */
+
 }
 
 
