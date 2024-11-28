@@ -94,7 +94,7 @@ public class Auth {
     //</- Encryption & Decryption
 
     //Maybe switch to: https://www.stubbornjava.com/posts/hashing-passwords-in-java-with-bcrypt ?
-    static String hashPassword(String password, Environment env) throws NoSuchAlgorithmException {
+    public static String hashPassword(String password, Environment env) throws NoSuchAlgorithmException {
         String salt = env.getProperty("salt");
 
         MessageDigest md = MessageDigest.getInstance("SHA-256");
@@ -110,7 +110,7 @@ public class Auth {
         return sb.toString();
     }
 
-    static String generateJWT(Environment env, String userId) {
+    public static String generateJWT(Environment env, String userId) {
         String secret = env.getProperty("jwtsecret");
         assert secret != null;
         Algorithm algorithm = Algorithm.HMAC256(secret);
@@ -147,7 +147,7 @@ public class Auth {
         }
     }
 
-    static DecodedJWT extractTokenFromCookie(Cookie[] cookies, Environment env) {
+    public static DecodedJWT extractTokenFromCookie(Cookie[] cookies, Environment env) {
         if (cookies == null) {
             System.out.println("Cookies is null...");
             return null;

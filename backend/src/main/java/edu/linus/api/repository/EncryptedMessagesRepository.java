@@ -1,4 +1,4 @@
-package edu.linus.api;
+package edu.linus.api.repository;
 
 import edu.linus.api.models.EncryptedMessages;
 import edu.linus.api.models.Users;

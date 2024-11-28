@@ -1,7 +1,10 @@
-package edu.linus.api;
+package edu.linus.api.controller;
 
 import com.auth0.jwt.interfaces.DecodedJWT;
-import edu.linus.api.entity.Category;
+import edu.linus.api.Auth;
+import edu.linus.api.repository.EncryptedMessagesRepository;
+import edu.linus.api.models.RegisterForm;
+import edu.linus.api.repository.UserRepository;
 import edu.linus.api.models.*;
 import edu.linus.api.repository.CategoryRepository;
 import jakarta.servlet.http.Cookie;
@@ -14,7 +17,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.NoSuchAlgorithmException;
-import java.util.List;
 import java.util.Optional;
 
 import static edu.linus.api.Auth.*;
@@ -22,14 +24,14 @@ import static edu.linus.api.Auth.*;
 @CrossOrigin(origins = "http://localhost:3000/", maxAge = 3600, allowCredentials = "true", allowPrivateNetwork = "true")
 @RestController // This means that this class is a Controller
 @RequestMapping(path="/users") // This means URL's start with /demo (after Application path)
-public class MainController {
+public class UserController {
     private final UserRepository userRepository;
     private final EncryptedMessagesRepository encryptedMessagesRepository;
     private final Environment env;
     @Autowired
     private CategoryRepository categoryRepository;
 
-    MainController(UserRepository userRepository, EncryptedMessagesRepository encryptedMessagesRepository, Environment env) {
+    UserController(UserRepository userRepository, EncryptedMessagesRepository encryptedMessagesRepository, Environment env) {
         this.userRepository = userRepository;
         this.encryptedMessagesRepository = encryptedMessagesRepository;
         this.env = env;
