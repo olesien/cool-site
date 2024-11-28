@@ -15,7 +15,7 @@ const App = () => {
 }
 
 const Main = () => {
-    const { isDark } = useAppContext()
+    const { isDark } = useAppContext();
     const { defaultAlgorithm, darkAlgorithm } = theme
 
     return (

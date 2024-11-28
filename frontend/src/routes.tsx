@@ -11,7 +11,7 @@ import Login from './pages/login/login'
 import Help from './pages/help/help'
 import AdminCategories from './pages/admin/categories';
 import AdminProducts from './pages/admin/products';
-import AdminWrapper from './components/adminwrapper';
+import AdminWrapper from './components/AdminWrapper';
 import ProductsList from './components/ProductsList'
 
 export const publicRoutes = createBrowserRouter(

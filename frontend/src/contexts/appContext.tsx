@@ -6,6 +6,7 @@ import React, {
     SetStateAction,
     useEffect,
 } from 'react'
+//import { useNavigate } from 'react-router-dom'
 
 interface AppProviderProps {
     children: React.ReactNode
@@ -15,17 +16,21 @@ interface AppContextProps {
     count: number
     increment: () => void
     decrement: () => void
-
     isDark: boolean
     setIsDark: Dispatch<SetStateAction<boolean>>
+    login: (name: string, password: string) => void
+    logout: () => void
+    isLoggedIn: boolean;
 }
 
 const AppContext = createContext<AppContextProps | undefined>(undefined)
 
 export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
     /**
      * counter
      */
+    //const navigate = useNavigate()
     const [count, setCount] = useState(0)
 
     const increment = () => {
@@ -72,11 +77,21 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
             localStorage.setItem('theme', 'light')
             document.documentElement.classList.remove('dark')
         }
-    }, [isDark])
+    }, [isDark]);
 
+    const login = () => {
+        //axios post req here
+
+        setIsLoggedIn(true);
+    }
+
+    const logout = () => {
+        //axios post req here
+        setIsLoggedIn(false);
+    }
     return (
         <AppContext.Provider
-            value={{ count, increment, decrement, isDark, setIsDark }}
+            value={{ count, increment, decrement, isDark, setIsDark, login, logout, isLoggedIn }}
         >
             {children}
         </AppContext.Provider>
