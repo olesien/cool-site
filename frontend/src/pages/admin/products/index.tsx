@@ -45,7 +45,7 @@ export default function Products() {
         try {
             const response = await axios.post<string>(
                 base_url + '/products/add',
-                { ...data, categoryId: Number(split[1]) },
+                { ...data, categoryId: Number(split[1]), images: data?.images ?? [] },
                 {
                     headers: {
                         "Access-Control-Allow-Origin": "*"
@@ -74,7 +74,7 @@ export default function Products() {
         try {
             const response = await axios.put<string>(
                 base_url + '/products/put/' + data.old.id,
-                { ...data.new, categoryId: Number(split[1]) },
+                { ...data.new, categoryId: Number(split[1]), images: data.new?.images ?? [] },
                 {
                     headers: {
                         "Access-Control-Allow-Origin": "*"

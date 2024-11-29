@@ -1,18 +1,18 @@
-import { Suspense } from 'react'
+import { Suspense } from "react";
 import {
     createBrowserRouter,
     createRoutesFromElements,
     Route,
-} from 'react-router-dom'
-import Layout from './components/layout'
-import Home from './pages/home'
-import About from './pages/about'
-import Login from './pages/login/login'
-import Help from './pages/help/help'
-import AdminCategories from './pages/admin/categories';
-import AdminProducts from './pages/admin/products';
-import AdminWrapper from './components/adminwrapper';
-import ProductsList from './components/ProductsList'
+} from "react-router-dom";
+import Layout from "./components/layout";
+import Home from "./pages/home";
+import About from "./pages/about";
+import Login from "./pages/login/login";
+import Help from "./pages/help/help";
+import AdminCategories from "./pages/admin/categories";
+import AdminProducts from "./pages/admin/products";
+import AdminWrap from "./components/AdminWrap";
+import ProductsList from "./components/ProductsList";
 
 export const publicRoutes = createBrowserRouter(
     createRoutesFromElements(
@@ -26,7 +26,7 @@ export const publicRoutes = createBrowserRouter(
                 }
             />
             <Route
-                path='/about'
+                path="/about"
                 element={
                     <Suspense fallback={<></>}>
                         <About />
@@ -34,7 +34,7 @@ export const publicRoutes = createBrowserRouter(
                 }
             />
             <Route
-                path='/login'
+                path="/login"
                 element={
                     <Suspense fallback={<></>}>
                         <Login />
@@ -49,9 +49,9 @@ export const publicRoutes = createBrowserRouter(
                     </Suspense>
                 }
             />
-            <Route path="/admin" element={<AdminWrapper />}>
+            <Route path="/admin" element={<AdminWrap />}>
                 <Route
-                    path='categories'
+                    path="categories"
                     element={
                         <Suspense fallback={<></>}>
                             <AdminCategories />
@@ -59,7 +59,7 @@ export const publicRoutes = createBrowserRouter(
                     }
                 />
                 <Route
-                    path='products'
+                    path="products"
                     element={
                         <Suspense fallback={<></>}>
                             <AdminProducts />
