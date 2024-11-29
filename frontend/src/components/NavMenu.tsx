@@ -12,11 +12,11 @@ export function NavMenu() {
     const [showCats, setShowCats] = useState<{ [key: string]: boolean }>({});
     const isMobile = useIsMobile();
     const { data } = useQuery({
-        queryKey: ['cats'],
+        queryKey: ["cats"],
         queryFn: getCategories,
-    })
+    });
     if (!data) {
-        return <Loading />
+        return <Loading />;
     }
     const options = data;
     return (
@@ -29,7 +29,15 @@ export function NavMenu() {
                             <ul className="dropdown-content">
                                 {cat?.sub_categories?.map((subcat) => (
                                     <li key={subcat.id}>
-                                        <NavLink key={subcat.link_name} to={cat.link_name + "/" + subcat.link_name}>
+                                        <NavLink
+                                            key={subcat.link_name}
+                                            to={
+                                                "/" +
+                                                cat.link_name +
+                                                "/" +
+                                                subcat.link_name
+                                            }
+                                        >
                                             {subcat.name}
                                         </NavLink>
                                     </li>
@@ -55,7 +63,8 @@ export function NavMenu() {
                                             onClick={() =>
                                                 setShowCats((oldCats) => ({
                                                     ...oldCats,
-                                                    [cat.name]: !oldCats[cat.name],
+                                                    [cat.name]:
+                                                        !oldCats[cat.name],
                                                 }))
                                             }
                                         >
@@ -63,13 +72,25 @@ export function NavMenu() {
                                         </li>
                                         {showCats[cat.name] && (
                                             <>
-                                                {cat.sub_categories.map((subcat) => (
-                                                    <li className="subcatlink">
-                                                        <NavLink key={subcat.link_name} to={cat.link_name + "/" + subcat.link_name}>
-                                                            {subcat.name}
-                                                        </NavLink>
-                                                    </li>
-                                                ))}
+                                                {cat.sub_categories.map(
+                                                    (subcat) => (
+                                                        <li className="subcatlink">
+                                                            <NavLink
+                                                                key={
+                                                                    subcat.link_name
+                                                                }
+                                                                to={
+                                                                    "/" +
+                                                                    cat.link_name +
+                                                                    "/" +
+                                                                    subcat.link_name
+                                                                }
+                                                            >
+                                                                {subcat.name}
+                                                            </NavLink>
+                                                        </li>
+                                                    )
+                                                )}
                                             </>
                                         )}
                                     </Fragment>
