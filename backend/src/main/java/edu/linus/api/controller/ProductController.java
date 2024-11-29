@@ -1,4 +1,6 @@
 package edu.linus.api.controller;
+import java.util.List;
+
 
 import edu.linus.api.DTO.ProductDTO;
 import edu.linus.api.entity.Product;
@@ -43,6 +45,16 @@ public class ProductController {
                 .collect(Collectors.toList());
         return ResponseEntity.ok(dtoProducts);
     }
+
+    @GetMapping("/latest")
+    public ResponseEntity<List<ProductDTO>> getTop4HighestProducts() {
+        List<Product> topProducts = productRepository.findTop4ByOrderByPriceDesc();
+        List<ProductDTO> dtoProducts = topProducts.stream()
+                .map(ProductDTO::convertToDto)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(dtoProducts);
+    }
+
 
     @GetMapping(path = "/{id}")
     public ResponseEntity<ProductDTO> getProductbyID(@PathVariable Long id){
