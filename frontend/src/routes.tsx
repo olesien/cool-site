@@ -12,7 +12,8 @@ import Help from "./pages/help/help";
 import AdminCategories from "./pages/admin/categories";
 import AdminProducts from "./pages/admin/products";
 import AdminWrap from "./components/AdminWrap";
-import ProductsList from "./components/ProductsList";
+
+import Categories from "./pages/products/categories";
 
 export const publicRoutes = createBrowserRouter(
     createRoutesFromElements(
@@ -71,7 +72,7 @@ export const publicRoutes = createBrowserRouter(
                 path="/:category/:subcategory"
                 element={
                     <Suspense fallback={<></>}>
-                        <ProductsList />
+                        <Categories />
                     </Suspense>
                 }
             />

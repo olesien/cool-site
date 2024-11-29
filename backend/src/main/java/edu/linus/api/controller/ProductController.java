@@ -85,7 +85,10 @@ public class ProductController {
         @PathVariable String category,
         @PathVariable String subCategory) {
 
+        System.out.println(category);
+        System.out.println(subCategory);
     Optional<SubCategory> optionalSubCategory = productRepository.findByLinkNames(category, subCategory);
+        System.out.println(optionalSubCategory.get().getName());
 
     SubCategory subbCategory = optionalSubCategory.get();
     List<Product> products = subbCategory.getProducts();
