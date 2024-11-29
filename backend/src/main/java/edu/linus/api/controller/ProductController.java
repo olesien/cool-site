@@ -88,6 +88,7 @@ public class ProductController {
         System.out.println(category);
         System.out.println(subCategory);
     Optional<SubCategory> optionalSubCategory = productRepository.findByLinkNames(category, subCategory);
+        System.out.println("query retrieved");
         System.out.println(optionalSubCategory.get().getName());
 
     SubCategory subbCategory = optionalSubCategory.get();
