@@ -11,6 +11,10 @@ interface Product {
     name: string;
     price: number;
     images: { url: string }[];
+    id: number;
+    name: string;
+    price: number;
+    images: { url: string }[];
 }
 
 export function ProductsByCategoryAndSubcategory() {
