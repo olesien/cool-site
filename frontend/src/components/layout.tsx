@@ -15,7 +15,7 @@ export default function Layout() {
         <>
             <header>
                 <NavLink to="/" className="logoLink">
-                    <div className="logo">Cool Site</div>
+                    <div className="logo">Cool Fashion</div>
                 </NavLink>
                 <nav>
                     <div className="inner-nav">

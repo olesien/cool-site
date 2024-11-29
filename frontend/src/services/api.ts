@@ -2,6 +2,7 @@ import { Category } from "@/pages/admin/categories";
 import { Product } from "@/pages/admin/products";
 import axios from "axios";
 export const base_url = "http://localhost:8080";
+
 export const getPing = async () => {
     const response = await axios.get<string>(
         base_url + '/users/ping',
@@ -27,6 +28,37 @@ export const getCategories = async () => {
     )
     return response.data;
 }
+
+export const getLatestProducts = async () => {
+    const response = await axios.get<Product[]>(
+        base_url + '/products/latest',
+        {
+            headers: {
+                "Access-Control-Allow-Origin": "*"
+            },
+            withCredentials: true
+        }
+    )
+    console.log(response.data);
+    return response.data;
+}
+
+export const getProductsByCategoryAndSubcategoryy = async (category: string, subcategory: string) => {
+    const response = await axios.get<Product[]>(
+        `${base_url}/products/${category}/${subcategory}`,
+        {
+            headers: {
+                "Access-Control-Allow-Origin": "*"
+            },
+            withCredentials: true
+        }
+    )
+    console.log(response.data);
+    return response.data; 
+}
+
+
+
 
 export const getProducts = async () => {
     const response = await axios.get<Product[]>(

@@ -1,5 +1,5 @@
 import { NavMenu } from "@/components/NavMenu";
-import { ItemList } from "@/components/ItemList";
+import { ProductsByCategoryAndSubcategory } from "@/components/categoryProducts";
 import '../../collections.css'; 
 export default function WomanJackets() {
     return (
@@ -9,7 +9,7 @@ export default function WomanJackets() {
 
             </div>
             <div className="collection">
-                <ItemList />
+                <ProductsByCategoryAndSubcategory />
             </div>
         </div>
     );
