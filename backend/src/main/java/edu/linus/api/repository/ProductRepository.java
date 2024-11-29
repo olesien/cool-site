@@ -18,9 +18,9 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     @Query("SELECT sc FROM SubCategory sc JOIN sc.category c WHERE sc.link_name = :subCategoryLinkName AND c.link_name = :categoryLinkName")
     Optional<SubCategory> findByLinkNames(
-            @Param("categoryLinkName") String category,
+        @Param("categoryLinkName") String category,
             @Param("subCategoryLinkName") String subCategory
-
+            
     );
 
     

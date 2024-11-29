@@ -36,12 +36,25 @@
 }
 
 .image {
-    width: "100px";
-    height: "auto";
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
 }
+
 
 .item-image:hover {
     transform: scale(1.1);
+}
+
+.item-list-card .item-image {
+    width: 350px;
+    max-width: 100%; 
+}
+
+.item-list-card:hover .item-image {
+    transform: scale(1.1);
+    cursor: pointer;
 }
 
 header {

@@ -29,19 +29,6 @@ export const getCategories = async () => {
     return response.data;
 }
 
-export const getLatestProducts = async () => {
-    const response = await axios.get<Product[]>(
-        base_url + '/products/latest',
-        {
-            headers: {
-                "Access-Control-Allow-Origin": "*"
-            },
-            withCredentials: true
-        }
-    )
-    console.log(response.data);
-    return response.data;
-}
 
 export const getProductsByCategoryAndSubcategoryy = async (category: string, subcategory: string) => {
     const response = await axios.get<Product[]>(
