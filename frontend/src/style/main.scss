@@ -72,30 +72,30 @@ header {
         text-decoration: none;
     }
 
-    nav {
-        width: 100%;
-        display: flex;
-        justify-content: flex-end;
-        .inner-nav {
-            height: fit-content;
-            max-width: 350px;
-            display: flex;
-            gap: 1rem;
-            background-color: colors.$black;
-            padding: 1rem 2rem;
-            border-radius: 0 0 0 10px;
-            a {
-                font-size: 1.3em;
-                color: colors.$blue;
-                text-decoration: none;
-            }
+    // nav {
+    //     width: 100%;
+    //     display: flex;
+    //     justify-content: flex-end;
+    //     // .inner-nav {
+    //     //     height: fit-content;
+    //     //     max-width: 700px;
+    //     //     display: flex;
+    //     //     gap: 1rem;
+    //     //     background-color: colors.$black;
+    //     //     padding: 1rem 2rem;
+    //     //     border-radius: 0 0 0 10px;
+    //     //     a {
+    //     //         font-size: 1.3em;
+    //     //         color: colors.$blue;
+    //     //         text-decoration: none;
+    //     //     }
 
-            a:hover {
-                color: colors.$lightblue;
-                cursor: pointer;
-            }
-        }
-    }
+    //     //     a:hover {
+    //     //         color: colors.$lightblue;
+    //     //         cursor: pointer;
+    //     //     }
+    //     // }
+    // }
 }
 
 .cat-container {
@@ -207,4 +207,103 @@ header {
     justify-content: center;
     align-items: center;
     min-height: 100px;
+}
+
+.header {
+    margin: 0;
+    display: flex;
+    justify-content: center; /* Center the logo */
+    align-items: center;
+    padding: 20px; /* Add padding for spacing */
+    background: linear-gradient(
+        90deg,
+        #614ac9,
+        #cfc914
+    ); /* Eye-catching gradient background */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    .logo-link-styles {
+        text-decoration: "none";
+    }
+    .header-logo {
+        font-size: 28px; /* Large font for emphasis */
+        font-weight: bold; /* Make the text bold */
+        color: #ffffff; /* White text for contrast */
+        text-transform: uppercase; /* Make the logo text uppercase */
+        letter-spacing: 2px; /* Add some spacing between letters */
+        background: linear-gradient(
+            90deg,
+            #ffffff,
+            #ffd700
+        ); /* Gradient effect inside the text */
+        -webkit-background-clip: text; /* Clip the gradient to the text */
+        -webkit-text-fill-color: transparent; /* Make the background visible through the text */
+        transition: transform 0.3s ease; /* Add a smooth scaling effect */
+        cursor: pointer;
+    }
+}
+
+.nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative; /* Positioned under the header */
+    width: 100%;
+    top: 0; /* Ensures the nav is positioned directly under the header */
+    transition: all 0.3s ease;
+    flex-direction: row; /* Align items horizontally */
+    margin-top: 0; /* No extra spacing */
+
+    .inner-nav {
+        display: flex;
+        gap: 20px;
+        align-items: center;
+        padding: 10px;
+    }
+
+    .nav-links {
+        text-decoration: none; /* Remove underline */
+        color: #e2e8f0; /* Light gray color for links */
+        padding: 8px 16px; /* Padding around the link */
+        font-size: 14px; /* Font size */
+        border-radius: 8px; /* Rounded corners */
+        transition:
+            background-color 0.3s,
+            color 0.3s; /* Smooth transition for background and color changes */
+
+        > svg {
+            padding-right: 5px;
+        }
+    }
+}
+
+@media (max-width: 768px) {
+    * {
+        font-size: 0.9em;
+    }
+    .nav {
+        flex-direction: column; /* Stack items vertically */
+        margin-top: 10px; /* Add space on mobile between logo and nav */
+        .inner-nav {
+            gap: 10px;
+        }
+        .nav-links {
+            padding: 6px 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 3px;
+            > svg {
+                padding-top: 5px;
+                padding-bottom: 5px;
+                padding-right: 0;
+            }
+        }
+    }
+}
+
+@media (max-width: 420px) {
+    * {
+        font-size: 0.8em;
+    }
 }
