@@ -195,3 +195,34 @@ header {
     align-items: center;
     min-height: 100px;
 }
+
+.header {
+    margin: 0;
+    display: flex;
+    justify-content: center; /* Center the logo */
+    align-items: center;
+    padding: 20px; /* Add padding for spacing */
+    background: linear-gradient(
+        90deg,
+        #614ac9,
+        #cfc914
+    ); /* Eye-catching gradient background */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+
+    .header-logo {
+        font-size: 28px; /* Large font for emphasis */
+        font-weight: bold; /* Make the text bold */
+        color: #ffffff; /* White text for contrast */
+        text-transform: uppercase; /* Make the logo text uppercase */
+        letter-spacing: 2px; /* Add some spacing between letters */
+        background: linear-gradient(
+            90deg,
+            #ffffff,
+            #ffd700
+        ); /* Gradient effect inside the text */
+        -webkit-background-clip: text; /* Clip the gradient to the text */
+        -webkit-text-fill-color: transparent; /* Make the background visible through the text */
+        transition: transform 0.3s ease; /* Add a smooth scaling effect */
+        cursor: pointer;
+    }
+}

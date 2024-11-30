@@ -32,32 +32,10 @@ export default function Layout() {
         };
     }, []);
 
-    // Header styles
-    const headerStyles = {
-        display: "flex",
-        justifyContent: "center", // Center the logo
-        alignItems: "center",
-        padding: "20px", // Add padding for spacing
-        background: "linear-gradient(90deg, #614AC9, #CFC914)", // Eye-catching gradient background
-        boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)", // Subtle shadow for depth
-    };
-
     const logoLinkStyles = {
         textDecoration: "none",
     };
 
-    const logoStyles = {
-        fontSize: "28px", // Large font for emphasis
-        fontWeight: "bold", // Make the text bold
-        color: "#FFFFFF", // White text for contrast
-        textTransform: "uppercase", // Make the logo text uppercase
-        letterSpacing: "2px", // Add some spacing between letters
-        background: "linear-gradient(90deg, #FFFFFF, #FFD700)", // Gradient effect inside the text
-        WebkitBackgroundClip: "text", // Clip the gradient to the text
-        WebkitTextFillColor: "transparent", // Make the background visible through the text
-        transition: "transform 0.3s ease", // Add a smooth scaling effect
-        cursor: "pointer",
-    };
 
     // Inline styles for nav and inner-nav (including mobile responsiveness)
     const navStyles = {
@@ -114,9 +92,9 @@ export default function Layout() {
     return (
         <>
             {/* Eye-catching Header */}
-            <header style={headerStyles}>
+            <header className="header">
                 <NavLink to="/" style={logoLinkStyles}>
-                    <div style={logoStyles}>Cool Fashion</div>
+                    <div className="header-logo">Cool Fashion</div>
                 </NavLink>
             </header>
 
