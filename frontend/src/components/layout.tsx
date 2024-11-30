@@ -1,55 +1,36 @@
 import { useAppContext } from "@/contexts/useAppContext";
 import { Outlet, NavLink } from "react-router-dom";
-import { useState } from "react";
-import useIsMobile from "@/hooks/useIsMobile";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHome } from "@fortawesome/free-solid-svg-icons/faHome";
+import { faSignIn } from "@fortawesome/free-solid-svg-icons/faSignIn";
+import { faQuestionCircle } from "@fortawesome/free-solid-svg-icons/faQuestionCircle";
+import { faBoxArchive } from "@fortawesome/free-solid-svg-icons/faBoxArchive";
+import { faShirt } from "@fortawesome/free-solid-svg-icons/faShirt";
 
 const navigation = [
-    { name: "Home", href: "/" },
-    { name: "About", href: "/about" },
-    { name: "Log In", href: "/login" },
-    { name: "Help", href: "/help" },
+    {
+        name: "Home", href: "/", icon: <FontAwesomeIcon
+            className="icon"
+            icon={faHome}
+        />
+    },
+    // { name: "About", href: "/about", icon={faHome} },
+    {
+        name: "Log In", href: "/login", icon: <FontAwesomeIcon
+            className="icon"
+            icon={faSignIn}
+        />
+    },
+    {
+        name: "Help", href: "/help", icon: <FontAwesomeIcon
+            className="icon"
+            icon={faQuestionCircle}
+        />
+    },
 ];
 
 export default function Layout() {
     const { isLoggedIn, logout } = useAppContext();
-    const isMobile = useIsMobile();
-    const [isMenuOpen, setIsMenuOpen] = useState(false); // State to toggle menu on mobile
-
-    const logoLinkStyles = {
-        textDecoration: "none",
-    };
-
-
-    // Inline styles for nav and inner-nav (including mobile responsiveness)
-    const navStyles = {
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        flexDirection: isMobile ? "column" : "row", // Stack items vertically on mobile
-        backgroundColor: isMobile && isMenuOpen ? "#2D3748" : "transparent", // Change background color when menu is open
-        position: "relative", // Make sure it's positioned under the header
-        width: "100%",
-        top: "0", // Ensure the nav is positioned directly under the header
-        transition: "all 0.3s ease",
-        marginTop: isMobile ? "10px" : "0", // Add space on mobile between logo and nav
-    };
-
-    const innerNavStyles = {
-        display: "flex",
-        gap: "20px",
-        flexDirection: isMobile && isMenuOpen ? "column" : "row", // Stack items vertically when menu is open
-        alignItems: "center",
-        padding: "10px",
-    };
-
-    const navLinkStyles = {
-        textDecoration: "none",
-        color: "#E2E8F0", // Light gray color for links
-        padding: "8px 16px",
-        fontSize: "14px",
-        borderRadius: "8px",
-        transition: "background-color 0.3s, color 0.3s", // Smooth transition
-    };
 
     const activeNavLinkStyles = {
         backgroundColor: "#2B6CB0", // Active state background color (blue)
@@ -61,81 +42,77 @@ export default function Layout() {
         color: "#FFFFFF", // Hover text color
     };
 
-    const closeButtonStyles = {
-        display: isMobile && isMenuOpen ? "block" : "none",
-        backgroundColor: "#4A5568",
-        color: "#FFFFFF",
-        padding: "10px",
-        borderRadius: "5px",
-        cursor: "pointer",
-        fontSize: "16px",
-        marginTop: "10px",
-    };
 
     return (
         <>
             {/* Eye-catching Header */}
             <header className="header">
-                <NavLink to="/" style={logoLinkStyles}>
+                <NavLink to="/" className={"logo-link-styles"}>
                     <div className="header-logo">Cool Fashion</div>
                 </NavLink>
             </header>
 
             {/* Navigation */}
-            <nav style={navStyles}>
+            <nav className="nav">
                 {/* Navigation Links */}
-                <div style={innerNavStyles}>
+                <div className="inner-nav">
                     {navigation.map((item) => {
                         if (item.name === "Log In" && isLoggedIn) { //We want to access login and we are logged in, then change it to Log out
                             return <a
                                 href="#"
-                                style={({ ...navLinkStyles, ...hoverNavLinkStyles })}
+                                className="nav-links"
+                                style={({ ...hoverNavLinkStyles })}
                                 onClick={() => logout()}
                             >
-                                Logout
+                                {item.icon}
+                                <span>Logout</span>
                             </a>
                         }
                         return <NavLink
                             key={item.name}
                             to={item.href}
+                            className="nav-links"
                             style={({ isActive }) => ({
-                                ...navLinkStyles,
                                 ...(isActive ? activeNavLinkStyles : {}),
                                 ...(!isActive ? hoverNavLinkStyles : {}),
                             })}
                         >
-                            {item.name}
+                            {item.icon}
+                            <span>{item.name}</span>
                         </NavLink>
                     })}
                     {isLoggedIn && <>
                         <NavLink
                             to={'/admin/categories'}
+                            className="nav-links"
                             style={({ isActive }) => ({
-                                ...navLinkStyles,
                                 ...(isActive ? activeNavLinkStyles : {}),
                                 ...(!isActive ? hoverNavLinkStyles : {}),
                             })}
                         >
-                            Categories
+                            <FontAwesomeIcon
+                                className="icon"
+                                icon={faBoxArchive}
+                            />
+                            <span>Categories</span>
                         </NavLink>
 
                         <NavLink
 
                             to={'/admin/products'}
+                            className="nav-links"
                             style={({ isActive }) => ({
-                                ...navLinkStyles,
                                 ...(isActive ? activeNavLinkStyles : {}),
                                 ...(!isActive ? hoverNavLinkStyles : {}),
                             })}
                         >
-                            Products
+                            <FontAwesomeIcon
+                                className="icon"
+                                icon={faShirt}
+                            />
+                            <span>Products</span>
                         </NavLink>
                     </>}
-                </div>
-
-                {/* Close button when mobile menu is open */}
-                <div style={closeButtonStyles} onClick={() => setIsMenuOpen(false)}>
-                    Close Menu
                 </div>
             </nav>
 
