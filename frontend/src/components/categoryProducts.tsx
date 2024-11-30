@@ -11,29 +11,24 @@ interface Product {
     name: string;
     price: number;
     images: { url: string }[];
-    id: number;
-    name: string;
-    price: number;
-    images: { url: string }[];
 }
 
 export function ProductsByCategoryAndSubcategory() {
     const { category, subcategory } = useParams<{ category: string; subcategory: string }>();
 
+    const capitalizeFirst = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
+    const capitalizedCategory = capitalizeFirst(String(category)).replace('-', ' ');
+    const capitalizedSubcategory = capitalizeFirst(String(subcategory)).replace('-', ' ');
+
+    const { data } = useQuery({
+        queryKey: ['productsBySubCategory', category, subcategory],
+        queryFn: () => getProductsByCategoryAndSubcategoryy(String(category), String(subcategory)),
+    });
+
     // Validate that category and subcategory exist, somehow without this the queryFn wouldnt work
     if (!category || !subcategory) {
         return <div>Error: Missing category or subcategory.</div>;
     }
-
-    const capitalizeFirst = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
-
-    const capitalizedCategory = capitalizeFirst(category);
-    const capitalizedSubcategory = capitalizeFirst(subcategory);
-
-    const { data} = useQuery({
-        queryKey: ['productsBySubCategory', category, subcategory],
-        queryFn: () => getProductsByCategoryAndSubcategoryy(category, subcategory),
-    });
 
     return (
         <div className="displayed-items">
