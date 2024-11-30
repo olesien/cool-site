@@ -1,6 +1,6 @@
 import { NavMenu } from "@/components/NavMenu";
-import { ItemList } from "@/components/ItemList";
-import '../../collections.css'; 
+import '../../collections.css';
+import { LatestProducts } from "@/components/latestProducts";
 
 export default function Home() {
     return (
@@ -8,9 +8,11 @@ export default function Home() {
             <NavMenu />
             <div className="banner">
             </div>
+            {/*  */}
             <div className="collection">
-                <ItemList />
+                <LatestProducts />
             </div>
+
         </div>
     );
 }

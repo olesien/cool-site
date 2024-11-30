@@ -49,18 +49,56 @@ public class ProductController {
         return ResponseEntity.ok(dtoProducts);
     }
 
-    @GetMapping("/latest")
-    public ResponseEntity<List<ProductDTO>> getTop4HighestProducts() {
-        List<Product> topProducts = productRepository.findTop4ByOrderByPriceDesc();
-        List<ProductDTO> dtoProducts = topProducts.stream()
+    @GetMapping(path = "/topPrice")
+    public ResponseEntity<List<ProductDTO>> getTop4ByPrice() {
+        List<Product> products = productRepository.findTop4ByOrderByPriceDesc();
+        List<ProductDTO> dtoProducts = products.stream()
                 .map(ProductDTO::convertToDto)
                 .collect(Collectors.toList());
         return ResponseEntity.ok(dtoProducts);
     }
 
+    @GetMapping(path = "/latest")
+    public ResponseEntity<List<ProductDTO>> getTop4ById() {
+        List<Product> products = productRepository.findTop4ByOrderByIdDesc();
+        List<ProductDTO> dtoProducts = products.stream()
+                .map(ProductDTO::convertToDto)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(dtoProducts);
+    }
+
+    /*@GetMapping(path= "/{categoryLinkName}/{subCategoryLinkName}")
+    public ResponseEntity<List<ProductDTO>> getProductsByCategoryAndSubCategory(
+            @PathVariable String categoryLinkName,
+            @PathVariable String subCategoryLinkName) {
+
+        Optional<SubCategory> optionalSubCategory = productRepository.findByLinkNames(subCategoryLinkName, categoryLinkName);
+            SubCategory subCategory = optionalSubCategory.get();
+            List<Product> products = subCategory.getProducts();
+            List<ProductDTO> dtoProducts = products.stream()
+                    .map(ProductDTO::convertToDto)
+                    .collect(Collectors.toList());
+            return ResponseEntity.ok(dtoProducts); 
+
+    }*/
+
+    @GetMapping(path= "/{category}/{subCategory}")
+    public ResponseEntity<List<ProductDTO>> getProductsByCategoryAndSubCategoryy(
+        @PathVariable String category,
+        @PathVariable String subCategory) {
+        Optional<SubCategory> optionalSubCategory = productRepository.findByLinkNames(category, subCategory);
+            System.out.println(optionalSubCategory.get().getName());
+            SubCategory subbCategory = optionalSubCategory.get();
+            List<Product> products = subbCategory.getProducts();
+            List<ProductDTO> dtoProducts = products.stream()
+            .map(ProductDTO::convertToDto)
+            .collect(Collectors.toList());
+    return ResponseEntity.ok(dtoProducts); 
+    }
+
 
     @GetMapping(path = "/{id}")
-    public ResponseEntity<ProductDTO> getProductbyID(@PathVariable Long id){
+    public ResponseEntity<ProductDTO> getProductByID(@PathVariable Long id){
         Optional<Product> product = productRepository.findById(id);
 
         // Check if the product exists, and map it to DTO

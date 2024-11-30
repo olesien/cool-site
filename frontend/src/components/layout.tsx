@@ -59,6 +59,7 @@ export default function Layout() {
                     {navigation.map((item) => {
                         if (item.name === "Log In" && isLoggedIn) { //We want to access login and we are logged in, then change it to Log out
                             return <a
+                                key={item.name}
                                 href="#"
                                 className="nav-links"
                                 style={({ ...hoverNavLinkStyles })}
