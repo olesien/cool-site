@@ -1,5 +1,4 @@
 import { Item } from "./ItemCard";
-import "../ItemList.css";
 import { getLatestProducts } from "@/services/api.ts";
 import { useQuery } from "@tanstack/react-query";
 
@@ -18,18 +17,20 @@ export function LatestProducts() {
     }
 
     return (
-        <div className="latest-products">
-            <h2 className="collection-title">Latest Products</h2>
-            <div className="item-list">
-                {products.map((product) => (
-                    <div key={product.id} className="item-list-card">
-                        <Item
-                            name={product.name}
-                            price={product.price}
-                            image={product.images[0]?.url ?? ""}
-                        />
-                    </div>
-                ))}
+        <div className="displayed-items">
+            <div className="latest-products">
+                <h2 className="collection-title">Latest Products</h2>
+                <div className="item-list">
+                    {products.map((product) => (
+                        <div key={product.id} className="item-list-card">
+                            <Item
+                                name={product.name}
+                                price={product.price}
+                                image={product.images[0]?.url ?? ""}
+                            />
+                        </div>
+                    ))}
+                </div>
             </div>
         </div>
     );

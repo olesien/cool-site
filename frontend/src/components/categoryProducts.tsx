@@ -1,6 +1,5 @@
 import { useParams } from "react-router-dom"; // Import useParams
 import { Item } from "./ItemCard.tsx";
-import "../ItemList.css";
 import { getProductsByCategoryAndSubcategoryy } from "@/services/api.ts";
 import {
     useQuery,

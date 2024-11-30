@@ -1,4 +1,4 @@
-import '../itemCard.css';
+
 interface ItemProps {
   name: string;
   price: number;

@@ -1,6 +1,5 @@
 
 import { Item } from "./ItemCard.tsx";
-import '../ItemList.css';
 
 // Define the product type
 interface Item {
