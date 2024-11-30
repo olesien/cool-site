@@ -1,6 +1,7 @@
 import { useAppContext } from "@/contexts/useAppContext";
 import { Outlet, NavLink } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import useIsMobile from "@/hooks/useIsMobile";
 
 const navigation = [
     { name: "Home", href: "/" },
@@ -9,28 +10,10 @@ const navigation = [
     { name: "Help", href: "/help" },
 ];
 
-function classNames(...classes: string[]) {
-    return classes.filter(Boolean).join(" ");
-}
-
-// Hook for detecting if the screen is mobile
-const getIsMobile = () => window.innerWidth <= 768;
-
 export default function Layout() {
     const { isLoggedIn, logout } = useAppContext();
-    const [isMobile, setIsMobile] = useState(getIsMobile());
+    const isMobile = useIsMobile();
     const [isMenuOpen, setIsMenuOpen] = useState(false); // State to toggle menu on mobile
-
-    useEffect(() => {
-        const onResize = () => {
-            setIsMobile(getIsMobile());
-        };
-
-        window.addEventListener("resize", onResize);
-        return () => {
-            window.removeEventListener("resize", onResize);
-        };
-    }, []);
 
     const logoLinkStyles = {
         textDecoration: "none",
