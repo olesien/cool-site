@@ -158,6 +158,7 @@ public class Auth {
             Cookie cookie = filteredCookies.getFirst();
             String token = cookie.getValue();
             DecodedJWT validToken = Auth.validateJWT(token, env);
+            System.out.println("YAY WE HAVE A COOKIE!");
             return validToken;
 
         } else {

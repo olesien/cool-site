@@ -2,6 +2,8 @@ package edu.linus.api.controller;
 import java.util.List;
 
 
+import com.auth0.jwt.interfaces.DecodedJWT;
+import edu.linus.api.Auth;
 import edu.linus.api.DTO.ProductDTO;
 import edu.linus.api.entity.Product;
 import edu.linus.api.entity.ProductImage;
@@ -10,16 +12,15 @@ import edu.linus.api.forms.NewProductForm;
 import edu.linus.api.repository.ProductImageRepository;
 import edu.linus.api.repository.ProductRepository;
 import edu.linus.api.repository.SubCategoryRepository;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @CrossOrigin(origins = "http://localhost:3000/", maxAge = 3600, allowCredentials = "true", allowPrivateNetwork = "true")
 @RestController // This means that this class is a Controller
@@ -30,11 +31,13 @@ public class ProductController {
     ProductRepository productRepository;
     SubCategoryRepository subCategoryRepository;
     ProductImageRepository productImageRepository;
+    private final Environment env;
 
-    ProductController(ProductRepository productRepository, SubCategoryRepository subCategoryRepository, ProductImageRepository productImageRepository) {
+    ProductController(ProductRepository productRepository, SubCategoryRepository subCategoryRepository, ProductImageRepository productImageRepository, Environment env) {
         this.productRepository = productRepository;
         this.subCategoryRepository = subCategoryRepository;
         this.productImageRepository = productImageRepository;
+        this.env = env;
     }
 
     @GetMapping(path = "/all")
@@ -68,7 +71,11 @@ public class ProductController {
 
 
     @PostMapping(path = "/add")
-    public ResponseEntity<String> addProduct(@RequestBody NewProductForm productForm){
+    public ResponseEntity<String> addProduct(HttpServletRequest request, @RequestBody NewProductForm productForm){
+        DecodedJWT validToken = Auth.extractTokenFromCookie(request.getCookies(), env);
+        if (validToken == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("You are not logged in");
+        }
         Product product = new Product();
         product.setName(productForm.getName());
         product.setPrice(Double.valueOf(productForm.getPrice()));

@@ -1,95 +1,72 @@
 import React, {
     createContext,
     useState,
-    useContext,
-    Dispatch,
-    SetStateAction,
     useEffect,
-} from 'react'
+} from "react";
+import { toast } from "react-toastify";
 
 interface AppProviderProps {
-    children: React.ReactNode
+    children: React.ReactNode;
 }
 
 interface AppContextProps {
-    count: number
-    increment: () => void
-    decrement: () => void
-
-    isDark: boolean
-    setIsDark: Dispatch<SetStateAction<boolean>>
+    login: (name: string, password: string) => void;
+    logout: () => void;
+    isLoggedIn: boolean;
 }
 
-const AppContext = createContext<AppContextProps | undefined>(undefined)
-
+export const AppContext = createContext<AppContextProps | undefined>(undefined);
+const key = "auth-user-coolfashion";
 export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
-    /**
-     * counter
-     */
-    const [count, setCount] = useState(0)
-
-    const increment = () => {
-        setCount(count + 1)
-    }
-
-    const decrement = () => {
-        setCount(count - 1)
-    }
-
-    /**
-     * theme
-     */
-    const [isDark, setIsDark] = useState<boolean>(detectSystemThemeIsDark())
-
-    function detectSystemThemeIsDark() {
-        // if (localStorage.getItem('theme')) {
-        //     return localStorage.getItem('theme') === 'dark'
-        // } else {
-        //     return !!window?.matchMedia('(prefers-color-scheme: dark)')?.matches
-        // }
-        return false //Uncomment above lines and remove this to add logic for dark mode
-    }
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
 
     useEffect(() => {
-        const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
-
-        const handleThemeChange = () => {
-            setIsDark(detectSystemThemeIsDark())
+        console.log("Retrieving");
+        if (typeof window === "undefined") {
+            return;
         }
-
-        mediaQuery.addEventListener('change', handleThemeChange)
-
-        return () => {
-            mediaQuery.removeEventListener('change', handleThemeChange)
+        console.log("A");
+        try {
+            const item = window.localStorage.getItem(key);
+            console.log("B");
+            const loggedIn = item !== null && item != "undefined"
+                ? (JSON.parse(item) as boolean)
+                : false
+            setIsLoggedIn(
+                loggedIn
+            );
+            console.log(item !== null && item != "undefined"
+                ? (JSON.parse(item) as boolean)
+                : null);
+        } catch (error) {
+            return;
         }
     }, [])
 
-    useEffect(() => {
-        if (isDark) {
-            localStorage.setItem('theme', 'dark')
-            document.documentElement.classList.add('dark')
-        } else {
-            localStorage.setItem('theme', 'light')
-            document.documentElement.classList.remove('dark')
-        }
-    }, [isDark])
+    const login = () => {
+        //axios post req here
+        localStorage.setItem(key, JSON.stringify(true));
+        setIsLoggedIn(true);
+        toast.success("Successfully logged in!");
 
+
+    };
+
+    const logout = () => {
+        //axios post req here
+        localStorage.setItem(key, JSON.stringify(false));
+        setIsLoggedIn(false);
+        toast.success("Successfully logged out!");
+    };
     return (
         <AppContext.Provider
-            value={{ count, increment, decrement, isDark, setIsDark }}
+            value={{
+                login,
+                logout,
+                isLoggedIn,
+            }}
         >
             {children}
         </AppContext.Provider>
-    )
-}
-
-// Custom hook untuk mengakses context
-export const useAppContext = () => {
-    const context = useContext(AppContext)
-
-    if (!context) {
-        throw new Error('useAppContext must be used within an AppProvider')
-    }
-
-    return context
-}
+    );
+};

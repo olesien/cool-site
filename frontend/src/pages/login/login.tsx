@@ -1,21 +1,54 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import './login.css';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useAppContext } from '@/contexts/useAppContext';
+import { Navigate } from 'react-router-dom';
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 export default function Login() {
+    const { login, isLoggedIn } = useAppContext();
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
 
-    const[username, setUsername] = useState('')
-    const[password, setPassword] = useState('')
-    const navigate = useNavigate()
+    if (isLoggedIn) {
+        // Redirect to login if not logged in
+        return <Navigate to="/admin/products" replace />;
+    }
 
-    
-    const loggingIn = () =>{
-        if(username === 'admin' && password ==='admin'){
-            navigate('/')
-            alert('You are now logged in as Admin')
-        } else {
-            alert('Your username and password are incorrect')
+
+    const loggingIn = async () => {
+
+        //Auth frontend validation
+
+        //Get from backend if valid (also comes with cookie for further requests)
+        try {
+            const res = await axios.post<{ message: string }>("http://localhost:8080/users/login", { username, password }, {
+                headers: {
+                    "Access-Control-Allow-Origin": "*"
+                },
+                withCredentials: true
+            });
+            console.log(res.data);
+
+            //Login on frontend
+            if (res.data) {
+                login(username, password);
+            }
+
+        } catch (err: unknown) {
+            console.error(err);
+            if (axios.isAxiosError(err)) {
+                toast.error(err.message);
+            } else {
+                toast.error("Something went wrong")
+            }
         }
+        // if (username === 'admin' && password === 'admin') {
+        //     navigate('/')
+        //     alert('You are now logged in as Admin')
+        // } else {
+        //     alert('Your username and password are incorrect')
+        // }
     }
 
     return (
@@ -27,7 +60,7 @@ export default function Login() {
             <div className="signin-box">
                 <h1 className="signin-title">Sign in</h1>
                 <div className="input-box">
-                    <input type="text" placeholder="Username" required value={username} onChange={(e) => setUsername(e.target.value)}/>
+                    <input type="text" placeholder="Username" required value={username} onChange={(e) => setUsername(e.target.value)} />
                     <i className="bx bxs-user-circle"></i>
                 </div>
                 <div className="input-box">
@@ -43,7 +76,7 @@ export default function Login() {
                     </a>
                 </div>
                 <button type="submit" className="btn"
-                onClick={loggingIn}>Sign in</button>
+                    onClick={loggingIn}>Sign in</button>
                 <div className="register-link">
                     <p>
                         Don't have an account? <a href="#">Click here</a>
