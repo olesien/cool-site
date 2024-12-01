@@ -1,0 +1,25 @@
+.footer {
+    display: flex;
+    justify-content: center; /* Center the logos container */
+    align-items: center;
+    background-color: rgb(34, 39, 41);
+    padding: 40px 20px; /* Increase padding for taller footer */
+    height: 300px; /* Set a fixed height for the footer */
+    width: 100%;
+  }
+  
+  .logos-container {
+    display: flex;
+    justify-content: space-between; /* Distribute logos evenly across the width */
+    width: 100%; /* Ensure it stretches the full width of the page */
+    max-width: 1200px; /* Optional: set a max-width for better control */
+  }
+  
+  .footer-logo {
+    max-width: 100px;
+    height: auto;
+    transition: transform 0.3s;
+    border-radius: 12px;
+  }
+
+  

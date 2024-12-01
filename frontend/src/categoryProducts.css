@@ -1,0 +1,44 @@
+.collection-title-paragraph {
+  font-weight: normal;
+  font-style: normal;
+  padding: 20px; /* Adjust padding for spacing */
+}
+
+.discount-text {
+  border: 1px black;
+  padding: 100px; /* Adjust internal padding */
+  width: 100%;
+  margin-bottom: 20px;
+  background-color: rgb(235, 237, 238);
+  box-sizing: border-box;
+}
+
+.collection-title-map {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding-left: 20px; 
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.search-bar {
+  margin-left: auto; 
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  width: 200px; 
+  font-size: 14px;
+}
+.map-item {
+  padding: 6px;
+  background-color: gray;
+  color: white;
+  border-radius: 30px;
+  font-size: 14px;
+}
+
+.map-divider {
+  color: black;
+  font-size: 14px;
+}
