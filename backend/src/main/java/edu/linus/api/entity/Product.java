@@ -22,6 +22,11 @@ public class Product {
     private Double price;
 
     @ManyToOne
+    @JoinColumn(name = "added_by", referencedColumnName = "id") // Foreign key to `users` table
+    @JsonBackReference // Prevents infinite recursion in JSON serialization
+    private User user;
+
+    @ManyToOne
     @JoinColumn(name = "sub_categories_id")
     @JsonBackReference
     private SubCategory sub_categories;

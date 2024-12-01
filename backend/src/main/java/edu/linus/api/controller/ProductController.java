@@ -1,4 +1,5 @@
 package edu.linus.api.controller;
+import java.nio.file.Path;
 import java.util.List;
 
 
@@ -38,6 +39,15 @@ public class ProductController {
         this.subCategoryRepository = subCategoryRepository;
         this.productImageRepository = productImageRepository;
         this.env = env;
+    }
+
+    @GetMapping(path = "/mine/{id}")
+    public ResponseEntity<List<ProductDTO>> getProductsByUser(@PathVariable int id) {
+        List<Product> productsBy = productRepository.findByUserId(id);
+        List<ProductDTO> dtoProducts = productsBy.stream()
+                .map(ProductDTO::convertToDto)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(dtoProducts);
     }
 
     @GetMapping(path = "/all")
