@@ -1,16 +1,14 @@
 import { NavMenu } from "@/components/NavMenu";
 import { ProductsByCategoryAndSubcategory } from "@/components/categoryProducts";
-import '../../collections.css';
+import "../../collections.css";
 export default function Categories() {
-    return (
-        <div>
-            <NavMenu />
-            <div className="banner">
+  return (
+    <div>
+      <NavMenu />
 
-            </div>
-            <div className="collection">
-                <ProductsByCategoryAndSubcategory />
-            </div>
-        </div>
-    );
+      <div className="collection">
+        <ProductsByCategoryAndSubcategory />
+      </div>
+    </div>
+  );
 }
