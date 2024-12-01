@@ -256,7 +256,7 @@ export default function Categories() {
     ], []);
     return (
         <>
-            <div className={"header"}>
+            <div className={"main-header"}>
                 <h2>Admin Categories</h2>
                 <Button variant="filled" color="primary" onClick={() => setShowAddCategory(true)}><FontAwesomeIcon
                     className={categorystyles.addIcon}
