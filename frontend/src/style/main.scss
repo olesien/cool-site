@@ -142,7 +142,7 @@ header {
         position: relative;
         margin-right: 40px;
         .icon {
-            font-size: 1.5em;
+            font-size: 3rem;
         }
         .dropdown {
             display: flex;
@@ -560,9 +560,10 @@ header {
   .collection {
     display: flex;
     justify-content: center;
-    min-height: 100vh;
-    padding: 2rem;
+    min-height: 100%;
+    padding: 2rem 4rem 6rem 4rem;
     margin-top: 0;
     /*background-color: #f9f9f9;*/
-    background: linear-gradient(to bottom, #f9f9f9, #e9e9e9);
+    /*background: linear-gradient(to bottom, #f9f9f9, #e9e9e9);*/
+    background: linear-gradient(to bottom, #d8d8d7, #979090);
 }
