@@ -14,8 +14,6 @@ public class ProductDTO {
 
     private SubCategoryDTO sub_category;
 
-    private Long addedBy;
-
     private List<ProductImageDTO> images;
 
     private static ModelMapper modelMapper = new ModelMapper();
@@ -62,14 +60,6 @@ public class ProductDTO {
 
     public SubCategoryDTO getSub_category() {
         return sub_category;
-    }
-
-    public void setAddedBy(Long userId) {
-        this.addedBy = userId;
-    }
-
-    public Long getAddedBy() {
-        return this.addedBy;
     }
 
     public void setSub_category(SubCategoryDTO sub_category) {

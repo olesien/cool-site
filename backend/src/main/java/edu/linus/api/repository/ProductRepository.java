@@ -17,8 +17,6 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> findTop4ByOrderByIdDesc();
     List<Product> findTop4ByOrderByIdAsc();
 
-    List<Product> findByUserId(int id);
-
 
     @Query("SELECT sc FROM SubCategory sc JOIN sc.category c WHERE LOWER(sc.link_name) = LOWER(:subCategoryLinkName) AND LOWER(c.link_name) = LOWER(:categoryLinkName)")
     Optional<SubCategory> findByLinkNames(

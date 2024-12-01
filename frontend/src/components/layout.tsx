@@ -48,7 +48,7 @@ export default function Layout() {
             {/* Eye-catching Header */}
             <header className="header">
                 <NavLink to="/" className={"logo-link-styles"}>
-                    <div className="header-logo"><img src="../images/COOL FASHION (1).png" alt="Logo" /></div>
+                    <div className="header-logo">Cool Fashion</div>
                 </NavLink>
             </header>
 
