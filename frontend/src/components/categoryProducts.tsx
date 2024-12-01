@@ -7,6 +7,7 @@ import {
 } from '@tanstack/react-query'
 import '../categoryProducts.css';
 import { useState } from "react";
+import { Input } from "antd";
 
 interface Product {
     id: number;
@@ -57,18 +58,15 @@ export function ProductsByCategoryAndSubcategory() {
                 </p>
             </div>
             <div className="collection-title-map">
-                <span className="map-item">&lt; Back</span>
-                <span className="map-divider">/</span>
+                
                 <span className="map-item">{capitalizedCategory}</span>
                 <span className="map-divider">/</span>
                 <span className="map-item">{capitalizedSubcategory}</span>
 
-                <input
-                    type="text"
-                    className="search-bar"
+                <Input
                     placeholder="Search..."
                     value={serachTerm}
-                    onChange={handleSearchChange}
+                    onChange={(e) => setSearchTerm(e.target.value)} 
                 />
             </div>
 
