@@ -178,8 +178,9 @@ header {
 .collection {
   display: flex;
   justify-content: center;
-  min-height: 100vh;
-  padding: 2rem;
+  min-height: 100%;
+  padding-top: 2rem;
+  padding-bottom: 4rem;
   background-color: #f9f9f9;
 }
 .main-header {
@@ -286,6 +287,13 @@ header {
       padding-right: 5px;
     }
   }
+}
+
+.latest-products {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 @media (max-width: 768px) {
