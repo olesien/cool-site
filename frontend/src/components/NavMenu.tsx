@@ -4,10 +4,21 @@ import { faBars } from "@fortawesome/free-solid-svg-icons/faBars";
 import { Fragment, useState } from "react";
 import useIsMobile from "@/hooks/useIsMobile";
 import { useQuery } from "@tanstack/react-query";
-import { getCategories } from "@/services/api";
+import { getCategories, getProducts } from "@/services/api";
 import Loading from "./Loading";
+import { Input } from "antd";
+
+
+interface Product {
+    id: number;
+    name: string;
+    price: number;
+    images: { url: string }[];
+}
 
 export function NavMenu() {
+
+
     const [showDropdown, setShowDropdown] = useState(false);
     const [showCats, setShowCats] = useState<{ [key: string]: boolean }>({});
     const isMobile = useIsMobile();
@@ -15,6 +26,18 @@ export function NavMenu() {
         queryKey: ["cats"],
         queryFn: getCategories,
     });
+
+    const { data: allProducts } = useQuery({
+        queryKey: ["products"],
+        queryFn: getProducts,
+    });
+
+    const [searchTerm, setSearchTerm] = useState<string>('');
+
+    const filteredProducts = allProducts?.filter((product: Product) =>
+        product.name.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+
     if (!data) {
         return <Loading />;
     }
@@ -45,6 +68,35 @@ export function NavMenu() {
                             </ul>
                         </div>
                     ))}
+                    <div className="searchBoxInNav">
+                        <Input
+                            placeholder="Search catalogues"
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                        />
+                        {searchTerm && (
+                            <div className="searchResultInNav">
+                                {filteredProducts?.length ? (filteredProducts.map((product: Product) => (
+                                    <div className="searchResultItemInNav" key={product.id}>
+                                        <img src={product.images[0]?.url} alt={product.name} />
+                                        <div>
+                                            <div className="searchResultItemProductNameInNav">
+                                                {product.name}
+                                            </div>
+                                            <div className="searchResultItemProductPriceInNav">
+                                                {product.price}
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))) : (
+                                    <div className="searchResultNoProductsFound">
+                                        No products in our catalogue
+                                    </div>
+                                )
+                                }
+                            </div>
+                        )}
+                    </div>
                 </div>
             )}
             {isMobile && (

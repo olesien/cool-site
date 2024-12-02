@@ -30,6 +30,7 @@ const navigation = [
 ];
 
 export default function Layout() {
+    
     const { isLoggedIn, logout } = useAppContext();
 
     const activeNavLinkStyles = {
@@ -41,7 +42,6 @@ export default function Layout() {
         backgroundColor: "#4A5568", // Hover background color (dark gray)
         color: "#FFFFFF", // Hover text color
     };
-
 
     return (
         <>

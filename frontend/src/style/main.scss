@@ -327,3 +327,115 @@ header {
     font-size: 0.8em;
   }
 }
+
+
+/* css for Category Products pages with its own search bar - salim 02 December 24 */
+
+
+.collection-title-paragraph {
+  font-weight: normal;
+  font-style: normal;
+  padding: 20px; /* Adjust padding for spacing */
+  }
+
+  .discount-text {
+  border: 1px black;
+  padding: 100px; /* Adjust internal padding */
+  width: 100%;
+  margin-bottom: 20px;
+  background-color: rgb(235, 237, 238);
+  box-sizing: border-box;
+  }
+
+  .collection-title-map {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding-left: 20px;
+  margin-bottom: 20px;
+  width: 100%;
+  }
+
+  .search-bar {
+  margin-left: auto;
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  width: 200px;
+  font-size: 14px;
+  }
+  .map-item {
+  padding: 6px;
+  background-color: gray;
+  color: white;
+  border-radius: 30px;
+  font-size: 14px;
+  }
+
+  .map-divider {
+  color: black;
+  font-size: 14px;
+  }
+
+
+/* Css for Search Bar inside Navigation with its pop up box*/
+
+.searchBoxInNav {
+    position: relative;
+    width: 300px;
+}
+
+.searchBoxInNav input {
+    width: 100%;
+}
+
+.searchResultInNav {
+    position: absolute;
+    top: 40px;
+    left: 0;
+    width: 100%;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.searchResultItemInNav {
+    display: flex;
+    align-items: center;
+    padding: 8px;
+    border-bottom: 1px solid #ddd;
+    cursor: pointer;
+}
+
+.searchResultItemInNav:hover {
+    background-color: #fafaee;
+}
+
+.searchResultItemInNav img {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    margin-right: 10px;
+    border-radius: 4px;
+}
+
+.searchResultItemProductNameInNav {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.searchResultItemProductPriceInNav {
+    font-size: 12px;
+    color: gray;
+}
+
+.searchResultNoProductsFound {
+    padding: 10px;
+    text-align: center;
+    color: gray;
+    font-size: 14px;
+}
