@@ -12,6 +12,7 @@ import CategoryModal, { SaveProduct } from "./components/ProductModal";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { Category, SubCategory } from "../categories";
+
 export type ProductImages = {
     id: number;
     name: string;

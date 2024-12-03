@@ -15,6 +15,7 @@ import AdminWrap from "./components/AdminWrap";
 
 import Categories from "./pages/products/categories";
 import { SearchResult } from "./pages/search/searchResult";
+import { GetUserWishlist } from "./components/UserWIshlist";
 export const publicRoutes = createBrowserRouter(
     createRoutesFromElements(
         <Route path="/" element={<Layout />}>
@@ -68,6 +69,16 @@ export const publicRoutes = createBrowserRouter(
                     }
                 />
             </Route>
+
+            <Route
+                path="wishlist/:userId"
+                element={
+                    <Suspense fallback={<></>}>
+                        <GetUserWishlist />
+                    </Suspense>
+                }
+            />
+
             <Route
                 path="/:category/:subcategory"
                 element={

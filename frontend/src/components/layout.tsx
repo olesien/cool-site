@@ -6,6 +6,7 @@ import { faSignIn } from "@fortawesome/free-solid-svg-icons/faSignIn";
 import { faQuestionCircle } from "@fortawesome/free-solid-svg-icons/faQuestionCircle";
 import { faBoxArchive } from "@fortawesome/free-solid-svg-icons/faBoxArchive";
 import { faShirt } from "@fortawesome/free-solid-svg-icons/faShirt";
+import { faHeart } from "@fortawesome/free-regular-svg-icons";
 
 const navigation = [
     {
@@ -14,7 +15,6 @@ const navigation = [
             icon={faHome}
         />
     },
-    // { name: "About", href: "/about", icon={faHome} },
     {
         name: "Log In", href: "/login", icon: <FontAwesomeIcon
             className="icon"
@@ -31,6 +31,7 @@ const navigation = [
 
 export default function Layout() {
     const { user, logout } = useAppContext();
+    console.log(user?.id)
 
     const activeNavLinkStyles = {
         backgroundColor: "#2B6CB0", // Active state background color (blue)
@@ -115,6 +116,23 @@ export default function Layout() {
                                     icon={faShirt}
                                 />
                                 <span>Products</span>
+                            </NavLink>
+                        </>}
+
+                        {!user.admin && <>
+                            <NavLink
+                                to={`/wishlist/${user.id}`}
+                                className="nav-links"
+                                style={({ isActive }) => ({
+                                    ...(isActive ? activeNavLinkStyles : {}),
+                                    ...(!isActive ? hoverNavLinkStyles : {}),
+                                })}
+                            >
+                                <FontAwesomeIcon
+                                    className="icon"
+                                    icon={faHeart}
+                                />
+                                <span>Your Wishlist</span>
                             </NavLink>
                         </>}
                     </>}

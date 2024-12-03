@@ -9,6 +9,7 @@ export type User = {
     id: number;
     username: string;
     password: "",
+    user_role: number;
     admin: boolean
 }
 
@@ -19,8 +20,11 @@ export default function Login() {
     const [loading, setLoading] = useState(false);
 
     if (user) {
-        // Redirect to login if not logged in
-        return <Navigate to="/admin/products" replace />;
+        if (user.user_role == 0) {
+            return <Navigate to="/admin/products" replace />;
+        } else {
+            return <Navigate to="/#" replace />;
+        }
     }
 
 
