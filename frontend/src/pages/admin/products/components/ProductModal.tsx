@@ -135,6 +135,7 @@ export default function ProductModal({ categories, title, onSave, handleClose, i
                                         label={index === 0 ? 'Images' : ''}
                                         required={false}
                                     >
+                                        <span>{index + 1}.</span>
                                         <Form.Item
                                             {...field}
                                             validateTrigger={['onChange', 'onBlur']}
@@ -146,6 +147,7 @@ export default function ProductModal({ categories, title, onSave, handleClose, i
                                                 },
                                             ]}
                                             noStyle
+                                            className={index === 0 ? productstyles.highlightedImage : ""}
                                         >
                                             <Input placeholder="image url" style={{ width: '60%' }} onBlur={(e) => handlePreviewUpdate(String(index), e.target.value)} />
                                         </Form.Item>
