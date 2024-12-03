@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons/faBars";
 import { Fragment, useState } from "react";
@@ -8,16 +8,7 @@ import { getCategories, getProducts } from "@/services/api";
 import Loading from "./Loading";
 import { Input } from "antd";
 
-
-interface Product {
-    id: number;
-    name: string;
-    price: number;
-    images: { url: string }[];
-}
-
 export function NavMenu() {
-
 
     const [showDropdown, setShowDropdown] = useState(false);
     const [showCats, setShowCats] = useState<{ [key: string]: boolean }>({});
@@ -27,16 +18,14 @@ export function NavMenu() {
         queryFn: getCategories,
     });
 
-    const { data: allProducts } = useQuery({
-        queryKey: ["products"],
-        queryFn: getProducts,
-    });
-
     const [searchTerm, setSearchTerm] = useState<string>('');
+    const navigate = useNavigate();
 
-    const filteredProducts = allProducts?.filter((product: Product) =>
-        product.name.toLowerCase().includes(searchTerm.toLowerCase())
-    )
+    const handleSearch = () => {
+        if(searchTerm.trim()){
+            navigate(`/products/search/${searchTerm}`);
+        }
+    }
 
     if (!data) {
         return <Loading />;
@@ -73,29 +62,8 @@ export function NavMenu() {
                             placeholder="Search catalogues"
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
+                            onPressEnter={handleSearch}
                         />
-                        {searchTerm && (
-                            <div className="searchResultInNav">
-                                {filteredProducts?.length ? (filteredProducts.map((product: Product) => (
-                                    <div className="searchResultItemInNav" key={product.id}>
-                                        <img src={product.images[0]?.url} alt={product.name} />
-                                        <div>
-                                            <div className="searchResultItemProductNameInNav">
-                                                {product.name}
-                                            </div>
-                                            <div className="searchResultItemProductPriceInNav">
-                                                {product.price}
-                                            </div>
-                                        </div>
-                                    </div>
-                                ))) : (
-                                    <div className="searchResultNoProductsFound">
-                                        No products in our catalogue
-                                    </div>
-                                )
-                                }
-                            </div>
-                        )}
                     </div>
                 </div>
             )}

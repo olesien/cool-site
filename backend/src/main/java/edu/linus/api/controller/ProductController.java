@@ -96,6 +96,16 @@ public class ProductController {
     return ResponseEntity.ok(dtoProducts); 
     }
 
+    @GetMapping(path= "/search/{searchWord}")
+    public ResponseEntity<List<ProductDTO>> getProductsBySearchWord(
+            @PathVariable String searchWord) {
+        List<Product> products= productRepository.findByNameContainingIgnoreCaseOrderByNameAsc(searchWord);
+
+        List<ProductDTO> dtoProducts = products.stream()
+                .map(ProductDTO::convertToDto)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(dtoProducts);
+    }
 
     @GetMapping(path = "/{id}")
     public ResponseEntity<ProductDTO> getProductByID(@PathVariable Long id){
