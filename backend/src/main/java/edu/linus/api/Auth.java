@@ -109,17 +109,16 @@ public class Auth {
         return sb.toString();
     }
 
-    public static String generateJWT(Environment env, String userId) {
+    public static String generateJWT(Environment env, String userId, Boolean isAdmin) {
         String secret = env.getProperty("jwtsecret");
         assert secret != null;
         Algorithm algorithm = Algorithm.HMAC256(secret);
-        String token = JWT.create()
+        return JWT.create()
                 .withIssuer("auth0")
                 .withSubject(userId)
+                .withClaim("roles", isAdmin ? "admin" : "user")
                 .withExpiresAt(new Date(new Date().getTime() + 24L*60*60*1000)) //24L*60*60*1000 = 1 day
                 .sign(algorithm);
-
-        return token;
     }
 
     static DecodedJWT validateJWT(String token, Environment env) {

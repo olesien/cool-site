@@ -5,12 +5,20 @@ import { Navigate } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 
+export type User = {
+    id: number;
+    username: string;
+    password: "",
+    admin: boolean
+}
+
 export default function Login() {
-    const { login, isLoggedIn } = useAppContext();
+    const { login, user } = useAppContext();
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [loading, setLoading] = useState(false);
 
-    if (isLoggedIn) {
+    if (user) {
         // Redirect to login if not logged in
         return <Navigate to="/admin/products" replace />;
     }
@@ -22,7 +30,8 @@ export default function Login() {
 
         //Get from backend if valid (also comes with cookie for further requests)
         try {
-            const res = await axios.post<{ message: string }>("http://localhost:8080/users/login", { username, password }, {
+            setLoading(true);
+            const res = await axios.post<{ message: string, data: User }>("http://localhost:8080/users/login", { username, password }, {
                 headers: {
                     "Access-Control-Allow-Origin": "*"
                 },
@@ -31,14 +40,20 @@ export default function Login() {
             console.log(res.data);
 
             //Login on frontend
-            if (res.data) {
-                login(username, password);
+            if (res.data && res.data.message === "Success") {
+                login(res.data.data);
             }
+            setLoading(false);
 
         } catch (err: unknown) {
             console.error(err);
+            setLoading(false);
             if (axios.isAxiosError(err)) {
-                toast.error(err.message);
+                if (err.response?.data) {
+                    toast.error(err.response?.data.message);
+                } else {
+                    toast.error(err.message);
+                }
             } else {
                 toast.error("Something went wrong")
             }
@@ -75,8 +90,8 @@ export default function Login() {
                         Forgot Password?
                     </a>
                 </div>
-                <button type="submit" className="btn"
-                    onClick={loggingIn}>Sign in</button>
+                <button type="submit" className="btn" disabled={loading}
+                    onClick={loggingIn}>{loading ? "Signing in..." : "Sign in"}</button>
                 <div className="register-link">
                     <p>
                         Don't have an account? <a href="#">Click here</a>

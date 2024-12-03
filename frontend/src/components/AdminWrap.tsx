@@ -3,8 +3,8 @@ import { Outlet } from "react-router-dom";
 
 //Wraps around every admin page to add some spacing around it
 export default function AdminWrap() {
-    const { isLoggedIn } = useAppContext();
-    if (!isLoggedIn) {
+    const { user } = useAppContext();
+    if (!user) {
         // Redirect to login if not logged in
         //return <Navigate to="/login" replace />;
         return (

@@ -30,7 +30,7 @@ const navigation = [
 ];
 
 export default function Layout() {
-    const { isLoggedIn, logout } = useAppContext();
+    const { user, logout } = useAppContext();
 
     const activeNavLinkStyles = {
         backgroundColor: "#2B6CB0", // Active state background color (blue)
@@ -57,7 +57,7 @@ export default function Layout() {
                 {/* Navigation Links */}
                 <div className="inner-nav">
                     {navigation.map((item) => {
-                        if (item.name === "Log In" && isLoggedIn) { //We want to access login and we are logged in, then change it to Log out
+                        if (item.name === "Log In" && user) { //We want to access login and we are logged in, then change it to Log out
                             return <a
                                 key={item.name}
                                 href="#"
@@ -82,7 +82,7 @@ export default function Layout() {
                             <span>{item.name}</span>
                         </NavLink>
                     })}
-                    {isLoggedIn && <>
+                    {user && <>
                         <NavLink
                             to={'/admin/categories'}
                             className="nav-links"

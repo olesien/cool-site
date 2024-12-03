@@ -217,7 +217,7 @@ export default function ProductModal({ categories, title, onSave, handleClose, i
 
 
                                     </Form.Item>
-                                    {previews[index] && <AntImage
+                                    {!!previews[index] && <AntImage
                                         style={{ borderRadius: '10px' }}
                                         width={"auto"}
                                         height={120}
