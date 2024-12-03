@@ -39,7 +39,7 @@ export default function ProductModal({ categories, title, onSave, handleClose, i
             const images = initialData.images.map(img => img.url);
             form.setFieldsValue({
                 name: initialData.name || '',
-                price: initialData.price || '',
+                price: String(initialData.price || '').replace(",", "."),
                 category: initialData.sub_category.name + "^" + initialData.sub_category.id,
                 images: images
             });
@@ -114,13 +114,13 @@ export default function ProductModal({ categories, title, onSave, handleClose, i
                     name="images"
 
                     rules={[
-                        // {
-                        //     validator: async (_, names) => {
-                        //         if (!names || names.length < 2) {
-                        //             return Promise.reject(new Error('At least 2 passengers'));
-                        //         }
-                        //     },
-                        // },
+                        {
+                            validator: async (_, images) => {
+                                if (images && images.length > 5) {
+                                    return Promise.reject(new Error('Max 5 images allowed'));
+                                }
+                            },
+                        },
                     ]}
                 >
                     {(fields, { add, remove }, { errors }) => (

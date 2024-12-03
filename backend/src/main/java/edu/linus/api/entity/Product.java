@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -21,6 +22,10 @@ public class Product {
     @Column(name = "price")
     private Double price;
 
+    @Column(name = "quantity")
+    private int quantity;
+
+
     @ManyToOne
     @JoinColumn(name = "sub_categories_id")
     @JsonBackReference
@@ -29,6 +34,9 @@ public class Product {
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     @JsonManagedReference
     private List<ProductImage> images;
+
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    private List<UserWishList> wishlists = new ArrayList<>();
 
     public String getName() {
         return name;
@@ -68,5 +76,21 @@ public class Product {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public List<UserWishList> getWishlists() {
+        return wishlists;
+    }
+
+    public void setWishlists(List<UserWishList> wishlists) {
+        this.wishlists = wishlists;
     }
 }

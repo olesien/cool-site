@@ -8,6 +8,7 @@ import edu.linus.api.DTO.ProductDTO;
 import edu.linus.api.entity.Product;
 import edu.linus.api.entity.ProductImage;
 import edu.linus.api.entity.SubCategory;
+import edu.linus.api.entity.Users;
 import edu.linus.api.forms.NewProductForm;
 import edu.linus.api.repository.ProductImageRepository;
 import edu.linus.api.repository.ProductRepository;
@@ -31,6 +32,7 @@ public class ProductController {
     ProductRepository productRepository;
     SubCategoryRepository subCategoryRepository;
     ProductImageRepository productImageRepository;
+
     private final Environment env;
 
     ProductController(ProductRepository productRepository, SubCategoryRepository subCategoryRepository, ProductImageRepository productImageRepository, Environment env) {
@@ -66,6 +68,7 @@ public class ProductController {
                 .collect(Collectors.toList());
         return ResponseEntity.ok(dtoProducts);
     }
+
 
     /*@GetMapping(path= "/{categoryLinkName}/{subCategoryLinkName}")
     public ResponseEntity<List<ProductDTO>> getProductsByCategoryAndSubCategory(
@@ -114,6 +117,10 @@ public class ProductController {
         if (validToken == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("You are not logged in");
         }
+
+        if (productForm.getImages().size() > 5){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Too many images!");
+        }
         Product product = new Product();
         product.setName(productForm.getName());
         product.setPrice(Double.valueOf(productForm.getPrice()));
@@ -143,6 +150,10 @@ public class ProductController {
 
         if (product == null){
             return ResponseEntity.notFound().build();
+        }
+
+        if (productForm.getImages().size() > 5){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Too many images!");
         }
 
         product.setName(productForm.getName());
