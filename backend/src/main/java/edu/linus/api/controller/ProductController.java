@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @CrossOrigin(origins = "http://localhost:3000/", maxAge = 3600, allowCredentials = "true", allowPrivateNetwork = "true")
 @RestController // This means that this class is a Controller
@@ -40,6 +41,19 @@ public class ProductController {
         this.subCategoryRepository = subCategoryRepository;
         this.productImageRepository = productImageRepository;
         this.env = env;
+    }
+
+    private void createImages(@RequestBody NewProductForm productForm, Product product) {
+        List<ProductImage> images = IntStream.range(0, productForm.getImages().size())
+                .mapToObj(index -> {
+                    ProductImage productImage = new ProductImage();
+                    productImage.setProduct(product);
+                    productImage.setUrl(productForm.getImages().get(index));
+                    productImage.setDisplay_order(index + 1); // index starts from 0, so add 1
+                    return productImage;
+                })
+                .toList();
+        productImageRepository.saveAll(images);
     }
 
     @GetMapping(path = "/all")
@@ -134,13 +148,7 @@ public class ProductController {
 
         //Create images based on the created product
 
-        List<ProductImage> images = productForm.getImages().stream().map(imgUrl -> {
-            ProductImage productImage = new ProductImage();
-            productImage.setProduct(productSave);
-            productImage.setUrl(imgUrl);
-            return productImage;
-        }).toList();
-        productImageRepository.saveAll(images);
+        createImages(productForm, productSave);
         return ResponseEntity.status(HttpStatus.CREATED).body("Successfully added");
     }
 
@@ -170,13 +178,7 @@ public class ProductController {
         //Ideally, it checks only for those that have been added or removed, however to keep it easy, all are removed and readded.
         productImageRepository.deleteByProductId(id);
 
-        List<ProductImage> images = productForm.getImages().stream().map(imgUrl -> {
-            ProductImage productImage = new ProductImage();
-            productImage.setProduct(product);
-            productImage.setUrl(imgUrl);
-            return productImage;
-        }).toList();
-        productImageRepository.saveAll(images);
+        createImages(productForm, product);
         return ResponseEntity.ok("Successfully updated");
     }
 
