@@ -1,6 +1,7 @@
 package edu.linus.api.controller;
 
 
+import edu.linus.api.DTO.UserDTO;
 import edu.linus.api.entity.Users;
 import edu.linus.api.forms.LoginForm;
 import edu.linus.api.models.ApiResponse;
@@ -14,8 +15,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
+import java.util.Optional;
 
 import static edu.linus.api.Auth.generateJWT;
+import static edu.linus.api.Auth.hashPassword;
 
 @CrossOrigin(origins = "http://localhost:3000/", maxAge = 3600, allowCredentials = "true", allowPrivateNetwork = "true")
 @RestController // This means that this class is a Controller
@@ -63,37 +66,31 @@ public class UsersController {
 
     @PostMapping(path="/login") // Map ONLY POST Requests
     public @ResponseBody ResponseEntity<ApiResponse<Object>> login (HttpServletResponse response, @RequestBody LoginForm loginForm) throws NoSuchAlgorithmException {
-//        String hashedPassword = hashPassword(loginForm.getPassword(), env);
-//
-//        Optional<Users> user = userRepository.findByEmail(loginForm.getEmail());
-//
-//        if (user.isPresent()) {
-//            Users newUser = user.get();
-//            if (newUser.getPassword().equals(hashedPassword)) {
-//                //Exists
-//                String jwt = generateJWT(env, newUser.getId().toString());
-//                // Set HttpOnly cookie
-//                System.out.println(jwt);
-//                response.addCookie(makeSecureCookie(jwt));
-//                System.out.println("Added cookie");
-//
-//                return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse<>("Success", new UserWithJWT(newUser.getId(), newUser.getName(), newUser.getEmail(), jwt)));
-//            } else {
-//                //403; Passwords do not match
-//                return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new ApiResponse<>("Passwords do not match", null));
-//
-//            }
-//        } else {
-//            //404 not found
-//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse<>("Not Found", null));
-//        }
-        String jwt = generateJWT(env, String.valueOf(1));
-        // Set HttpOnly cookie
-        System.out.println(jwt);
-        response.addCookie(makeSecureCookie(jwt));
-        System.out.println("Added cookie");
+        //String hashedPassword = hashPassword(loginForm.getPassword(), env);
+        String hashedPassword = loginForm.getPassword(); //For now, we skip hashing. Uncomment above line and comment this one to enable hashing
 
-        return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse<>("Success", null));
+        Optional<Users> user = usersRepository.findByUsername(loginForm.getUsername());
+
+        if (user.isPresent()) {
+            Users newUser = user.get();
+            if (newUser.getPassword().equals(hashedPassword)) {
+                //Exists
+                Boolean isAdmin = newUser.getUser_role() == 0;
+                String jwt = generateJWT(env, newUser.getId().toString(), isAdmin);
+                // Set HttpOnly cookie
+                System.out.println(jwt);
+                response.addCookie(makeSecureCookie(jwt));
+                System.out.println("Added cookie");
+                return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse<>("Success", new UserDTO(newUser.getId(), newUser.getUsername(), "", isAdmin)));
+            } else {
+                //403; Passwords do not match
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new ApiResponse<>("Passwords do not match", null));
+
+            }
+        }
+            //404 not found
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse<>("No user found with given name and password", null));
+
     }
 
 

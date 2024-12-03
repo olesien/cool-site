@@ -60,7 +60,11 @@ export default function Categories() {
         } catch (err: unknown) {
             console.error(err);
             if (axios.isAxiosError(err)) {
-                toast.error(err.message);
+                if (err.response?.data) {
+                    toast.error(String(err.response?.data));
+                } else {
+                    toast.error(err.message);
+                }
             } else {
                 toast.error("Something went wrong")
             }
@@ -86,7 +90,11 @@ export default function Categories() {
         } catch (err: unknown) {
             console.error(err);
             if (axios.isAxiosError(err)) {
-                toast.error(err.message);
+                if (err.response?.data) {
+                    toast.error(String(err.response?.data));
+                } else {
+                    toast.error(err.message);
+                }
             } else {
                 toast.error("Something went wrong")
             }
@@ -111,7 +119,11 @@ export default function Categories() {
         } catch (err: unknown) {
             console.error(err);
             if (axios.isAxiosError(err)) {
-                toast.error(err.message);
+                if (err.response?.data) {
+                    toast.error(String(err.response?.data));
+                } else {
+                    toast.error(err.message);
+                }
             } else {
                 toast.error("Something went wrong")
             }
@@ -135,7 +147,11 @@ export default function Categories() {
         } catch (err: unknown) {
             console.error(err);
             if (axios.isAxiosError(err)) {
-                toast.error(err.message);
+                if (err.response?.data) {
+                    toast.error(String(err.response?.data));
+                } else {
+                    toast.error(err.message);
+                }
             } else {
                 toast.error("Something went wrong")
             }
@@ -157,7 +173,11 @@ export default function Categories() {
         } catch (err: unknown) {
             console.error(err);
             if (axios.isAxiosError(err)) {
-                toast.error(err.message);
+                if (err.response?.data) {
+                    toast.error(String(err.response?.data));
+                } else {
+                    toast.error(err.message);
+                }
             } else {
                 toast.error("Something went wrong")
             }
