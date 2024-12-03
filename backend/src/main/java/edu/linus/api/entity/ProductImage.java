@@ -2,6 +2,7 @@ package edu.linus.api.entity;
 
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 
 @Entity
@@ -17,7 +18,8 @@ public class ProductImage {
 
 
     @Column(name = "display_order")
-    private int display_order;
+    @Nullable
+    private Integer display_order;
 
     @ManyToOne
     @JoinColumn(name = "products_id")
@@ -48,11 +50,11 @@ public class ProductImage {
         this.product = product;
     }
 
-    public int getDisplay_order() {
+    public Integer getDisplay_order() {
         return display_order;
     }
 
-    public void setDisplay_order(int display_order) {
+    public void setDisplay_order(Integer display_order) {
         this.display_order = display_order;
     }
 
