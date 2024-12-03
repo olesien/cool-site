@@ -40,6 +40,7 @@ export default function Products() {
         setShowAddProduct(false);
         console.log(data);
         const split = data.category.split("^");
+        console.log(data.quantity);
         if (split.length < 2) {
             return toast.error("The category must be selected");
         }
@@ -67,6 +68,7 @@ export default function Products() {
 
     const saveEditProduct = async (data: { old: Product, new: SaveProduct }) => {
         setEditProduct(null);
+        console.log("Submitted quantity:", data.old.quantity, data.new.quantity);
         console.log(data);
         const split = data.new.category.split("^");
         if (split.length < 2) {

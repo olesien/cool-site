@@ -8,7 +8,7 @@ import { faChevronUp } from "@fortawesome/free-solid-svg-icons/faChevronUp";
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons/faChevronDown";
 import productstyles from "../product.module.scss";
 import { Product } from '..';
-export type SaveProduct = { name: string; price: number; category: string, images: string[] };
+export type SaveProduct = { name: string; price: number; quantity: number; category: string, images: string[] };
 const formItemLayout = {
     labelCol: {
         xs: { span: 24 },
@@ -34,11 +34,13 @@ export default function ProductModal({ categories, title, onSave, handleClose, i
 
     useEffect(() => {
         if (initialData) {
+            console.log("Intial quantity ", initialData.quantity);
             // Update form values when initialData changes
             const images = initialData.images.map(img => img.url);
             form.setFieldsValue({
                 name: initialData.name || '',
                 price: String(initialData.price || '').replace(",", "."),
+                quantity: String(initialData.quantity || ''),
                 category: initialData.sub_category.name + "^" + initialData.sub_category.id,
                 images: images
             });
@@ -105,10 +107,34 @@ export default function ProductModal({ categories, title, onSave, handleClose, i
                         required: true,
                         message: 'Please input the price!',
                         min: 0
+                    },
+                    {
+                        validator: (_, value) =>
+                            value < 0
+                                ? Promise.reject(new Error('Price must be 0 or more!'))
+                                : Promise.resolve(),
                     }]}
                 >
                     <Input placeholder="Enter price" type='number' />
                 </Form.Item>
+
+                <Form.Item
+                    name="quantity"
+                    label="Quantity"
+                    rules={[{
+                        required: true,
+                        message: 'Please input the quantity!',
+                    },
+                    {
+                        validator: (_, value) =>
+                            value < 0
+                                ? Promise.reject(new Error('Quantity must be 0 or more!'))
+                                : Promise.resolve(),
+                    }]}
+                >
+                    <Input placeholder="Enter quantity" type='number' />
+                </Form.Item>
+
                 <Form.List
                     name="images"
 
