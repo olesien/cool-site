@@ -43,5 +43,34 @@
 }
 
 .highlightedImage {
-    background-color: rgba(0, 0, 0, 0.1);
+    background-color: rgba(12, 216, 80, 0.1);
+}
+
+.field {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem;
+    padding-right: 1rem;
+    border-radius: 5px;
+    gap: 10px;
+}
+
+.upDown {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+
+    .chevronIcon {
+        font-size: 16px;
+        :hover {
+            cursor: pointer;
+            color: colors.$lightblue;
+        }
+    }
+    .chevronIconDisabled {
+        font-size: 16px;
+        color: colors.$gray;
+    }
 }
