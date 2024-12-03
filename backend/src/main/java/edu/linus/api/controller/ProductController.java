@@ -2,12 +2,14 @@ package edu.linus.api.controller;
 import java.util.List;
 
 
+import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import edu.linus.api.Auth;
 import edu.linus.api.DTO.ProductDTO;
 import edu.linus.api.entity.Product;
 import edu.linus.api.entity.ProductImage;
 import edu.linus.api.entity.SubCategory;
+import edu.linus.api.entity.Users;
 import edu.linus.api.forms.NewProductForm;
 import edu.linus.api.repository.ProductImageRepository;
 import edu.linus.api.repository.ProductRepository;
@@ -19,8 +21,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @CrossOrigin(origins = "http://localhost:3000/", maxAge = 3600, allowCredentials = "true", allowPrivateNetwork = "true")
 @RestController // This means that this class is a Controller
@@ -31,6 +35,7 @@ public class ProductController {
     ProductRepository productRepository;
     SubCategoryRepository subCategoryRepository;
     ProductImageRepository productImageRepository;
+
     private final Environment env;
 
     ProductController(ProductRepository productRepository, SubCategoryRepository subCategoryRepository, ProductImageRepository productImageRepository, Environment env) {
@@ -38,6 +43,19 @@ public class ProductController {
         this.subCategoryRepository = subCategoryRepository;
         this.productImageRepository = productImageRepository;
         this.env = env;
+    }
+
+    private void createImages(@RequestBody NewProductForm productForm, Product product) {
+        List<ProductImage> images = IntStream.range(0, productForm.getImages().size())
+                .mapToObj(index -> {
+                    ProductImage productImage = new ProductImage();
+                    productImage.setProduct(product);
+                    productImage.setUrl(productForm.getImages().get(index));
+                    productImage.setDisplay_order(index + 1); // index starts from 0, so add 1
+                    return productImage;
+                })
+                .toList();
+        productImageRepository.saveAll(images);
     }
 
     @GetMapping(path = "/all")
@@ -66,6 +84,7 @@ public class ProductController {
                 .collect(Collectors.toList());
         return ResponseEntity.ok(dtoProducts);
     }
+
 
     /*@GetMapping(path= "/{categoryLinkName}/{subCategoryLinkName}")
     public ResponseEntity<List<ProductDTO>> getProductsByCategoryAndSubCategory(
@@ -124,6 +143,15 @@ public class ProductController {
         if (validToken == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("You are not logged in");
         }
+        Claim role = validToken.getClaim("roles");
+
+        if (!Objects.equals(role.asString(), "admin")) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("You are not admin!");
+        }
+
+        if (productForm.getImages().size() > 5){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Too many images!");
+        }
         Product product = new Product();
         product.setName(productForm.getName());
         product.setPrice(Double.valueOf(productForm.getPrice()));
@@ -137,13 +165,7 @@ public class ProductController {
 
         //Create images based on the created product
 
-        List<ProductImage> images = productForm.getImages().stream().map(imgUrl -> {
-            ProductImage productImage = new ProductImage();
-            productImage.setProduct(productSave);
-            productImage.setUrl(imgUrl);
-            return productImage;
-        }).toList();
-        productImageRepository.saveAll(images);
+        createImages(productForm, productSave);
         return ResponseEntity.status(HttpStatus.CREATED).body("Successfully added");
     }
 
@@ -153,6 +175,10 @@ public class ProductController {
 
         if (product == null){
             return ResponseEntity.notFound().build();
+        }
+
+        if (productForm.getImages().size() > 5){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Too many images!");
         }
 
         product.setName(productForm.getName());
@@ -169,13 +195,7 @@ public class ProductController {
         //Ideally, it checks only for those that have been added or removed, however to keep it easy, all are removed and readded.
         productImageRepository.deleteByProductId(id);
 
-        List<ProductImage> images = productForm.getImages().stream().map(imgUrl -> {
-            ProductImage productImage = new ProductImage();
-            productImage.setProduct(product);
-            productImage.setUrl(imgUrl);
-            return productImage;
-        }).toList();
-        productImageRepository.saveAll(images);
+        createImages(productForm, product);
         return ResponseEntity.ok("Successfully updated");
     }
 
