@@ -1,7 +1,7 @@
 package edu.linus.api.repository;
 
 import edu.linus.api.models.EncryptedMessages;
-import edu.linus.api.models.Users;
+import edu.linus.api.models.Users21;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.repository.CrudRepository;
@@ -14,9 +14,9 @@ import java.util.Optional;
 
 public interface EncryptedMessagesRepository extends CrudRepository<EncryptedMessages, Integer> {
 
-    ArrayList<EncryptedMessages> findAllByUserOrderByIdAsc(Users user);
+    ArrayList<EncryptedMessages> findAllByUserOrderByIdAsc(Users21 user);
 
-    Optional<EncryptedMessages> findByIdAndUser(int messageId, Users validUser);
+    Optional<EncryptedMessages> findByIdAndUser(int messageId, Users21 validUser);
 
     @Transactional
     @Modifying

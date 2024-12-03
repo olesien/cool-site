@@ -6,7 +6,7 @@ import edu.linus.api.forms.EncryptedMessageForm;
 import edu.linus.api.forms.LoginForm;
 import edu.linus.api.repository.EncryptedMessagesRepository;
 import edu.linus.api.forms.RegisterForm;
-import edu.linus.api.repository.UserRepository;
+import edu.linus.api.repository.User21Repository;
 import edu.linus.api.models.*;
 import edu.linus.api.repository.CategoryRepository;
 import jakarta.servlet.http.Cookie;
@@ -27,13 +27,13 @@ import static edu.linus.api.Auth.*;
 @RestController // This means that this class is a Controller
 @RequestMapping(path="/users") // This means URL's start with /demo (after Application path)
 public class UserController {
-    private final UserRepository userRepository;
+    private final User21Repository userRepository;
     private final EncryptedMessagesRepository encryptedMessagesRepository;
     private final Environment env;
     @Autowired
     private CategoryRepository categoryRepository;
 
-    UserController(UserRepository userRepository, EncryptedMessagesRepository encryptedMessagesRepository, Environment env) {
+    UserController(User21Repository userRepository, EncryptedMessagesRepository encryptedMessagesRepository, Environment env) {
         this.userRepository = userRepository;
         this.encryptedMessagesRepository = encryptedMessagesRepository;
         this.env = env;
@@ -57,11 +57,11 @@ public class UserController {
 
     @PostMapping(path="/register") // Map ONLY POST Requests
     public @ResponseBody ResponseEntity<ApiResponse<Object>> register (HttpServletResponse response, @RequestBody RegisterForm registerForm) throws NoSuchAlgorithmException {
-        Users n = new Users();
+        Users21 n = new Users21();
         n.setName(registerForm.getName());
         n.setEmail(registerForm.getEmail());
         n.setPassword(hashPassword(registerForm.getPassword(), env));
-        Users savedUser = userRepository.save(n);
+        Users21 savedUser = userRepository.save(n);
         String jwt = generateJWT(env, savedUser.getId().toString());
 
         // Set HttpOnly cookie
@@ -120,10 +120,10 @@ public class UserController {
 
         DecodedJWT validToken = Auth.extractTokenFromCookie(request.getCookies(), env);
         if (validToken != null) {
-            Optional<Users> user = userRepository.findById(Integer.valueOf(validToken.getSubject()));
+            Optional<Users21> user = userRepository.findById(Integer.valueOf(validToken.getSubject()));
             //User not found
             if (user.isPresent()) {
-                Users validUser = user.get();
+                Users21 validUser = user.get();
                 return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse<>("Success!", encryptedMessagesRepository.findAllByUserOrderByIdAsc(validUser).stream().map(message -> {
                     message.setTitle(decrypt(message.getTitle(), salt, encryptionSecret));
                     message.setMessage(decrypt(message.getMessage(), salt, encryptionSecret));
@@ -147,9 +147,9 @@ public class UserController {
         String salt = env.getProperty("salt");
         String encryptionSecret = env.getProperty("encryptionsecret");
         if (validToken != null) {
-            Optional<Users> user = userRepository.findById(Integer.valueOf(validToken.getSubject()));
+            Optional<Users21> user = userRepository.findById(Integer.valueOf(validToken.getSubject()));
             if (user.isPresent()) {
-                Users validUser = user.get();
+                Users21 validUser = user.get();
                 EncryptedMessages encryptedMessage = new EncryptedMessages();
                 encryptedMessage.setTitle(encrypt(encryptedMessageForm.getTitle(), salt, encryptionSecret));
                 encryptedMessage.setMessage(encrypt(encryptedMessageForm.getMessage(), salt, encryptionSecret));
@@ -168,9 +168,9 @@ public class UserController {
         String salt = env.getProperty("salt");
         String encryptionSecret = env.getProperty("encryptionsecret");
         if (validToken != null) {
-            Optional<Users> user = userRepository.findById(Integer.valueOf(validToken.getSubject()));
+            Optional<Users21> user = userRepository.findById(Integer.valueOf(validToken.getSubject()));
             if (user.isPresent()) {
-                Users validUser = user.get();
+                Users21 validUser = user.get();
                 encryptedMessage.setUser(validUser); //Make sure a user can't fake as another user.
                 encryptedMessage.setTitle(encrypt(encryptedMessage.getTitle(), salt, encryptionSecret));
                 encryptedMessage.setMessage(encrypt(encryptedMessage.getMessage(), salt, encryptionSecret));
@@ -186,9 +186,9 @@ public class UserController {
     public @ResponseBody ResponseEntity<ApiResponse<Object>> removeEncryptedMessage(HttpServletRequest request, @PathVariable("id") int messageId) {
         DecodedJWT validToken = Auth.extractTokenFromCookie(request.getCookies(), env);
         if (validToken != null) {
-            Optional<Users> user = userRepository.findById(Integer.valueOf(validToken.getSubject()));
+            Optional<Users21> user = userRepository.findById(Integer.valueOf(validToken.getSubject()));
             if (user.isPresent()) {
-                Users validUser = user.get();
+                Users21 validUser = user.get();
                 Optional<EncryptedMessages> encryptedMessage = encryptedMessagesRepository.findByIdAndUser(messageId, validUser);
                 if (encryptedMessage.isPresent()) {
                     encryptedMessagesRepository.delete(encryptedMessage.get());
@@ -208,9 +208,9 @@ public class UserController {
     public @ResponseBody ResponseEntity<ApiResponse<Object>> deleteUser(HttpServletRequest request) {
         DecodedJWT validToken = Auth.extractTokenFromCookie(request.getCookies(), env);
         if (validToken != null) {
-            Optional<Users> user = userRepository.findById(Integer.valueOf(validToken.getSubject()));
+            Optional<Users21> user = userRepository.findById(Integer.valueOf(validToken.getSubject()));
             if (user.isPresent()) {
-                Users validUser = user.get();
+                Users21 validUser = user.get();
                 encryptedMessagesRepository.deleteAllByUserId(validUser.getId());
                 userRepository.delete(validUser);
                 return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse<>("Success!", null));

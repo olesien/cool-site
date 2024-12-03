@@ -13,7 +13,7 @@ public class EncryptedMessages {
 
     @ManyToOne
     @JoinColumn(name = "userid")
-    private Users user;
+    private Users21 user;
 
     private String title;
 
@@ -30,11 +30,11 @@ public class EncryptedMessages {
         this.id = id;
     }
 
-    public Users getUser() {
+    public Users21 getUser() {
         return user;
     }
 
-    public void setUser(Users user) {
+    public void setUser(Users21 user) {
         this.user = user;
     }
 
