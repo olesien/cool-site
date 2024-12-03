@@ -114,6 +114,10 @@ public class ProductController {
         if (validToken == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("You are not logged in");
         }
+
+        if (productForm.getImages().size() > 5){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Too many images!");
+        }
         Product product = new Product();
         product.setName(productForm.getName());
         product.setPrice(Double.valueOf(productForm.getPrice()));
@@ -143,6 +147,10 @@ public class ProductController {
 
         if (product == null){
             return ResponseEntity.notFound().build();
+        }
+
+        if (productForm.getImages().size() > 5){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Too many images!");
         }
 
         product.setName(productForm.getName());
