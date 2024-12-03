@@ -5,7 +5,6 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import edu.linus.api.models.Users;
 import jakarta.servlet.http.Cookie;
 import org.springframework.core.env.Environment;
 

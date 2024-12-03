@@ -8,6 +8,7 @@ import edu.linus.api.DTO.ProductDTO;
 import edu.linus.api.entity.Product;
 import edu.linus.api.entity.ProductImage;
 import edu.linus.api.entity.SubCategory;
+import edu.linus.api.entity.Users;
 import edu.linus.api.forms.NewProductForm;
 import edu.linus.api.repository.ProductImageRepository;
 import edu.linus.api.repository.ProductRepository;
@@ -31,6 +32,7 @@ public class ProductController {
     ProductRepository productRepository;
     SubCategoryRepository subCategoryRepository;
     ProductImageRepository productImageRepository;
+
     private final Environment env;
 
     ProductController(ProductRepository productRepository, SubCategoryRepository subCategoryRepository, ProductImageRepository productImageRepository, Environment env) {
@@ -66,6 +68,7 @@ public class ProductController {
                 .collect(Collectors.toList());
         return ResponseEntity.ok(dtoProducts);
     }
+
 
     /*@GetMapping(path= "/{categoryLinkName}/{subCategoryLinkName}")
     public ResponseEntity<List<ProductDTO>> getProductsByCategoryAndSubCategory(
