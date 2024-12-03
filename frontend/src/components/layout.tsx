@@ -30,7 +30,7 @@ const navigation = [
 ];
 
 export default function Layout() {
-    const { isLoggedIn, logout } = useAppContext();
+    const { user, logout } = useAppContext();
 
     const activeNavLinkStyles = {
         backgroundColor: "#2B6CB0", // Active state background color (blue)
@@ -41,7 +41,6 @@ export default function Layout() {
         backgroundColor: "#4A5568", // Hover background color (dark gray)
         color: "#FFFFFF", // Hover text color
     };
-
 
     return (
         <>
@@ -57,7 +56,7 @@ export default function Layout() {
                 {/* Navigation Links */}
                 <div className="inner-nav">
                     {navigation.map((item) => {
-                        if (item.name === "Log In" && isLoggedIn) { //We want to access login and we are logged in, then change it to Log out
+                        if (item.name === "Log In" && user) { //We want to access login and we are logged in, then change it to Log out
                             return <a
                                 key={item.name}
                                 href="#"
@@ -82,37 +81,42 @@ export default function Layout() {
                             <span>{item.name}</span>
                         </NavLink>
                     })}
-                    {isLoggedIn && <>
-                        <NavLink
-                            to={'/admin/categories'}
-                            className="nav-links"
-                            style={({ isActive }) => ({
-                                ...(isActive ? activeNavLinkStyles : {}),
-                                ...(!isActive ? hoverNavLinkStyles : {}),
-                            })}
-                        >
-                            <FontAwesomeIcon
-                                className="icon"
-                                icon={faBoxArchive}
-                            />
-                            <span>Categories</span>
-                        </NavLink>
+                    {!!user && <>
 
-                        <NavLink
+                        {/* Add favorite page link here*/}
 
-                            to={'/admin/products'}
-                            className="nav-links"
-                            style={({ isActive }) => ({
-                                ...(isActive ? activeNavLinkStyles : {}),
-                                ...(!isActive ? hoverNavLinkStyles : {}),
-                            })}
-                        >
-                            <FontAwesomeIcon
-                                className="icon"
-                                icon={faShirt}
-                            />
-                            <span>Products</span>
-                        </NavLink>
+                        {user.admin && <>
+                            <NavLink
+                                to={'/admin/categories'}
+                                className="nav-links"
+                                style={({ isActive }) => ({
+                                    ...(isActive ? activeNavLinkStyles : {}),
+                                    ...(!isActive ? hoverNavLinkStyles : {}),
+                                })}
+                            >
+                                <FontAwesomeIcon
+                                    className="icon"
+                                    icon={faBoxArchive}
+                                />
+                                <span>Categories</span>
+                            </NavLink>
+
+                            <NavLink
+
+                                to={'/admin/products'}
+                                className="nav-links"
+                                style={({ isActive }) => ({
+                                    ...(isActive ? activeNavLinkStyles : {}),
+                                    ...(!isActive ? hoverNavLinkStyles : {}),
+                                })}
+                            >
+                                <FontAwesomeIcon
+                                    className="icon"
+                                    icon={faShirt}
+                                />
+                                <span>Products</span>
+                            </NavLink>
+                        </>}
                     </>}
                 </div>
             </nav>

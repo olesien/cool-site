@@ -1,13 +1,15 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons/faBars";
 import { Fragment, useState } from "react";
 import useIsMobile from "@/hooks/useIsMobile";
 import { useQuery } from "@tanstack/react-query";
-import { getCategories } from "@/services/api";
+import { getCategories, getProducts } from "@/services/api";
 import Loading from "./Loading";
+import { Input } from "antd";
 
 export function NavMenu() {
+
     const [showDropdown, setShowDropdown] = useState(false);
     const [showCats, setShowCats] = useState<{ [key: string]: boolean }>({});
     const isMobile = useIsMobile();
@@ -15,6 +17,16 @@ export function NavMenu() {
         queryKey: ["cats"],
         queryFn: getCategories,
     });
+
+    const [searchTerm, setSearchTerm] = useState<string>('');
+    const navigate = useNavigate();
+
+    const handleSearch = () => {
+        if(searchTerm.trim()){
+            navigate(`/products/search/${searchTerm}`);
+        }
+    }
+
     if (!data) {
         return <Loading />;
     }
@@ -45,6 +57,14 @@ export function NavMenu() {
                             </ul>
                         </div>
                     ))}
+                    <div className="searchBoxInNav">
+                        <Input
+                            placeholder="Search catalogues"
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                            onPressEnter={handleSearch}
+                        />
+                    </div>
                 </div>
             )}
             {isMobile && (
