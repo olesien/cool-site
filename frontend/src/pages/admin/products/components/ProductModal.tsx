@@ -153,7 +153,8 @@ export default function ProductModal({ categories, title, onSave, handleClose, i
                                         label={index === 0 ? 'Images' : ''}
                                         required={false}
                                     >
-                                        <div className={index === 0 ? `${productstyles.highlightedImage} ${productstyles.field}` : productstyles.field}
+                                        {index === 0 ? <h3 className={productstyles.title}>Huvudbild</h3> : index === 1 ? <h3 className={productstyles.title}>Underbilder:</h3> : <></>}
+                                        <div className={productstyles.field}
                                         >
                                             <div className={productstyles.upDown}>
                                                 <div className={index == 0 ? productstyles.chevronIconDisabled : productstyles.chevronIcon}
@@ -231,6 +232,7 @@ export default function ProductModal({ categories, title, onSave, handleClose, i
                             <Form.Item>
                                 <Button
                                     type="dashed"
+                                    disabled={fields.length >= 5}
                                     onClick={() => add()}
                                     style={{ width: '60%' }}
                                     icon={<FontAwesomeIcon

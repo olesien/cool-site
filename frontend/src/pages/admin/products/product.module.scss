@@ -42,10 +42,6 @@
     margin-bottom: 10px;
 }
 
-.highlightedImage {
-    background-color: rgba(12, 216, 80, 0.1);
-}
-
 .field {
     display: flex;
     align-items: center;
@@ -73,4 +69,8 @@
         font-size: 16px;
         color: colors.$gray;
     }
+}
+
+.title {
+    padding-bottom: 0.5rem;
 }
