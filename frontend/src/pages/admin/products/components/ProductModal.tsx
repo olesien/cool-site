@@ -23,11 +23,9 @@ export default function ProductModal({ categories, title, onSave, handleClose, i
     const [form] = Form.useForm();
     //below code is to allow for previews
     const [previews, setPreviews] = useState<{ [key: string]: string }>({});
-
     const handlePreviewUpdate = (index: string, value: string) => {
         setPreviews((prev) => ({ ...prev, [index]: value }));
     };
-    console.log(categories);
     const handleSave = (values: SaveProduct) => {
         // Basic validation happens automatically via rules
         onSave(values); // Pass the validated form data
@@ -35,7 +33,6 @@ export default function ProductModal({ categories, title, onSave, handleClose, i
 
 
     useEffect(() => {
-        console.log(initialData);
         if (initialData) {
             // Update form values when initialData changes
             const images = initialData.images.map(img => img.url);
@@ -145,15 +142,11 @@ export default function ProductModal({ categories, title, onSave, handleClose, i
                                     images: newFields.map(field => form.getFieldValue(['images', field.name]))
                                 });
                             }
-                            console.log(newFields);
                             //Rerender previews
                             setPreviews(newFields.reduce((obj, field) => ({ ...obj, [field.key]: form.getFieldValue(['images', field.name]) }), {}));
                         };
                         return <>
                             {fields.map((field, index) => {
-                                console.log(form.getFieldValue(['images', field.name]));
-                                console.log(form.getFieldValue("images"));
-                                console.log(field.name);
                                 return <div className={productstyles.ImageContainer} key={field.key}>
                                     <Form.Item
                                         {...(formItemLayout)}
@@ -166,7 +159,6 @@ export default function ProductModal({ categories, title, onSave, handleClose, i
                                                 <div className={index == 0 ? productstyles.chevronIconDisabled : productstyles.chevronIcon}
                                                     onClick={() => {
                                                         if (index == 0) return;
-                                                        console.log("up");
                                                         moveField(index, "up");
                                                     }}>
                                                     <FontAwesomeIcon
@@ -177,7 +169,6 @@ export default function ProductModal({ categories, title, onSave, handleClose, i
                                                 <div className={index == (fields.length - 1) ? productstyles.chevronIconDisabled : productstyles.chevronIcon}
                                                     onClick={() => {
                                                         if (index == fields.length - 1) return;
-                                                        console.log("down");
                                                         moveField(index, "down");
                                                     }}>
                                                     <FontAwesomeIcon
