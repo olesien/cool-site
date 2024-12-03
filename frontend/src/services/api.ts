@@ -87,3 +87,15 @@ export const getLatestProducts = async () => {
     return response.data;
 }
 
+export const getFilteredProducts = async (quantity: number) => {
+    const response = await axios.get<Product[]>(
+        `${base_url}/products/filter?maxQuantity=${quantity}`, // Correct query parameter name
+        {
+            headers: {
+                "Access-Control-Allow-Origin": "*"
+            },
+            withCredentials: true
+        }
+    );
+    return response.data;
+};
