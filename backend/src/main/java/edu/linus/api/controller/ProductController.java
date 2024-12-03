@@ -145,7 +145,8 @@ public class ProductController {
         Product product = new Product();
         product.setName(productForm.getName());
         product.setPrice(Double.valueOf(productForm.getPrice()));
-
+        product.setQuantity(Integer.parseInt(productForm.getQuantity()));
+        
         Optional<SubCategory> subcat = subCategoryRepository.findById(productForm.getCategoryId());
         if (subcat.isEmpty() ) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("The category could not be found");
@@ -173,6 +174,7 @@ public class ProductController {
 
         product.setName(productForm.getName());
         product.setPrice(Double.valueOf(productForm.getPrice()));
+        product.setQuantity(Integer.parseInt(productForm.getQuantity()));
 
         Optional<SubCategory> subcat = subCategoryRepository.findById(productForm.getCategoryId());
         if (subcat.isEmpty() ) {

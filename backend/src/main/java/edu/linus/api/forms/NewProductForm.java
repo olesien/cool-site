@@ -9,6 +9,8 @@ public class NewProductForm {
 
     String price;
 
+    String quantity;
+
     List<String> images;
 
     public Long getCategoryId() {
@@ -33,6 +35,14 @@ public class NewProductForm {
 
     public void setPrice(String price) {
         this.price = price;
+    }
+
+    public String getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(String quantity) {
+        this.quantity = quantity;
     }
 
     public List<String> getImages() {

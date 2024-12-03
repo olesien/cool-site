@@ -25,7 +25,6 @@ public class Product {
     @Column(name = "quantity")
     private int quantity;
 
-
     @ManyToOne
     @JoinColumn(name = "sub_categories_id")
     @JsonBackReference
