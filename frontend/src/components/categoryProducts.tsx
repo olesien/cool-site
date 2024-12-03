@@ -10,6 +10,7 @@ interface Product {
     id: number;
     name: string;
     price: number;
+    quantity: number;
     images: { url: string }[];
 }
 
@@ -40,6 +41,7 @@ export function ProductsByCategoryAndSubcategory() {
                             name={product.name}
                             price={product.price}
                             image={product.images[0]?.url ?? ""}
+                            quantity={product.quantity}
                         />
                     </div>
                 ))}
