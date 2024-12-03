@@ -45,7 +45,19 @@ export const getProductsByCategoryAndSubcategoryy = async (category: string, sub
     return response.data;
 }
 
-
+export const searchProducts = async (searchWord: string) => {
+    const response = await axios.get<Product[]>(
+        `${base_url}/products/search/${searchWord}`,
+        {
+            headers: {
+                "Access-Control-Allow-Origin": "*"
+            },
+            withCredentials: true
+        }
+    )
+    console.log(response.data);
+    return response.data;
+}
 
 
 export const getProducts = async () => {

@@ -42,7 +42,6 @@ export default function Layout() {
         color: "#FFFFFF", // Hover text color
     };
 
-
     return (
         <>
             {/* Eye-catching Header */}
