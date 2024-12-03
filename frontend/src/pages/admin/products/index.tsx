@@ -21,6 +21,7 @@ export type Product = {
     id: number;
     name: string;
     price: number;
+    quantity: number;
     images: ProductImages[];
     sub_category: SubCategory & { category: Pick<Category, "id" | "name" | "link_name"> }
 }
@@ -136,6 +137,7 @@ export default function Products() {
     const columns: TableColumnsType<Product> = useMemo(() => [
         { title: 'Name', dataIndex: 'name', key: 'name' },
         { title: 'Price', dataIndex: 'price', key: 'price' },
+        { title: 'Quantity', dataIndex: 'quantity', key: 'quantity' },
         { title: 'Category', dataIndex: 'category_id', render: (_text, record: Product) => <span>{record.sub_category.name} ({record.sub_category.category.name})</span> },
         {
             title: 'Action', key: 'operation', render: (_text, record: Product) => <div className={productstyles.iconContainer}>

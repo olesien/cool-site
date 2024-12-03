@@ -12,6 +12,7 @@ public class ProductDTO {
 
     private Double price;
 
+    private int quantity;
     private SubCategoryDTO sub_category;
 
     private List<ProductImageDTO> images;
@@ -56,6 +57,14 @@ public class ProductDTO {
 
     public void setPrice(Double price) {
         this.price = price;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 
     public SubCategoryDTO getSub_category() {
