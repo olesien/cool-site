@@ -145,8 +145,9 @@ export default function ProductModal({ categories, title, onSave, handleClose, i
                                     images: newFields.map(field => form.getFieldValue(['images', field.name]))
                                 });
                             }
+                            console.log(newFields);
                             //Rerender previews
-                            setPreviews(newFields.reduce((obj, field, i) => ({ ...obj, [String(direction === 'up' ? i - 1 : i + 1)]: form.getFieldValue(['images', field.name]) }), {}));
+                            setPreviews(newFields.reduce((obj, field) => ({ ...obj, [field.key]: form.getFieldValue(['images', field.name]) }), {}));
                         };
                         return <>
                             {fields.map((field, index) => {
