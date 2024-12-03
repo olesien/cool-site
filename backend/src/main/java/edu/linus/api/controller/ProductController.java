@@ -2,6 +2,7 @@ package edu.linus.api.controller;
 import java.util.List;
 
 
+import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import edu.linus.api.Auth;
 import edu.linus.api.DTO.ProductDTO;
@@ -20,6 +21,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -130,6 +132,11 @@ public class ProductController {
         DecodedJWT validToken = Auth.extractTokenFromCookie(request.getCookies(), env);
         if (validToken == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("You are not logged in");
+        }
+        Claim role = validToken.getClaim("roles");
+
+        if (!Objects.equals(role.asString(), "admin")) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("You are not admin!");
         }
 
         if (productForm.getImages().size() > 5){

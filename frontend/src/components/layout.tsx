@@ -82,37 +82,42 @@ export default function Layout() {
                             <span>{item.name}</span>
                         </NavLink>
                     })}
-                    {user && <>
-                        <NavLink
-                            to={'/admin/categories'}
-                            className="nav-links"
-                            style={({ isActive }) => ({
-                                ...(isActive ? activeNavLinkStyles : {}),
-                                ...(!isActive ? hoverNavLinkStyles : {}),
-                            })}
-                        >
-                            <FontAwesomeIcon
-                                className="icon"
-                                icon={faBoxArchive}
-                            />
-                            <span>Categories</span>
-                        </NavLink>
+                    {!!user && <>
 
-                        <NavLink
+                        {/* Add favorite page link here*/}
 
-                            to={'/admin/products'}
-                            className="nav-links"
-                            style={({ isActive }) => ({
-                                ...(isActive ? activeNavLinkStyles : {}),
-                                ...(!isActive ? hoverNavLinkStyles : {}),
-                            })}
-                        >
-                            <FontAwesomeIcon
-                                className="icon"
-                                icon={faShirt}
-                            />
-                            <span>Products</span>
-                        </NavLink>
+                        {user.admin && <>
+                            <NavLink
+                                to={'/admin/categories'}
+                                className="nav-links"
+                                style={({ isActive }) => ({
+                                    ...(isActive ? activeNavLinkStyles : {}),
+                                    ...(!isActive ? hoverNavLinkStyles : {}),
+                                })}
+                            >
+                                <FontAwesomeIcon
+                                    className="icon"
+                                    icon={faBoxArchive}
+                                />
+                                <span>Categories</span>
+                            </NavLink>
+
+                            <NavLink
+
+                                to={'/admin/products'}
+                                className="nav-links"
+                                style={({ isActive }) => ({
+                                    ...(isActive ? activeNavLinkStyles : {}),
+                                    ...(!isActive ? hoverNavLinkStyles : {}),
+                                })}
+                            >
+                                <FontAwesomeIcon
+                                    className="icon"
+                                    icon={faShirt}
+                                />
+                                <span>Products</span>
+                            </NavLink>
+                        </>}
                     </>}
                 </div>
             </nav>
