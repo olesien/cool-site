@@ -2,7 +2,7 @@ import { Item } from "../../components/ItemCard";
 
 import { useParams } from "react-router-dom"; // Import useParams
 import "../../ItemList.css";
-import { getLatestProducts, searchProducts } from "@/services/api.ts";
+import { searchProducts } from "@/services/api.ts";
 import { useQuery } from "@tanstack/react-query";
 import { NavMenu } from "../../components/NavMenu";
 import Loading from "@/components/Loading";
@@ -39,8 +39,8 @@ export function SearchResult() {
         <div>
             <NavMenu />
             <div className="latest-products">
-                <h2 className="collection-title" style={{marginTop:'60px' }}>Search result for "{capitalizedSearchWord}"</h2>
-                <div className="item-list" style={{marginTop:'40px' }}>
+                <h2 className="collection-title" style={{ marginTop: '60px' }}>Search result for "{capitalizedSearchWord}"</h2>
+                <div className="item-list" style={{ marginTop: '40px' }}>
                     {data && data.length === 0 ? (
                         <h3>No products found with the given search</h3>
                     ) :
