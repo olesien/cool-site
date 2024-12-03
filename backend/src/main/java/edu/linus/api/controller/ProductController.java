@@ -67,6 +67,22 @@ public class ProductController {
         return ResponseEntity.ok(dtoProducts);
     }
 
+    @GetMapping(path = "/filter")
+    public ResponseEntity<List<ProductDTO>> getFilteredProducts(@RequestParam(required = false) Integer maxQuantity) {
+        List<Product> products;
+
+        if (maxQuantity != null) {
+            products = productRepository.findByQuantityLessThan(maxQuantity);
+        } else {
+            products = productRepository.findAll();
+        }
+
+        List<ProductDTO> dtoProducts = products.stream()
+                .map(ProductDTO::convertToDto)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(dtoProducts);
+    }
+
     @GetMapping(path = "/topPrice")
     public ResponseEntity<List<ProductDTO>> getTop4ByPrice() {
         List<Product> products = productRepository.findTop4ByOrderByPriceDesc();
