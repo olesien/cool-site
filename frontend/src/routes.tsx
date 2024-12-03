@@ -14,9 +14,7 @@ import AdminProducts from "./pages/admin/products";
 import AdminWrap from "./components/AdminWrap";
 
 import Categories from "./pages/products/categories";
-import { SearchResult } from "./components/searchResult";
-
-
+import { SearchResult } from "./pages/search/searchResult";
 export const publicRoutes = createBrowserRouter(
     createRoutesFromElements(
         <Route path="/" element={<Layout />}>
@@ -52,7 +50,6 @@ export const publicRoutes = createBrowserRouter(
                     </Suspense>
                 }
             />
-            
             <Route path="/admin" element={<AdminWrap />}>
                 <Route
                     path="categories"
