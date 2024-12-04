@@ -2,9 +2,9 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons/faBars";
 import { Fragment, useState } from "react";
-import useIsMobile from "@/hooks/useIsMobile";
+import useIsMobile from "@/hooks/useIsMobile.ts";
 import { useQuery } from "@tanstack/react-query";
-import { getCategories, getProducts } from "@/services/api";
+import { getCategories } from "@/services/api";
 import Loading from "./Loading";
 import { Input } from "antd";
 
@@ -22,7 +22,7 @@ export function NavMenu() {
     const navigate = useNavigate();
 
     const handleSearch = () => {
-        if(searchTerm.trim()){
+        if (searchTerm.trim()) {
             navigate(`/products/search/${searchTerm}`);
         }
     }
