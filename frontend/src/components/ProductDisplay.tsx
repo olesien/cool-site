@@ -1,15 +1,21 @@
 import React from 'react';
 import { Product } from './types';
-import { Button } from 'antd';
+import { Carousel, Button, Image } from 'antd';
+import { useState } from 'react';
 interface ProductDisplayProps {
-    product: Product; 
-    onAddToWishlist: (productId: number) => void;
+    product: Product;
 }
 
 export function ProductDisplay({ product }: ProductDisplayProps) {
+    const [mainImage, setMainImage] = useState<string>(product.images[0]?.url || '');
+
+  // Handle thumbnail click to change main image
+  const handleThumbnailClick = (imageUrl: string) => {
+    setMainImage(imageUrl);
+  };
 
     return (
-        <div className="product-display">
+        <div className="product-container">
             <h1 className="product-title">{product.name}</h1>
             <div>
                 <div >
@@ -19,18 +25,45 @@ export function ProductDisplay({ product }: ProductDisplayProps) {
                         Add to Wishlist
                     </Button>
                 </div>
+
+
+
+
+
+
+                
                 <div className="product-images">
-                    <img src={product.images[0]?.url} alt={product.name} className="main-product-image" />
-                    <div>
-                        {product.images.slice(1).map((image) => (
+                    <div className="main-image-container">
+                        <Image
+                            width={400}
+                            height={400}
+                            src={mainImage} alt={product.name}
+                            className="main-image-product"
+                        />
+                    </div>
+                    
+                    <div className="thumbnail-carousel">
+                        <Carousel
+                        arrows
+                        dotPosition="left"
+                        infinite={false}
+                        slidesToShow={5}
+                        >
+                        {product.images.map((image: { id: number; url: string; name: string }) => (
+                            <div key={image.id} className="carousel-image-thumbnail">
                             <img
-                                key={image.id}
                                 src={image.url}
                                 alt={image.name}
+                                onClick={() => handleThumbnailClick(image.url)}
                             />
+                            </div>
                         ))}
+                        </Carousel>
                     </div>
                 </div>
+
+
+                
             </div>
         </div>
     );
