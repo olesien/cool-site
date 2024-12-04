@@ -29,7 +29,7 @@ public class CategoryController {
 
     @GetMapping(path = "/all")
     public ResponseEntity<List<CategoryDTO>> getAllCategories() {
-        List<Category> categories = categoryRepository.findAll();
+        List<Category> categories = categoryRepository.findAllByOrderByIdDesc();
         List<CategoryDTO> dtoCategories = categories.stream()
                 .map(CategoryDTO::convertToDto)
                 .toList();

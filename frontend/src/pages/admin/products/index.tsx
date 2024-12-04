@@ -13,6 +13,7 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import { Category, SubCategory } from "../categories";
 
+import { useSearchParams } from "react-router-dom";
 export type ProductImages = {
     id: number;
     name: string;
@@ -27,6 +28,11 @@ export type Product = {
     sub_category: SubCategory & { category: Pick<Category, "id" | "name" | "link_name"> }
 }
 export default function Products() {
+    const [searchParams, setSearchParams] = useSearchParams();
+    const changePage = (newPage: number) => {
+        searchParams.set("page", String(newPage));
+        setSearchParams(searchParams);
+    }
     const [showAddProduct, setShowAddProduct] = useState(false);
     const [editProduct, setEditProduct] = useState<Product | null>(null);
     const { data, refetch } = useQuery({
@@ -56,7 +62,7 @@ export default function Products() {
                     withCredentials: true,
                 });
             toast.success(response.data);
-            refetch()
+            refetch();
         } catch (err: unknown) {
             console.error(err);
             if (axios.isAxiosError(err)) {
@@ -183,6 +189,13 @@ export default function Products() {
             </div>
             {!data || !categories ? <Loading /> : <>
                 <Table<Product>
+                    pagination={
+                        ({
+                            current: Number(searchParams.get("page") ?? 1),
+                            onChange: changePage,
+                            position: ["bottomCenter"]
+                        })
+                    }
                     rowKey="id"
                     columns={columns}
                     dataSource={data}
