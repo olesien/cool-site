@@ -20,7 +20,7 @@ export default function Login() {
 
     if (user) {
         // Redirect to login if not logged in
-        return <Navigate to="/admin/products" replace />;
+        return <Navigate to="/" replace />;
     }
 
 
