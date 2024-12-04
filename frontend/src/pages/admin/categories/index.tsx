@@ -11,6 +11,7 @@ import Loading from "@/components/Loading";
 import CategoryModal, { SaveCategory } from "./components/CategoryModal";
 import { toast } from "react-toastify";
 import axios from "axios";
+import { useSearchParams } from "react-router-dom";
 export type SubCategory = {
     id: number;
     categories_id: number;
@@ -34,6 +35,11 @@ const RenderDropdown = ({ v, subcategories }: { v: Category, subcategories: Tabl
     />
 };
 export default function Categories() {
+    const [searchParams, setSearchParams] = useSearchParams();
+    const changePage = (newPage: number) => {
+        searchParams.set("page", String(newPage));
+        setSearchParams(searchParams);
+    }
     const [showAddCategory, setShowAddCategory] = useState(false);
     const [showAddSubCategory, setShowAddSubCategory] = useState<Category | null>(null); //This contains the category ID
     const [editCategory, setEditCategory] = useState<Category | null>(null);
@@ -285,6 +291,13 @@ export default function Categories() {
             </div>
             {!data ? <Loading /> : <Table<Category>
                 rowKey="id"
+                pagination={
+                    ({
+                        current: Number(searchParams.get("page") ?? 1),
+                        onChange: changePage,
+                        position: ["bottomCenter"]
+                    })
+                }
                 columns={columns}
                 expandable={{
                     expandedRowRender: (v => <RenderDropdown v={v} subcategories={subcategories} />),
