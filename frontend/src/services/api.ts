@@ -114,3 +114,18 @@ export const getLatestProducts = async () => {
     )
     return response.data;
 }
+
+
+export const getChosenProduct = async (productId: number) => {
+    const response = await axios.get<Product[]>(
+        `${base_url}/products/${productId}`,
+        {
+            headers: {
+                "Access-Control-Allow-Origin": "*"
+            },
+            withCredentials: true
+        }
+    )
+    console.log(response.data);
+    return response.data;
+}

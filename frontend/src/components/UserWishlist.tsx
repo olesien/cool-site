@@ -52,6 +52,7 @@ export function GetUserWishlist() {
                 {data?.map((wishListItem: any) => (
                     <div key={wishListItem.id} className="item-list-card">
                         <Item
+                            id={wishListItem.product.id}
                             name={wishListItem.product.name}
                             price={wishListItem.product.price}
                             image={wishListItem.product.images[0]?.url ?? ""}
