@@ -21,6 +21,7 @@ export type Product = {
     id: number;
     name: string;
     price: number;
+    quantity: number;
     images: ProductImages[];
     sub_category: SubCategory & { category: Pick<Category, "id" | "name" | "link_name"> }
 }
@@ -39,6 +40,7 @@ export default function Products() {
         setShowAddProduct(false);
         console.log(data);
         const split = data.category.split("^");
+        console.log(data.quantity);
         if (split.length < 2) {
             return toast.error("The category must be selected");
         }
@@ -57,7 +59,11 @@ export default function Products() {
         } catch (err: unknown) {
             console.error(err);
             if (axios.isAxiosError(err)) {
-                toast.error(err.message);
+                if (err.response?.data) {
+                    toast.error(String(err.response?.data));
+                } else {
+                    toast.error(err.message);
+                }
             } else {
                 toast.error("Something went wrong")
             }
@@ -66,6 +72,7 @@ export default function Products() {
 
     const saveEditProduct = async (data: { old: Product, new: SaveProduct }) => {
         setEditProduct(null);
+        console.log("Submitted quantity:", data.old.quantity, data.new.quantity);
         console.log(data);
         const split = data.new.category.split("^");
         if (split.length < 2) {
@@ -86,7 +93,11 @@ export default function Products() {
         } catch (err: unknown) {
             console.error(err);
             if (axios.isAxiosError(err)) {
-                toast.error(err.message);
+                if (err.response?.data) {
+                    toast.error(String(err.response?.data));
+                } else {
+                    toast.error(err.message);
+                }
             } else {
                 toast.error("Something went wrong")
             }
@@ -108,7 +119,11 @@ export default function Products() {
         } catch (err: unknown) {
             console.error(err);
             if (axios.isAxiosError(err)) {
-                toast.error(err.message);
+                if (err.response?.data) {
+                    toast.error(String(err.response?.data));
+                } else {
+                    toast.error(err.message);
+                }
             } else {
                 toast.error("Something went wrong")
             }
@@ -136,6 +151,7 @@ export default function Products() {
     const columns: TableColumnsType<Product> = useMemo(() => [
         { title: 'Name', dataIndex: 'name', key: 'name' },
         { title: 'Price', dataIndex: 'price', key: 'price' },
+        { title: 'Quantity', dataIndex: 'quantity', key: 'quantity' },
         { title: 'Category', dataIndex: 'category_id', render: (_text, record: Product) => <span>{record.sub_category.name} ({record.sub_category.category.name})</span> },
         {
             title: 'Action', key: 'operation', render: (_text, record: Product) => <div className={productstyles.iconContainer}>

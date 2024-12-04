@@ -14,7 +14,7 @@ import AdminProducts from "./pages/admin/products";
 import AdminWrap from "./components/AdminWrap";
 
 import Categories from "./pages/products/categories";
-
+import { SearchResult } from "./pages/search/searchResult";
 export const publicRoutes = createBrowserRouter(
     createRoutesFromElements(
         <Route path="/" element={<Layout />}>
@@ -73,6 +73,14 @@ export const publicRoutes = createBrowserRouter(
                 element={
                     <Suspense fallback={<></>}>
                         <Categories />
+                    </Suspense>
+                }
+            />
+            <Route
+                path="products/search/:searchWord"
+                element={
+                    <Suspense fallback={<></>}>
+                        <SearchResult />
                     </Suspense>
                 }
             />

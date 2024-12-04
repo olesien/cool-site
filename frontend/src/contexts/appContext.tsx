@@ -1,3 +1,4 @@
+import { User } from "@/pages/login/login";
 import React, {
     createContext,
     useState,
@@ -10,15 +11,15 @@ interface AppProviderProps {
 }
 
 interface AppContextProps {
-    login: (name: string, password: string) => void;
+    login: (user: User) => void;
     logout: () => void;
-    isLoggedIn: boolean;
+    user: User | null;
 }
 
 export const AppContext = createContext<AppContextProps | undefined>(undefined);
 const key = "auth-user-coolfashion";
 export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [user, setUser] = useState<null | User>(null);
 
     useEffect(() => {
         console.log("Retrieving");
@@ -29,24 +30,21 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
         try {
             const item = window.localStorage.getItem(key);
             console.log("B");
-            const loggedIn = item !== null && item != "undefined"
-                ? (JSON.parse(item) as boolean)
-                : false
-            setIsLoggedIn(
-                loggedIn
+            const userFromStorage = item !== null && item != "undefined"
+                ? (JSON.parse(item) as User)
+                : null
+            setUser(
+                userFromStorage
             );
-            console.log(item !== null && item != "undefined"
-                ? (JSON.parse(item) as boolean)
-                : null);
         } catch (error) {
             return;
         }
     }, [])
 
-    const login = () => {
+    const login = (user: User) => {
         //axios post req here
         localStorage.setItem(key, JSON.stringify(true));
-        setIsLoggedIn(true);
+        setUser(user);
         toast.success("Successfully logged in!");
 
 
@@ -55,7 +53,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     const logout = () => {
         //axios post req here
         localStorage.setItem(key, JSON.stringify(false));
-        setIsLoggedIn(false);
+        setUser(null);
         toast.success("Successfully logged out!");
     };
     return (
@@ -63,7 +61,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
             value={{
                 login,
                 logout,
-                isLoggedIn,
+                user,
             }}
         >
             {children}
