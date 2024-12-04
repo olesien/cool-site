@@ -12,6 +12,7 @@ import ProductModal, { SaveProduct } from "./components/ProductModal";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { Category, SubCategory } from "../categories";
+
 import { useSearchParams } from "react-router-dom";
 export type ProductImages = {
     id: number;

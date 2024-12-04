@@ -60,6 +60,19 @@ export const searchProducts = async (searchWord: string) => {
     return response.data;
 }
 
+export const getUserWishlist = async (userId: number) => {
+    const response = await axios.get<Product[]>(
+        `${base_url}/wishlist/${userId}`,
+        {
+            headers: {
+                "Access-Control-Allow-Origin": "*"
+            },
+            withCredentials: true
+        }
+    )
+    console.log(response.data);
+    return response.data;
+}
 
 export const getProducts = async () => {
     const response = await axios.get<Product[]>(
@@ -102,3 +115,17 @@ export const getLatestProducts = async () => {
     return response.data;
 }
 
+
+export const getChosenProduct = async (productId: number) => {
+    const response = await axios.get<Product[]>(
+        `${base_url}/products/${productId}`,
+        {
+            headers: {
+                "Access-Control-Allow-Origin": "*"
+            },
+            withCredentials: true
+        }
+    )
+    console.log(response.data);
+    return response.data;
+}

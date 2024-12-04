@@ -10,15 +10,6 @@ public class UserWishList {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     @ManyToOne
     @JoinColumn(name = "user_id")
     private Users users;
@@ -27,6 +18,28 @@ public class UserWishList {
     @JoinColumn(name = "product_id")
     private Product product;
 
+    // Getters and Setters
+    public Long getId() {
+        return id;
+    }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
 
+    public Users getUsers() {
+        return users;
+    }
+
+    public void setUsers(Users users) {
+        this.users = users;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
 }

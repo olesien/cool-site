@@ -81,7 +81,7 @@ public class UsersController {
                 System.out.println(jwt);
                 response.addCookie(makeSecureCookie(jwt));
                 System.out.println("Added cookie");
-                return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse<>("Success", new UserDTO(newUser.getId(), newUser.getUsername(), "", isAdmin)));
+                return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse<>("Success", new UserDTO(newUser.getId(), newUser.getUsername(), "", newUser.getUser_role(), isAdmin)));
             } else {
                 //403; Passwords do not match
                 return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new ApiResponse<>("Passwords do not match", null));

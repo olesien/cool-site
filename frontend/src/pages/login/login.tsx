@@ -9,6 +9,7 @@ export type User = {
     id: number;
     username: string;
     password: "",
+    user_role: number;
     admin: boolean
 }
 
