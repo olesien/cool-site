@@ -34,4 +34,12 @@ public class MessageController {
         return ResponseEntity.status(HttpStatus.CREATED).body("Successfully added");
     }
 
+    @DeleteMapping(path = "/delete/{id}")
+    public ResponseEntity<String> deleteMessage (@PathVariable Long id){
+        messageRepository.deleteById(id);
+
+        return ResponseEntity.ok().body("Successfully deleted");
+    }
+
+
 }

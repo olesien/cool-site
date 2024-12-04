@@ -12,6 +12,7 @@ import Help from "./pages/help/help";
 import AdminCategories from "./pages/admin/categories";
 import AdminProducts from "./pages/admin/products";
 import AdminWrap from "./components/AdminWrap";
+import AdminContact from "./pages/admin/contactform";
 
 import Categories from "./pages/products/categories";
 import { SearchResult } from "./pages/search/searchResult";
@@ -65,6 +66,14 @@ export const publicRoutes = createBrowserRouter(
                     element={
                         <Suspense fallback={<></>}>
                             <AdminProducts />
+                        </Suspense>
+                    }
+                />
+                 <Route
+                    path="contact"
+                    element={
+                        <Suspense fallback={<></>}>
+                            <AdminContact />
                         </Suspense>
                     }
                 />

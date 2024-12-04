@@ -8,7 +8,7 @@ import productstyles from "./product.module.scss";
 import { useQuery } from "@tanstack/react-query";
 import { base_url, getCategories, getProducts } from "@/services/api";
 import Loading from "@/components/Loading";
-import CategoryModal, { SaveProduct } from "./components/ProductModal";
+import ProductModal, { SaveProduct } from "./components/ProductModal";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { Category, SubCategory } from "../categories";
@@ -157,15 +157,15 @@ export default function Products() {
         {
             title: 'Action', key: 'operation', render: (_text, record: Product) => <div className={productstyles.iconContainer}>
                 <FontAwesomeIcon
-                    title="Edit category"
-                    aria-label="Edit category"
+                    title="Edit product"
+                    aria-label="Edit product"
                     className={productstyles.addIcon}
                     icon={faEdit}
                     onClick={() => setEditProduct(record)}
                 />
                 <FontAwesomeIcon
-                    title="Remove category"
-                    aria-label="Remove category"
+                    title="Remove product"
+                    aria-label="Remove product"
                     className={productstyles.deleteIcon}
                     icon={faTrash}
                     onClick={() => handleDeleteProduct(record)}
@@ -187,8 +187,8 @@ export default function Products() {
                     columns={columns}
                     dataSource={data}
                 />
-                {showAddProduct && <CategoryModal categories={categories} title="Add Product" onSave={saveProduct} handleClose={() => setShowAddProduct(false)} />}
-                {!!editProduct && <CategoryModal categories={categories} title="Edit Product" onSave={(v) => saveEditProduct({ old: editProduct, new: v })} handleClose={() => setEditProduct(null)} initialData={editProduct} />}
+                {showAddProduct && <ProductModal categories={categories} title="Add Product" onSave={saveProduct} handleClose={() => setShowAddProduct(false)} />}
+                {!!editProduct && <ProductModal categories={categories} title="Edit Product" onSave={(v) => saveEditProduct({ old: editProduct, new: v })} handleClose={() => setEditProduct(null)} initialData={editProduct} />}
             </>}
 
 

@@ -20,11 +20,8 @@ export default function Login() {
     const [loading, setLoading] = useState(false);
 
     if (user) {
-        if (user.user_role == 0) {
-            return <Navigate to="/admin/products" replace />;
-        } else {
-            return <Navigate to="/#" replace />;
-        }
+        // Redirect to login if not logged in
+        return <Navigate to="/" replace />;
     }
 
 
@@ -62,12 +59,6 @@ export default function Login() {
                 toast.error("Something went wrong")
             }
         }
-        // if (username === 'admin' && password === 'admin') {
-        //     navigate('/')
-        //     alert('You are now logged in as Admin')
-        // } else {
-        //     alert('Your username and password are incorrect')
-        // }
     }
 
     return (
