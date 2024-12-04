@@ -1,14 +1,13 @@
-import { Button, Modal, Table, TableColumnsType } from "antd";
+import { Modal, Table, TableColumnsType } from "antd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons/faTrash";
-import { faPlus } from "@fortawesome/free-solid-svg-icons/faPlus";
 import { faEdit } from "@fortawesome/free-solid-svg-icons/faEdit";
 import { useMemo, useState } from "react";
 import productstyles from "./contact.module.scss";
 import { useQuery } from "@tanstack/react-query";
-import { base_url, getAllContactForms, getCategories, getProducts } from "@/services/api";
+import { base_url, getAllContactForms, } from "@/services/api";
 import Loading from "@/components/Loading";
-import CategoryModal, { SaveProduct } from "./components/ContactModal";
+import ContactModal, { SaveProduct } from "./components/ContactModal";
 import { toast } from "react-toastify";
 import axios from "axios";
 
@@ -24,7 +23,7 @@ export default function ContactForm() {
         queryKey: ['messages'],
         queryFn: getAllContactForms,
     });
-   
+
 
     const deleteItem = async (itemID: number) => {
         try {
@@ -73,7 +72,7 @@ export default function ContactForm() {
     const columns: TableColumnsType<ContactForm> = useMemo(() => [
         { title: 'Email', dataIndex: 'email', key: 'email' },
         { title: 'Subject', dataIndex: 'subject', key: 'subject' },
-        
+
         {
             title: 'Action', key: 'operation', render: (_text, record: ContactForm) => <div className={productstyles.iconContainer}>
                 <FontAwesomeIcon
@@ -96,7 +95,7 @@ export default function ContactForm() {
         <>
             <div className="main-header">
                 <h2>Contactlist</h2>
-               
+
             </div>
             {!data ? <Loading /> : <>
                 <Table<ContactForm>
@@ -104,7 +103,7 @@ export default function ContactForm() {
                     columns={columns}
                     dataSource={data}
                 />
-                {/* {showForm && <CategoryModal categories={categories} title="Edit Product" onSave={(v) => saveEditProduct({ old: editProduct, new: v })} handleClose={() => setEditProduct(null)} initialData={editProduct} />} */}
+                {/* {showForm && <ContactModal categories={categories} title="Edit Product" onSave={(v) => saveEditProduct({ old: editProduct, new: v })} handleClose={() => setEditProduct(null)} initialData={editProduct} />} */}
             </>}
 
 
