@@ -42,22 +42,22 @@ export function ProductDisplay({ product }: ProductDisplayProps) {
                         />
                     </div>
                     
-                    <div className="thumbnail-carousel">
+                    <div>
                         <Carousel
-                        arrows
-                        dotPosition="left"
-                        infinite={false}
-                        slidesToShow={5}
+                            arrows
+                            dotPosition="left"
+                            infinite={false}
+                            slidesToShow={5}
                         >
-                        {product.images.map((image: { id: number; url: string; name: string }) => (
-                            <div key={image.id} className="carousel-image-thumbnail">
-                            <img
-                                src={image.url}
-                                alt={image.name}
-                                onClick={() => handleThumbnailClick(image.url)}
-                            />
-                            </div>
-                        ))}
+                            {product.images.map((image: { id: number; url: string; name: string }) => (
+                                <div key={image.id} className="carousel-image-thumbnail">
+                                <img
+                                    src={image.url}
+                                    alt={image.name}
+                                    onClick={() => handleThumbnailClick(image.url)}
+                                />
+                                </div>
+                            ))}
                         </Carousel>
                     </div>
                 </div>
