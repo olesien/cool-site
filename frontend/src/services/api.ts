@@ -1,5 +1,6 @@
 
 import { Category } from "@/pages/admin/categories";
+import { ContactForm } from "@/pages/admin/contactform";
 import { Product } from "@/pages/admin/products";
 import axios from "axios";
 export const base_url = "http://localhost:8080";
@@ -72,6 +73,20 @@ export const getProducts = async () => {
     )
     return response.data;
 }
+
+export const getAllContactForms = async () => {
+    const response = await axios.get<ContactForm[]>(
+        base_url + '/message/all',
+        {
+            headers: {
+                "Access-Control-Allow-Origin": "*"
+            },
+            withCredentials: true
+        }
+    )
+    return response.data;
+}
+
 
 
 export const getLatestProducts = async () => {
