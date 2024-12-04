@@ -1,4 +1,4 @@
-import { Input, Button, Modal, Table, TableColumnsType } from "antd";
+import { Input, Button, Modal, Table, TableColumnsType, Checkbox, CheckboxProps } from "antd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faPlus, faEdit } from "@fortawesome/free-solid-svg-icons";
 import { useMemo, useState } from "react";
@@ -25,6 +25,7 @@ export type Product = {
 }
 export default function Products() {
     const [filterQuantity, setFilterQuantity] = useState(2); // Default quantity filter
+    const [isChecked, setIsChecked] = useState(false);
     const [filteredData, setFilteredData] = useState<Product[] | null>(null);
     const [isFiltered, setIsFiltered] = useState(false); 
     const [showAddProduct, setShowAddProduct] = useState(false);
@@ -148,11 +149,29 @@ export default function Products() {
 
     const handleFilter = async () => {
         try {
-            const filteredProducts = await getFilteredProducts(filterQuantity);
+            const filteredProducts = await getFilteredProducts(filterQuantity+1);
             setFilteredData(filteredProducts);
             setIsFiltered(true);
         } catch (error) {
             console.error("Error fetching filtered products", error);
+        }
+    };
+
+    const handleCheckboxChange = async (event: any) => {
+        const checked = event.target.checked;
+        setIsChecked(checked);
+
+        if (checked) {
+            try {
+                const filteredProducts = await getFilteredProducts(2);
+                setFilteredData(filteredProducts);
+                setIsFiltered(true);
+            } catch (error) {
+                console.error("Error fetching filtered products", error);
+            }
+        } else {
+            handleReset();
+            setIsChecked(false);
         }
     };
 
@@ -202,6 +221,8 @@ export default function Products() {
             <Button type="primary" onClick={handleReset}>
                 Reset
             </Button>
+
+            <Checkbox onChange={handleCheckboxChange}>Low stock (1 or less)</Checkbox>
         </div>
         <div className="main-header">
             <h2>{isFiltered ? "Filtered Products" : "All Products"}</h2>
