@@ -58,12 +58,6 @@ export default function Login() {
                 toast.error("Something went wrong")
             }
         }
-        // if (username === 'admin' && password === 'admin') {
-        //     navigate('/')
-        //     alert('You are now logged in as Admin')
-        // } else {
-        //     alert('Your username and password are incorrect')
-        // }
     }
 
     return (

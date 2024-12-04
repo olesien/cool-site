@@ -43,7 +43,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
 
     const login = (user: User) => {
         //axios post req here
-        localStorage.setItem(key, JSON.stringify(true));
+        localStorage.setItem(key, JSON.stringify(user));
         setUser(user);
         toast.success("Successfully logged in!");
 
@@ -52,7 +52,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
 
     const logout = () => {
         //axios post req here
-        localStorage.setItem(key, JSON.stringify(false));
+        localStorage.setItem(key, JSON.stringify(null));
         setUser(null);
         toast.success("Successfully logged out!");
     };
