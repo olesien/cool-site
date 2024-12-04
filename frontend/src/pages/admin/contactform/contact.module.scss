@@ -1,0 +1,76 @@
+@use "../../../style/colors.scss";
+.iconContainer {
+    display: flex;
+    gap: 10px;
+}
+
+.deleteIcon {
+    width: 20px;
+    height: 20px;
+    color: colors.$red;
+    :hover {
+        cursor: pointer;
+        color: colors.$lightred;
+    }
+}
+
+.addIcon {
+    width: 20px;
+    height: 20px;
+    color: colors.$blue;
+    :hover {
+        cursor: pointer;
+        color: colors.$lightblue;
+    }
+}
+
+.tableDropdown {
+    margin-left: 0.5rem;
+    border-left: 4px solid colors.$yellow;
+}
+
+.delicon {
+    margin-left: 1rem;
+    font-size: 20px;
+    :hover {
+        cursor: pointer;
+        color: colors.$lightred;
+    }
+}
+
+.ImageContainer {
+    margin-bottom: 10px;
+}
+
+.field {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem;
+    padding-right: 1rem;
+    border-radius: 5px;
+    gap: 10px;
+}
+
+.upDown {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+
+    .chevronIcon {
+        font-size: 16px;
+        :hover {
+            cursor: pointer;
+            color: colors.$lightblue;
+        }
+    }
+    .chevronIconDisabled {
+        font-size: 16px;
+        color: colors.$gray;
+    }
+}
+
+.title {
+    padding-bottom: 0.5rem;
+}

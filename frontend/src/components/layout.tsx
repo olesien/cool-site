@@ -6,6 +6,7 @@ import { faSignIn } from "@fortawesome/free-solid-svg-icons/faSignIn";
 import { faQuestionCircle } from "@fortawesome/free-solid-svg-icons/faQuestionCircle";
 import { faBoxArchive } from "@fortawesome/free-solid-svg-icons/faBoxArchive";
 import { faShirt } from "@fortawesome/free-solid-svg-icons/faShirt";
+import { faMessage } from "@fortawesome/free-solid-svg-icons/faMessage";
 
 const navigation = [
     {
@@ -115,6 +116,21 @@ export default function Layout() {
                                     icon={faShirt}
                                 />
                                 <span>Products</span>
+                            </NavLink>
+                            <NavLink
+
+                                to={'/admin/contact'}
+                                className="nav-links"
+                                style={({ isActive }) => ({
+                                    ...(isActive ? activeNavLinkStyles : {}),
+                                    ...(!isActive ? hoverNavLinkStyles : {}),
+                                })}
+                            >
+                                <FontAwesomeIcon
+                                    className="icon"
+                                    icon={faMessage}
+                                />
+                                <span>Messages</span>
                             </NavLink>
                         </>}
                     </>}
