@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface UserWishListRepository extends JpaRepository<UserWishList, Long> {
     List<UserWishList> findByUsersId(int userId);
+
+
 }

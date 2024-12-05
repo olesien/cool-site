@@ -11,7 +11,6 @@ public class ProductDTO {
     private String name;
 
     private Double price;
-
     private int quantity;
     private SubCategoryDTO sub_category;
 
