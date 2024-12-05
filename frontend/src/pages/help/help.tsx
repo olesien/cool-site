@@ -5,9 +5,8 @@ import axios from "axios";
 
 const Help: React.FC = () => {
   const [formData, setFormData] = useState({
-    name: "",
-    subject: "",
     email: "",
+    subject: "",
     message: "",
   });
 
@@ -55,7 +54,6 @@ const Help: React.FC = () => {
     await saveFormData(formData);
 
     setFormData({
-      name: "",
       email: "",
       subject: "",
       message: "",
@@ -65,14 +63,15 @@ const Help: React.FC = () => {
   return (
     <div className="form-container">
       <form className="help-form" onSubmit={handleSubmit}>
-        <label htmlFor="name">Name</label>
+
+      <label htmlFor="email">Email Address</label>
         <input
-          type="text"
-          id="name"
-          name="name"
-          value={formData.name}
+          type="email"
+          id="email"
+          name="email"
+          value={formData.email}
           onChange={handleChange}
-          placeholder="Enter your name"
+          placeholder="Enter your email address"
           required
         />
 
@@ -84,17 +83,6 @@ const Help: React.FC = () => {
           value={formData.subject}
           onChange={handleChange}
           placeholder="Enter the subject"
-          required
-        />
-
-        <label htmlFor="email">Email Address</label>
-        <input
-          type="email"
-          id="email"
-          name="email"
-          value={formData.email}
-          onChange={handleChange}
-          placeholder="Enter your email address"
           required
         />
 
