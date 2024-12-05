@@ -25,36 +25,33 @@ export function ProductDisplay({ product }: ProductDisplayProps) {
 
     const onAddToWishlist = async (productId: number) => {
         console.log("user id is: " + user?.user_role)
-        if (user?.user_role == null){
+        if (!user) {
             alert("Please continue to log in to put this product into Your WishList")
         }
-        if (user?.user_role === 0) {
-            alert("You're an admin.")
-        } else if (user?.user_role === 1) {
-            try {
-                const response = await axios.post<string>(
-                    base_url + '/products/addToWishlist',
-                    { productId },
-                    {
-                        headers: {
-                            "Access-Control-Allow-Origin": "*"
-                        },
-                        withCredentials: true,
-                    });
-                toast.success(response.data);
-                alert('This product is now in Your Wishlist')
+        try {
+            const response = await axios.post<string>(
+                base_url + '/products/addToWishlist',
+                { productId },
+                {
+                    headers: {
+                        "Access-Control-Allow-Origin": "*"
+                    },
+                    withCredentials: true,
+                });
+            toast.success(response.data);
+            alert('This product is now in Your Wishlist')
 
-            } catch (err: unknown) {
-                console.error(err);
-                if (axios.isAxiosError(err)) {
-                    if (err.response?.data) {
-                        toast.error(String(err.response?.data));
-                    } else {
-                        toast.error(err.message);
-                    }
+        } catch (err: unknown) {
+            console.error(err);
+            if (axios.isAxiosError(err)) {
+                if (err.response?.data) {
+                    console.log(err.response?.data);
+                    toast.error(String(err.response?.data));
                 } else {
-                    toast.error("Something went wrong")
+                    toast.error(err.message);
                 }
+            } else {
+                toast.error("Something went wrong")
             }
         }
     }

@@ -185,11 +185,7 @@ public class ProductController {
         if (validToken == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("You are not logged in");
         }
-
-        Claim roleClaim = validToken.getClaim("roles");
-        if(roleClaim.isNull() || roleClaim.asString().equals("admin")){
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("You are admin. Wishlist is only for the users");
-        }
+        int userId = Integer.parseInt(validToken.getSubject());
 
         Long productId = body.get("productId");
         Optional<Product> productOpt = productRepository.findById(productId);
@@ -199,12 +195,10 @@ public class ProductController {
 
         Product product = productOpt.get();
 
-        Integer authenticatedUserId = getUserIdFromToken(request);
-        Long authenticatedUserIdLong = Long.valueOf(authenticatedUserId);
+        Long authenticatedUserIdLong = (long) userId;
 
         Optional<Users> usersOpt = usersRepository.findById(authenticatedUserIdLong);
         if(usersOpt.isEmpty()){
-
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
         }
 

@@ -46,12 +46,9 @@ public class UserWishListController {
         // Get the userId from JWT token if it's not passed as a path variable
         Integer authenticatedUserId = getUserIdFromToken(request);
 
-        if (authenticatedUserId == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);  // Unauthorized if no token
-        }
 
         // If the userId in the path doesn't match the authenticated userId (for security), reject the request
-        if (authenticatedUserId != userId) {
+        if (authenticatedUserId == null || authenticatedUserId != userId) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);  // Forbidden if userId doesn't match
         }
 
