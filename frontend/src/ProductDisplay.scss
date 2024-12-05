@@ -7,6 +7,8 @@
   .product-display {
     display: flex;
     flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
     gap: 20px;
     background: #ffffff;
     border: 1px solid #e0e0e0;
@@ -18,7 +20,7 @@
 
     .product-images {
       display: flex;
-      flex-direction: column;
+      flex-direction: row;
       align-items: center;
       gap: 10px;
 
@@ -38,6 +40,7 @@
 
       .thumbnail-images {
         display: flex;
+        flex-direction: column;
         gap: 8px;
 
         .thumbnail-image {
