@@ -60,7 +60,7 @@ export function ProductsByCategoryAndSubcategory() {
 
                 <span className="map-item">{capitalizedCategory}</span>
                 <span className="map-divider">/</span>
-                <span className="map-item">{capitalizedSubcategory}</span>
+                <span className="map-item" style={{whiteSpace: 'nowrap', paddingRight: '10px', paddingLeft:'10px'}}>{capitalizedSubcategory}</span>
 
                 <Input
                     placeholder="Search in this category..."
@@ -71,7 +71,7 @@ export function ProductsByCategoryAndSubcategory() {
 
 
             <div className="item-list">
-                {filteredProducts?.map((product: Product) => (
+                {filteredProducts?.map((product: any) => (
                     <div key={product.id} className="item-list-card">
                         <Item
                             name={product.name}

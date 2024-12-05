@@ -9,6 +9,7 @@ export type User = {
     id: number;
     username: string;
     password: "",
+    user_role: number;
     admin: boolean
 }
 
@@ -20,7 +21,7 @@ export default function Login() {
 
     if (user) {
         // Redirect to login if not logged in
-        return <Navigate to="/admin/products" replace />;
+        return <Navigate to="/" replace />;
     }
 
 
@@ -58,12 +59,6 @@ export default function Login() {
                 toast.error("Something went wrong")
             }
         }
-        // if (username === 'admin' && password === 'admin') {
-        //     navigate('/')
-        //     alert('You are now logged in as Admin')
-        // } else {
-        //     alert('Your username and password are incorrect')
-        // }
     }
 
     return (

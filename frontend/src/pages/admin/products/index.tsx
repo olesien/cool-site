@@ -8,10 +8,12 @@ import productstyles from "./product.module.scss";
 import { useQuery } from "@tanstack/react-query";
 import { base_url, getCategories, getProducts } from "@/services/api";
 import Loading from "@/components/Loading";
-import CategoryModal, { SaveProduct } from "./components/ProductModal";
+import ProductModal, { SaveProduct } from "./components/ProductModal";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { Category, SubCategory } from "../categories";
+
+import { useSearchParams } from "react-router-dom";
 export type ProductImages = {
     id: number;
     name: string;
@@ -26,6 +28,11 @@ export type Product = {
     sub_category: SubCategory & { category: Pick<Category, "id" | "name" | "link_name"> }
 }
 export default function Products() {
+    const [searchParams, setSearchParams] = useSearchParams();
+    const changePage = (newPage: number) => {
+        searchParams.set("page", String(newPage));
+        setSearchParams(searchParams);
+    }
     const [showAddProduct, setShowAddProduct] = useState(false);
     const [editProduct, setEditProduct] = useState<Product | null>(null);
     const { data, refetch } = useQuery({
@@ -55,7 +62,7 @@ export default function Products() {
                     withCredentials: true,
                 });
             toast.success(response.data);
-            refetch()
+            refetch();
         } catch (err: unknown) {
             console.error(err);
             if (axios.isAxiosError(err)) {
@@ -156,15 +163,15 @@ export default function Products() {
         {
             title: 'Action', key: 'operation', render: (_text, record: Product) => <div className={productstyles.iconContainer}>
                 <FontAwesomeIcon
-                    title="Edit category"
-                    aria-label="Edit category"
+                    title="Edit product"
+                    aria-label="Edit product"
                     className={productstyles.addIcon}
                     icon={faEdit}
                     onClick={() => setEditProduct(record)}
                 />
                 <FontAwesomeIcon
-                    title="Remove category"
-                    aria-label="Remove category"
+                    title="Remove product"
+                    aria-label="Remove product"
                     className={productstyles.deleteIcon}
                     icon={faTrash}
                     onClick={() => handleDeleteProduct(record)}
@@ -182,12 +189,19 @@ export default function Products() {
             </div>
             {!data || !categories ? <Loading /> : <>
                 <Table<Product>
+                    pagination={
+                        ({
+                            current: Number(searchParams.get("page") ?? 1),
+                            onChange: changePage,
+                            position: ["bottomCenter"]
+                        })
+                    }
                     rowKey="id"
                     columns={columns}
                     dataSource={data}
                 />
-                {showAddProduct && <CategoryModal categories={categories} title="Add Product" onSave={saveProduct} handleClose={() => setShowAddProduct(false)} />}
-                {!!editProduct && <CategoryModal categories={categories} title="Edit Product" onSave={(v) => saveEditProduct({ old: editProduct, new: v })} handleClose={() => setEditProduct(null)} initialData={editProduct} />}
+                {showAddProduct && <ProductModal categories={categories} title="Add Product" onSave={saveProduct} handleClose={() => setShowAddProduct(false)} />}
+                {!!editProduct && <ProductModal categories={categories} title="Edit Product" onSave={(v) => saveEditProduct({ old: editProduct, new: v })} handleClose={() => setEditProduct(null)} initialData={editProduct} />}
             </>}
 
 

@@ -60,7 +60,7 @@ public class ProductController {
 
     @GetMapping(path = "/all")
     public ResponseEntity<List<ProductDTO>> getAllProducts() {
-        List<Product> products = productRepository.findAll();
+        List<Product> products = productRepository.findAllByOrderByIdDesc();
         List<ProductDTO> dtoProducts = products.stream()
                 .map(ProductDTO::convertToDto)
                 .collect(Collectors.toList());
