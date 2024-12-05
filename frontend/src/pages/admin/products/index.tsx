@@ -6,10 +6,12 @@ import productstyles from "./product.module.scss";
 import { useQuery } from "@tanstack/react-query";
 import { base_url, getCategories, getProducts, getFilteredProducts  } from "@/services/api";
 import Loading from "@/components/Loading";
-import CategoryModal, { SaveProduct } from "./components/ProductModal";
+import ProductModal, { SaveProduct } from "./components/ProductModal";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { Category, SubCategory } from "../categories";
+
+import { NavLink, useSearchParams } from "react-router-dom";
 export type ProductImages = {
     id: number;
     name: string;
@@ -22,8 +24,14 @@ export type Product = {
     quantity: number;
     images: ProductImages[];
     sub_category: SubCategory & { category: Pick<Category, "id" | "name" | "link_name"> }
+    wishlist: {id: number}[];
 }
 export default function Products() {
+    const [searchParams, setSearchParams] = useSearchParams();
+    const changePage = (newPage: number) => {
+        searchParams.set("page", String(newPage));
+        setSearchParams(searchParams);
+    }
     const [filterQuantity, setFilterQuantity] = useState(2); // Default quantity filter
     const [isChecked, setIsChecked] = useState(false);
     const [filteredData, setFilteredData] = useState<Product[] | null>(null);
@@ -55,7 +63,7 @@ export default function Products() {
                     withCredentials: true,
                 });
             toast.success(response.data);
-            refetch()
+            refetch();
         } catch (err: unknown) {
             console.error(err);
             if (axios.isAxiosError(err)) {
@@ -183,22 +191,22 @@ export default function Products() {
 
 
     const columns: TableColumnsType<Product> = useMemo(() => [
-        { title: 'Name', dataIndex: 'name', key: 'name' },
+        { title: 'Name', dataIndex: 'name', render: (_text, record: Product) => <NavLink to={'/product/' + record.id}>{record.name}</NavLink>},
         { title: 'Price', dataIndex: 'price', key: 'price' },
         { title: 'Quantity', dataIndex: 'quantity', key: 'quantity' },
         { title: 'Category', dataIndex: 'category_id', render: (_text, record: Product) => <span>{record.sub_category.name} ({record.sub_category.category.name})</span> },
         {
             title: 'Action', key: 'operation', render: (_text, record: Product) => <div className={productstyles.iconContainer}>
                 <FontAwesomeIcon
-                    title="Edit category"
-                    aria-label="Edit category"
+                    title="Edit product"
+                    aria-label="Edit product"
                     className={productstyles.addIcon}
                     icon={faEdit}
                     onClick={() => setEditProduct(record)}
                 />
                 <FontAwesomeIcon
-                    title="Remove category"
-                    aria-label="Remove category"
+                    title="Remove product"
+                    aria-label="Remove product"
                     className={productstyles.deleteIcon}
                     icon={faTrash}
                     onClick={() => handleDeleteProduct(record)}
@@ -207,6 +215,29 @@ export default function Products() {
     ], []);
     return (
         <>
+            <div className="main-header">
+                <h2>Admin Products</h2>
+                <Button variant="filled" color="primary" onClick={() => setShowAddProduct(true)}><FontAwesomeIcon
+                    className={productstyles.addIcon}
+                    icon={faPlus}
+                /> New Product</Button>
+            </div>
+            {!data || !categories ? <Loading /> : <>
+                <Table<Product>
+                    pagination={
+                        ({
+                            current: Number(searchParams.get("page") ?? 1),
+                            onChange: changePage,
+                            position: ["bottomCenter"]
+                        })
+                    }
+                    rowKey="id"
+                    columns={columns}
+                    dataSource={data}
+                />
+                {showAddProduct && <ProductModal categories={categories} title="Add Product" onSave={saveProduct} handleClose={() => setShowAddProduct(false)} />}
+                {!!editProduct && <ProductModal categories={categories} title="Edit Product" onSave={(v) => saveEditProduct({ old: editProduct, new: v })} handleClose={() => setEditProduct(null)} initialData={editProduct} />}
+            </>}
         <div className="filter-container">
             <h3>Filter by quantity:</h3>
             <Input

@@ -14,6 +14,7 @@ interface Product {
     id: number;
     name: string;
     price: number;
+    quantity: number;
     images: { url: string }[];
 }
 
@@ -59,7 +60,7 @@ export function ProductsByCategoryAndSubcategory() {
 
                 <span className="map-item">{capitalizedCategory}</span>
                 <span className="map-divider">/</span>
-                <span className="map-item">{capitalizedSubcategory}</span>
+                <span className="map-item" style={{whiteSpace: 'nowrap', paddingRight: '10px', paddingLeft:'10px'}}>{capitalizedSubcategory}</span>
 
                 <Input
                     placeholder="Search in this category..."
@@ -70,12 +71,14 @@ export function ProductsByCategoryAndSubcategory() {
 
 
             <div className="item-list">
-                {filteredProducts?.map((product: Product) => (
+                {filteredProducts?.map((product: any) => (
                     <div key={product.id} className="item-list-card">
                         <Item
+                            id={product.id}
                             name={product.name}
                             price={product.price}
                             image={product.images[0]?.url ?? ""}
+                            quantity={product.quantity}
                         />
                     </div>
                 ))}

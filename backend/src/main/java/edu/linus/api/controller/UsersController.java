@@ -36,8 +36,10 @@ public class UsersController {
     Cookie makeSecureCookie (String jwt) {
         Cookie cookie = new Cookie("auth-jwt", jwt);
         cookie.setHttpOnly(true);
-        cookie.setSecure(false);  // Turned off for HTTP, but in production mode this would be on
+        //cookie.setSecure(false);  // Turned off for HTTP, but in production mode this would be on
         //cookie.setAttribute("SameSite", "None"); //<- Also turned off for HTTP
+        cookie.setSecure(true);
+        cookie.setAttribute("SameSite", "None");
         cookie.setPath("/");  // Available to the entire app
         cookie.setMaxAge(7*24*60*60);
         return cookie;
@@ -81,7 +83,7 @@ public class UsersController {
                 System.out.println(jwt);
                 response.addCookie(makeSecureCookie(jwt));
                 System.out.println("Added cookie");
-                return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse<>("Success", new UserDTO(newUser.getId(), newUser.getUsername(), "", isAdmin)));
+                return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse<>("Success", new UserDTO(newUser.getId(), newUser.getUsername(), "", newUser.getUser_role(), isAdmin)));
             } else {
                 //403; Passwords do not match
                 return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new ApiResponse<>("Passwords do not match", null));

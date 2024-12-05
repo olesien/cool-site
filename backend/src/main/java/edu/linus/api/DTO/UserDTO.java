@@ -6,12 +6,16 @@ public class UserDTO {
 
     String password;
 
+
+    Integer user_role;
+
     Boolean isAdmin;
 
-    public UserDTO(Integer id, String username, String password, Boolean isAdmin) {
+    public UserDTO(Integer id, String username, String password, Integer user_role, Boolean isAdmin) {
         this.id = id;
         this.username = username;
         this.password = password;
+        this.user_role = user_role;
         this.isAdmin = isAdmin;
     }
 
@@ -38,6 +42,15 @@ public class UserDTO {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public Integer getUser_role() {
+        return user_role;
+    }
+
+    public void setUser_role(Integer user_role) {
+        this.user_role = user_role;
+    }
+
 
     public Boolean getAdmin() {
         return isAdmin;
