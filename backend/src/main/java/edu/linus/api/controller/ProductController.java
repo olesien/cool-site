@@ -1,30 +1,27 @@
 package edu.linus.api.controller;
-import java.util.List;
+import java.util.*;
 
 
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import edu.linus.api.Auth;
 import edu.linus.api.DTO.ProductDTO;
-import edu.linus.api.entity.Product;
-import edu.linus.api.entity.ProductImage;
-import edu.linus.api.entity.SubCategory;
-import edu.linus.api.entity.Users;
+import edu.linus.api.DTO.UserWishListDTO;
+import edu.linus.api.entity.*;
 import edu.linus.api.forms.NewProductForm;
-import edu.linus.api.repository.ProductImageRepository;
-import edu.linus.api.repository.ProductRepository;
-import edu.linus.api.repository.SubCategoryRepository;
+import edu.linus.api.repository.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
+import org.apache.catalina.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+
 
 @CrossOrigin(origins = "http://localhost:3000/", maxAge = 3600, allowCredentials = "true", allowPrivateNetwork = "true")
 @RestController // This means that this class is a Controller
@@ -35,13 +32,16 @@ public class ProductController {
     ProductRepository productRepository;
     SubCategoryRepository subCategoryRepository;
     ProductImageRepository productImageRepository;
-
+    UsersRepository usersRepository;
+    UserWishListRepository userWishListRepository;
     private final Environment env;
 
-    ProductController(ProductRepository productRepository, SubCategoryRepository subCategoryRepository, ProductImageRepository productImageRepository, Environment env) {
+    ProductController(ProductRepository productRepository, SubCategoryRepository subCategoryRepository, ProductImageRepository productImageRepository, UsersRepository usersRepository, UserWishListRepository userWishListRepository, Environment env) {
         this.productRepository = productRepository;
         this.subCategoryRepository = subCategoryRepository;
         this.productImageRepository = productImageRepository;
+        this.usersRepository = usersRepository;
+        this.userWishListRepository = userWishListRepository;
         this.env = env;
     }
 
@@ -168,6 +168,49 @@ public class ProductController {
 
         createImages(productForm, productSave);
         return ResponseEntity.status(HttpStatus.CREATED).body("Successfully added");
+    }
+
+    private Integer getUserIdFromToken(HttpServletRequest request) {
+        DecodedJWT validToken = Auth.extractTokenFromCookie(request.getCookies(), env);
+        if (validToken != null) {
+            return Integer.parseInt(validToken.getSubject());  // userId should be stored in the subject of JWT
+        }
+        return null;
+    }
+
+    @PostMapping(path = "/addToWishlist")
+    public ResponseEntity<String> addProductToWishList(HttpServletRequest request, @RequestBody Map<String, Long> body){
+        DecodedJWT validToken = Auth.extractTokenFromCookie(request.getCookies(), env);
+
+        if (validToken == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("You are not logged in");
+        }
+        int userId = Integer.parseInt(validToken.getSubject());
+
+        Long productId = body.get("productId");
+        Optional<Product> productOpt = productRepository.findById(productId);
+        if (productOpt.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Product not found");
+        }
+
+        Product product = productOpt.get();
+
+        Long authenticatedUserIdLong = (long) userId;
+
+        Optional<Users> usersOpt = usersRepository.findById(authenticatedUserIdLong);
+        if(usersOpt.isEmpty()){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+        }
+
+        Users userForWishList = usersOpt.get();
+        UserWishList userWishList = new UserWishList();
+        userWishList.setUsers(userForWishList);
+        userWishList.setProduct(product);
+
+        userWishListRepository.save(userWishList);
+        return ResponseEntity.status(HttpStatus.CREATED).body("This product is now added in Your Wishlist");
+
+
     }
 
     @PutMapping("put/{id}")

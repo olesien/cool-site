@@ -50,6 +50,7 @@ export default function ProductModal({ categories, title, onSave, handleClose, i
             }
         }
     }, [initialData, form]);
+    
     return (
         <Modal
             title={title}

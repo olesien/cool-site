@@ -135,7 +135,7 @@ export default function Layout() {
                             </NavLink>
                         </>}
 
-                        {!user.admin && <>
+                        {!!user && <>
                             <NavLink
                                 to={`/wishlist/${user.id}`}
                                 className="nav-links"
