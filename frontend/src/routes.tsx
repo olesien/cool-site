@@ -18,6 +18,7 @@ import Categories from "./pages/products/categories";
 import { SearchResult } from "./pages/search/searchResult";
 import { GetUserWishlist } from "./components/UserWishlist";
 import ProductView from "./pages/products/productView";
+import Register from "./pages/register/register";
 
 export const publicRoutes = createBrowserRouter(
     createRoutesFromElements(
@@ -59,6 +60,14 @@ export const publicRoutes = createBrowserRouter(
                 element={
                     <Suspense fallback={<></>}>
                         <Help />
+                    </Suspense>
+                }
+            />
+            <Route
+                path="/register"
+                element={
+                    <Suspense fallback={<></>}>
+                        <Register />
                     </Suspense>
                 }
             />

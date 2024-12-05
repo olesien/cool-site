@@ -7,7 +7,7 @@ import { faQuestionCircle } from "@fortawesome/free-solid-svg-icons/faQuestionCi
 import { faBoxArchive } from "@fortawesome/free-solid-svg-icons/faBoxArchive";
 import { faShirt } from "@fortawesome/free-solid-svg-icons/faShirt";
 import { faMessage } from "@fortawesome/free-solid-svg-icons/faMessage";
-import { faHeart } from "@fortawesome/free-regular-svg-icons";
+import { faAddressBook, faHeart } from "@fortawesome/free-regular-svg-icons";
 
 const navigation = [
     {
@@ -26,6 +26,12 @@ const navigation = [
         name: "Help", href: "/help", icon: <FontAwesomeIcon
             className="icon"
             icon={faQuestionCircle}
+        />
+    },
+    {
+        name: "Register", href: "/register", icon: <FontAwesomeIcon
+            className="icon"
+            icon={faAddressBook}
         />
     },
 ];
@@ -70,6 +76,10 @@ export default function Layout() {
                                 <span>Logout</span>
                             </a>
                         }
+                        if (item.name === "Register" && user) {
+                            // take out the register nav if someone is logged in
+                            return null;
+                          }
                         return <NavLink
                             key={item.name}
                             to={item.href}

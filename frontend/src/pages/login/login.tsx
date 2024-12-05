@@ -32,7 +32,8 @@ export default function Login() {
         //Get from backend if valid (also comes with cookie for further requests)
         try {
             setLoading(true);
-            const res = await axios.post<{ message: string, data: User }>("http://localhost:8080/users/login", { username, password }, {
+            const res = await axios.post<{ message: string, data: User }>
+            ("http://localhost:8080/users/login", { username, password }, {
                 headers: {
                     "Access-Control-Allow-Origin": "*"
                 },
