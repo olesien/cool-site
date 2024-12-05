@@ -32,7 +32,8 @@ export function ProductDisplay({ product, refetch }: ProductDisplayProps) {
                 }
             );
             toast.success(response.data);
-            alert("This product is now in Your Wishlist");
+            //alert("This product is now in Your Wishlist");
+            refetch();
         } catch (err: unknown) {
             console.error(err);
             if (axios.isAxiosError(err)) {
@@ -102,9 +103,9 @@ export function ProductDisplay({ product, refetch }: ProductDisplayProps) {
                 <p className="product-quantity">
                     Available Quantity: {product.quantity}
                 </p>
-                {!!user && (wishlist ? <Button color="danger" onClick={() => removeFromWishlist(wishlist.id)}>
+                {!!user && (wishlist ? <Button className="wishlist-button" color="danger" onClick={() => removeFromWishlist(wishlist.id)}>
                     Remove from Wishlist
-                </Button> : <Button color="default" onClick={() => onAddToWishlist(product.id)}>
+                </Button> : <Button className="wishlist-button" color="default" onClick={() => onAddToWishlist(product.id)}>
                     Add to Wishlist
                 </Button>)}
             </div>
