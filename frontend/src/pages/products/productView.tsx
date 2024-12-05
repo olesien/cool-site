@@ -10,11 +10,13 @@ export default function ProductView() {
     const productIdNumber = parseInt(String(productId), 10);
     let errorMessage: string | null = null;
 
-    const { data: product, error, isLoading } = useQuery({
+    const { data: product, error, isLoading, refetch } = useQuery({
         queryKey: ['chosen-product', productIdNumber],
         queryFn: () => getChosenProduct(productIdNumber),
         enabled: !isNaN(productIdNumber)
     });
+
+    console.log(product)
 
     if (isNaN(productIdNumber)) {
         errorMessage = "Invalid product ID.";
@@ -35,7 +37,7 @@ export default function ProductView() {
         {errorMessage ? (
                 <h3 className="error-text">{errorMessage}</h3>
             ) : (
-                <ProductDisplay product={product} />
+                <ProductDisplay product={product} refetch={refetch} />
             )}
     </div>
     );
