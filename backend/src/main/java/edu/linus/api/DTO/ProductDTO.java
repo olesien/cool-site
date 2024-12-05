@@ -1,8 +1,10 @@
 package edu.linus.api.DTO;
 
 import edu.linus.api.entity.Product;
+import edu.linus.api.entity.UserWishList;
 import org.modelmapper.ModelMapper;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -10,6 +12,9 @@ public class ProductDTO {
     private Long id;
     private String name;
 
+
+
+    private List<UserWishListDTO> wishlist;
     private Double price;
     private int quantity;
     private SubCategoryDTO sub_category;
@@ -25,6 +30,16 @@ public class ProductDTO {
             imgDTO.setProduct(null);
             return imgDTO;
         }).collect(Collectors.toList()));
+        List<UserWishListDTO> wishlistDTO = new ArrayList<>();
+
+        for(UserWishList userWishList : post.getWishlists()) {
+            UserWishListDTO userWishListDTO = new UserWishListDTO(userWishList.getId(), null, "");
+            wishlistDTO.add(userWishListDTO);
+
+        }
+        productDTO.setWishlist(wishlistDTO);
+
+
 
         SubCategoryDTO subcatDTO = modelMapper.map(post.getSubCategory(), SubCategoryDTO.class);
         subcatDTO.getCategory().setSub_categories(null);
@@ -80,5 +95,13 @@ public class ProductDTO {
 
     public void setImages(List<ProductImageDTO> images) {
         this.images = images;
+    }
+
+    public List<UserWishListDTO> getWishlist() {
+        return wishlist;
+    }
+
+    public void setWishlist(List<UserWishListDTO> wishlist) {
+        this.wishlist = wishlist;
     }
 }

@@ -42,4 +42,5 @@ public class UserWishList {
     public void setProduct(Product product) {
         this.product = product;
     }
+
 }

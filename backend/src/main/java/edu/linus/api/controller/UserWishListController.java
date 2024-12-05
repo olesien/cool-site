@@ -5,7 +5,9 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import edu.linus.api.Auth;
 import edu.linus.api.DTO.ProductDTO;
 import edu.linus.api.DTO.UserWishListDTO;
+import edu.linus.api.entity.Product;
 import edu.linus.api.entity.UserWishList;
+import edu.linus.api.entity.Users;
 import edu.linus.api.repository.UserWishListRepository;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -15,7 +17,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @CrossOrigin(origins = "http://localhost:3000/", maxAge = 3600, allowCredentials = "true", allowPrivateNetwork = "true")
@@ -70,5 +74,24 @@ public class UserWishListController {
 
         // Return the wishlist DTOs
         return ResponseEntity.ok(wishlistDTOs);
+    }
+
+    @DeleteMapping(path = "/remove/{Id}")
+    public ResponseEntity<String> removeFromWishList(HttpServletRequest request, @PathVariable Integer Id){
+        DecodedJWT validToken = Auth.extractTokenFromCookie(request.getCookies(), env);
+
+        if (validToken == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("You are not logged in");
+        }
+        int userId = Integer.parseInt(validToken.getSubject());
+
+
+        Optional<UserWishList> usersOpt = wishlistRepository.findByUsersIdAndId(userId, Id);
+        if(usersOpt.isEmpty()){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Wishlist not found");
+        }
+
+        wishlistRepository.delete(usersOpt.get());
+        return ResponseEntity.status(HttpStatus.CREATED).body("This product is now removed in Your Wishlist");
     }
 }
