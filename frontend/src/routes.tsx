@@ -16,7 +16,7 @@ import AdminContact from "./pages/admin/contactform";
 
 import Categories from "./pages/products/categories";
 import { SearchResult } from "./pages/search/searchResult";
-import { GetUserWishlist } from "./components/UserWIshlist";
+import { GetUserWishlist } from "./components/UserWishlist";
 import ProductView from "./pages/products/productView";
 
 export const publicRoutes = createBrowserRouter(

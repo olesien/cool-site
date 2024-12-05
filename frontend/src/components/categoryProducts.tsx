@@ -74,6 +74,7 @@ export function ProductsByCategoryAndSubcategory() {
                 {filteredProducts?.map((product: any) => (
                     <div key={product.id} className="item-list-card">
                         <Item
+                            id={product.id}
                             name={product.name}
                             price={product.price}
                             image={product.images[0]?.url ?? ""}
