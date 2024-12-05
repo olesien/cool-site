@@ -24,7 +24,6 @@ export function ProductDisplay({ product }: ProductDisplayProps) {
 
 
     const onAddToWishlist = async (productId: number) => {
-        console.log("user id is: " + user?.user_role)
         if (!user) {
             alert("Please continue to log in to put this product into Your WishList")
         }
@@ -56,6 +55,35 @@ export function ProductDisplay({ product }: ProductDisplayProps) {
         }
     }
 
+    const removeFromWishlist = async (productId: number) => {
+      
+        try {
+            const response = await axios.post<string>(
+                base_url + '/products/removefromWishlist',
+                { productId },
+                {
+                    headers: {
+                        "Access-Control-Allow-Origin": "*"
+                    },
+                    withCredentials: true,
+                });
+            toast.success(response.data);
+
+        } catch (err: unknown) {
+            console.error(err);
+            if (axios.isAxiosError(err)) {
+                if (err.response?.data) {
+                    console.log(err.response?.data);
+                    toast.error(String(err.response?.data));
+                } else {
+                    toast.error(err.message);
+                }
+            } else {
+                toast.error("Something went wrong")
+            }
+        }
+    }
+
     return (
         <div className="product-display">
             <h1 className="product-title">{product.name}</h1>
@@ -63,9 +91,13 @@ export function ProductDisplay({ product }: ProductDisplayProps) {
                 <div >
                     <p>SEK {product.price.toFixed(2)}</p>
                     <p>Available Quantity: {product.quantity}</p>
-                    <Button onClick={() => onAddToWishlist(product.id)}>
+                    {!!user && (true ? <Button onClick={() => removeFromWishlist(product.id)}>
+                        Remove from Wishlist
+                    </Button> : <Button onClick={() => onAddToWishlist(product.id)}>
                         Add to Wishlist
-                    </Button>
+                    </Button>)
+                    }
+                    
                 </div>
                 <div className="product-images">
                     <img src={product.images[0]?.url} alt={product.name} className="main-product-image" />

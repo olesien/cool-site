@@ -7,7 +7,7 @@ import { ProductDisplay } from "@/components/ProductDisplay";
 
 export default function ProductView() {
     const { productId } = useParams<{ productId: string }>();
-    const productIdNumber = parseInt(productId, 10);
+    const productIdNumber = parseInt(String(productId), 10);
     let errorMessage: string | null = null;
 
     const { data: product, error, isLoading } = useQuery({
@@ -26,6 +26,9 @@ export default function ProductView() {
         errorMessage = "No product found.";
     }
 
+    if(!product) {
+        return (<div></div>)
+    }
     return (
         <div>
         <NavMenu />
