@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import "../help/help.css";
+import { toast } from "react-toastify";
+import axios from "axios";
 
 const Help: React.FC = () => {
   const [formData, setFormData] = useState({
     name: "",
-    phone: "",
+    subject: "",
     email: "",
     message: "",
   });
@@ -16,10 +18,48 @@ const Help: React.FC = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const saveFormData = async (data: Record<string, any>) => {
+    try {
+      const response = await axios.post(
+        "http://localhost:8080/message/add",
+        data,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      toast.success("Message has been saved successfully!");
+      console.log("Response from server:", response.data);
+    } catch (error) {
+      console.error("Error saving data:", error);
+
+      if (axios.isAxiosError(error)) {
+        if (error.response?.data) {
+          toast.error(`Error: ${JSON.stringify(error.response.data)}`);
+        } else if (error.message) {
+          toast.error(`Error: ${error.message}`);
+        } else {
+          toast.error("Unknown error occurred");
+        }
+      } else {
+        toast.error("Something went wrong");
+      }
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     console.log("Form Data Submitted:", formData);
-    alert("Form submitted successfully!");
+
+    await saveFormData(formData);
+
+    setFormData({
+      name: "",
+      email: "",
+      subject: "",
+      message: "",
+    });
   };
 
   return (
@@ -36,14 +76,14 @@ const Help: React.FC = () => {
           required
         />
 
-        <label htmlFor="phone">Phone Number</label>
+        <label htmlFor="subject">Subject</label>
         <input
-          type="tel"
-          id="phone"
-          name="phone"
-          value={formData.phone}
+          type="text"
+          id="subject"
+          name="subject"
+          value={formData.subject}
           onChange={handleChange}
-          placeholder="Enter your phone number"
+          placeholder="Enter the subject"
           required
         />
 
