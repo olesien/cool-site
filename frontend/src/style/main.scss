@@ -500,8 +500,6 @@ header {
 
 .filter-container button {
   margin-right: 5px;
-  margin-left: 5px;
-  margin-bottom: 10px;
   background-color: #4a5568;  
 }
 
@@ -513,4 +511,12 @@ header {
 
 .filter-container input {
   width: 80px;
+}
+
+.quantity-input {
+  width: 50px;
+  text-align: center;
+  border: 1px solid #4a5568;
+  padding: 5px;
+  margin-right: 5px;
 }

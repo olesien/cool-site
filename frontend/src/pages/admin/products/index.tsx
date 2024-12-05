@@ -1,4 +1,4 @@
-import { Input, Button, Modal, Table, TableColumnsType, Checkbox, CheckboxProps } from "antd";
+import { Input, Button, Modal, Table, TableColumnsType, Checkbox, Tooltip } from "antd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faPlus, faEdit } from "@fortawesome/free-solid-svg-icons";
 import { useMemo, useState } from "react";
@@ -32,7 +32,7 @@ export default function Products() {
         searchParams.set("page", String(newPage));
         setSearchParams(searchParams);
     }
-    const [filterQuantity, setFilterQuantity] = useState(2); // Default quantity filter
+    const [filterQuantity, setFilterQuantity] = useState(1); // Default quantity filter
     const [isChecked, setIsChecked] = useState(false);
     const [filteredData, setFilteredData] = useState<Product[] | null>(null);
     const [isFiltered, setIsFiltered] = useState(false); 
@@ -46,6 +46,7 @@ export default function Products() {
         queryKey: ['cats'],
         queryFn: getCategories,
     });
+
     const saveProduct = async (data: SaveProduct) => {
         setShowAddProduct(false);
         const split = data.category.split("^");
@@ -214,49 +215,27 @@ export default function Products() {
         },
     ], []);
     return (
-        <>
-            <div className="main-header">
-                <h2>Admin Products</h2>
-                <Button variant="filled" color="primary" onClick={() => setShowAddProduct(true)}><FontAwesomeIcon
-                    className={productstyles.addIcon}
-                    icon={faPlus}
-                /> New Product</Button>
-            </div>
-            {!data || !categories ? <Loading /> : <>
-                <Table<Product>
-                    pagination={
-                        ({
-                            current: Number(searchParams.get("page") ?? 1),
-                            onChange: changePage,
-                            position: ["bottomCenter"]
-                        })
-                    }
-                    rowKey="id"
-                    columns={columns}
-                    dataSource={data}
-                />
-                {showAddProduct && <ProductModal categories={categories} title="Add Product" onSave={saveProduct} handleClose={() => setShowAddProduct(false)} />}
-                {!!editProduct && <ProductModal categories={categories} title="Edit Product" onSave={(v) => saveEditProduct({ old: editProduct, new: v })} handleClose={() => setEditProduct(null)} initialData={editProduct} />}
-            </>}
+        <>       
         <div className="filter-container">
-            <h3>Filter by quantity:</h3>
-            <Input
-                type="number"
-                value={filterQuantity}
-                onChange={(e) => setFilterQuantity(Number(e.target.value))}
-                placeholder="Enter quantity"
-            />
-            <Button type="primary" onClick={handleFilter}>
-                Filter
-            </Button>
-            <Button type="primary" onClick={handleReset}>
-                Reset
-            </Button>
+            <div className="max-quantity">
+            <h3>Filter by max quantity:</h3>
+                <Input
+                    type="number"
+                    onChange={(e) => setFilterQuantity(Number(e.target.value))}
+                    placeholder="Quantity"
+                    className="quantity-input"
 
-            <Checkbox onChange={handleCheckboxChange}>Low stock (1 or less)</Checkbox>
+                />
+                <Button type="primary" onClick={handleFilter}>
+                    Filter
+                </Button>
+                <Button type="primary" onClick={handleReset}>
+                    Reset
+                </Button>
+            </div>
         </div>
         <div className="main-header">
-            <h2>{isFiltered ? "Filtered Products" : "All Products"}</h2>
+            <h2>{isFiltered ? "Filtered products (" + filteredData?.length + " result/s)" : "All Products" + " (" + data?.length + " product/s)" }</h2>
             <Button variant="filled" color="primary" onClick={() => setShowAddProduct(true)}><FontAwesomeIcon
                 className={productstyles.addIcon}
                 icon={faPlus}
@@ -267,13 +246,21 @@ export default function Products() {
         </div>
         {!data || !categories ? <Loading /> : <>
             <Table<Product>
+                pagination={
+                    ({
+                        current: Number(searchParams.get("page") ?? 1),
+                        onChange: changePage,
+                        position: ["bottomCenter"]
+                    })
+                }
                 rowKey="id"
                 columns={columns}
                 dataSource={filteredData || data}
             />
-            {showAddProduct && <CategoryModal categories={categories} title="Add Product" onSave={saveProduct} handleClose={() => setShowAddProduct(false)} />}
-            {!!editProduct && <CategoryModal categories={categories} title="Edit Product" onSave={(v) => saveEditProduct({ old: editProduct, new: v })} handleClose={() => setEditProduct(null)} initialData={editProduct} />}
-        </>}
+            {showAddProduct && <ProductModal categories={categories} title="Add Product" onSave={saveProduct} handleClose={() => setShowAddProduct(false)} />}
+            {!!editProduct && <ProductModal categories={categories} title="Edit Product" onSave={(v) => saveEditProduct({ old: editProduct, new: v })} handleClose={() => setEditProduct(null)} initialData={editProduct} />}
+            </>
+    }
 
 
         </>
