@@ -117,7 +117,7 @@ export const getLatestProducts = async () => {
 
 
 export const getChosenProduct = async (productId: number) => {
-    const response = await axios.get<Product[]>(
+    const response = await axios.get<Product>(
         `${base_url}/products/${productId}`,
         {
             headers: {

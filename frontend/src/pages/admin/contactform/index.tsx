@@ -1,13 +1,13 @@
 import { Modal, Table, TableColumnsType } from "antd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons/faTrash";
-import { faEdit } from "@fortawesome/free-solid-svg-icons/faEdit";
+import { faEnvelope } from "@fortawesome/free-solid-svg-icons/faEnvelope";
 import { useMemo, useState } from "react";
 import productstyles from "./contact.module.scss";
 import { useQuery } from "@tanstack/react-query";
 import { base_url, getAllContactForms, } from "@/services/api";
 import Loading from "@/components/Loading";
-import ContactModal, { SaveProduct } from "./components/ContactModal";
+import ContactModal from "./components/ContactModal";
 import { toast } from "react-toastify";
 import axios from "axios";
 
@@ -28,7 +28,7 @@ export default function ContactForm() {
     const deleteItem = async (itemID: number) => {
         try {
             const response = await axios.delete<string>(
-                base_url + '/products/delete/' + itemID,
+                base_url + '/message/delete/' + itemID,
                 {
                     headers: {
                         "Access-Control-Allow-Origin": "*"
@@ -79,7 +79,7 @@ export default function ContactForm() {
                     title="Show contact form"
                     aria-label="Show contact form"
                     className={productstyles.addIcon}
-                    icon={faEdit}
+                    icon={faEnvelope}
                     onClick={() => setShowForm(record)}
                 />
                 <FontAwesomeIcon
@@ -103,7 +103,7 @@ export default function ContactForm() {
                     columns={columns}
                     dataSource={data}
                 />
-                {/* {showForm && <ContactModal categories={categories} title="Edit Product" onSave={(v) => saveEditProduct({ old: editProduct, new: v })} handleClose={() => setEditProduct(null)} initialData={editProduct} />} */}
+                 {showForm && <ContactModal form={showForm} title="Show contact form" handleClose={() => setShowForm(null)} />} 
             </>}
 
 
