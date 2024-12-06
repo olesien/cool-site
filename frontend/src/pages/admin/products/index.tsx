@@ -29,15 +29,17 @@ export type Product = {
     wishlist: {id: number}[];
 }
 export default function Products() {
+    // Get the user from the context
     const { user } = useAppContext();
     const loggedInUserId = user?.id;
 
+    const defaultFilterQuantity = 1;
     const [searchParams, setSearchParams] = useSearchParams();
     const changePage = (newPage: number) => {
         searchParams.set("page", String(newPage));
         setSearchParams(searchParams);
     }
-    const [filterQuantity, setFilterQuantity] = useState(1); // Default quantity filter
+    const [filterQuantity, setFilterQuantity] = useState(defaultFilterQuantity); // Default quantity filter - the default is set on the button Filter.
     const [filterInputValue, setFilterInputValue] = useState("");
     const [isChecked, setIsChecked] = useState(false);
     const [filteredData, setFilteredData] = useState<Product[] | null>(null);
@@ -161,6 +163,7 @@ export default function Products() {
         });
     }
 
+    // The Input Filter
     const handleFilter = async () => {
         try {
             const filteredProducts = await getFilteredProducts(filterQuantity+1);
@@ -172,11 +175,13 @@ export default function Products() {
         }
     };
 
+    // The filter checkbox - shows products added by admin
     const handleCheckboxChange = async (event: any) => {
         const checked = event.target.checked;
         setIsChecked(checked);
         
         if (checked) {
+            // if there is something left in the input field, clear it
             setFilterInputValue("");
             try {
                 const filteredProducts = await getProductsAddedByAdmin(loggedInUserId);
@@ -186,8 +191,8 @@ export default function Products() {
                 console.error("Error fetching filtered products", error);
             }
         } else {
+            // reset the filter if the box is unchecked
             handleReset();
-            setIsChecked(false);
         }
     };
 
@@ -195,10 +200,11 @@ export default function Products() {
         setFilterInputValue("");
         setFilteredData(null);
         setIsFiltered(false);
-        setFilterQuantity(1);
+        setFilterQuantity(defaultFilterQuantity);
         setIsChecked(false);
     };
 
+    // Get the input value and present the result.
     const handleFilterInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
         setFilterInputValue(value);

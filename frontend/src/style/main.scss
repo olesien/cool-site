@@ -338,7 +338,7 @@ header {
 
 @media (max-width: 420px) {
     * {
-        font-size: 0.8em;
+        font-size: 0.8rem;
     }
 }
 
@@ -495,12 +495,22 @@ header {
 }
 
 .filter-container {
-    display: inline;
-    margin: 20px;
+    display: inline-flex ;
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+.max-quantity {
+    padding-right: 20px;
+    border-right: #4a5568 1px solid;
+}
+
+.my-products {
+    padding-left: 20px;
 }
 
 .filter-container h3 {
     margin-bottom: 10px;
+    color: #4a5568;
 }
 
 .filter-container button {
