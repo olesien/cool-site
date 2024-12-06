@@ -2,21 +2,28 @@ import { Button, Image } from 'antd';
 import { useState } from 'react';
 import { useAppContext } from "@/contexts/useAppContext";
 import axios from "axios";
-import { base_url } from "@/services/api";
+import { base_url, getProductWishlist } from "@/services/api";
 import { toast } from "react-toastify";
 import "../ProductDisplay.scss";
 import { Product } from "@/pages/admin/products";
+import { useQuery } from '@tanstack/react-query';
 
 // the ./types wouldnt refer correctly for some reason so now making mock of the Product interface for test
 
 interface ProductDisplayProps {
     product: Product;
     refetch: () => void;
+    productId: number;
 }
 
 
-export function ProductDisplay({ product, refetch }: ProductDisplayProps) {
+export function ProductDisplay({ product, refetch, productId }: ProductDisplayProps) {
     const { user } = useAppContext();
+
+    const { data: userWishlist, refetch: wishlistRefetch } = useQuery({
+        queryKey: ['chosen-wishlist', productId],
+        queryFn: () => getProductWishlist(productId),
+    });
 
     const [mainImage, setMainImage] = useState<string>(product.images[0]?.url || '');
 
@@ -40,6 +47,7 @@ export function ProductDisplay({ product, refetch }: ProductDisplayProps) {
             toast.success(response.data);
             //alert("This product is now in Your Wishlist");
             refetch();
+            wishlistRefetch();
         } catch (err: unknown) {
             console.error(err);
             if (axios.isAxiosError(err)) {
@@ -66,7 +74,8 @@ export function ProductDisplay({ product, refetch }: ProductDisplayProps) {
                     withCredentials: true,
                 });
             toast.success(response.data);
-            refetch()
+            refetch();
+            wishlistRefetch();
 
         } catch (err: unknown) {
             console.error(err);
@@ -82,7 +91,7 @@ export function ProductDisplay({ product, refetch }: ProductDisplayProps) {
             }
         }
     }
-    const wishlist = user && product.wishlist.length > 0 ? product.wishlist[0] : null;
+    const wishlist = userWishlist ? userWishlist : null;
 
     return (
         <div className="product-display-container">

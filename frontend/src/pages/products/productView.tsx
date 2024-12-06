@@ -36,7 +36,7 @@ export default function ProductView() {
             {errorMessage ? (
                 <h3 className="error-text">{errorMessage}</h3>
             ) : (
-                <ProductDisplay product={product} refetch={refetch} />
+                <ProductDisplay product={product} refetch={refetch} productId={productIdNumber} />
             )}
         </div>
     );

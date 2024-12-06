@@ -22,22 +22,23 @@ interface Product {
 export function ProductsByCategoryAndSubcategory() {
     const { category, subcategory } = useParams<{ category: string; subcategory: string }>();
 
+
+    const capitalizeFirst = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
+
+    const capitalizedCategory = capitalizeFirst(String(category));
+    const capitalizedSubcategory = capitalizeFirst(String(subcategory));
+
+    const { data } = useQuery({
+        queryKey: ['productsBySubCategory', category, subcategory],
+        queryFn: () => getProductsByCategoryAndSubcategoryy(String(category), String(subcategory)),
+    });
+
+    const [serachTerm, setSearchTerm] = useState<string>('')
+
     // Validate that category and subcategory exist, somehow without this the queryFn wouldnt work
     if (!category || !subcategory) {
         return <div>Error: Missing category or subcategory.</div>;
     }
-
-    const capitalizeFirst = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
-
-    const capitalizedCategory = capitalizeFirst(category);
-    const capitalizedSubcategory = capitalizeFirst(subcategory);
-
-    const { data } = useQuery({
-        queryKey: ['productsBySubCategory', category, subcategory],
-        queryFn: () => getProductsByCategoryAndSubcategoryy(category, subcategory),
-    });
-
-    const [serachTerm, setSearchTerm] = useState<string>('')
 
     const filteredProducts = data?.filter((product: Product) =>
         product.name.toLowerCase().includes(serachTerm.toLowerCase())
@@ -60,7 +61,7 @@ export function ProductsByCategoryAndSubcategory() {
 
                 <span className="map-item">{capitalizedCategory}</span>
                 <span className="map-divider">/</span>
-                <span className="map-item" style={{whiteSpace: 'nowrap', paddingRight: '10px', paddingLeft:'10px'}}>{capitalizedSubcategory}</span>
+                <span className="map-item" style={{ whiteSpace: 'nowrap', paddingRight: '10px', paddingLeft: '10px' }}>{capitalizedSubcategory}</span>
 
                 <Input
                     placeholder="Search in this category..."

@@ -74,6 +74,20 @@ export const getUserWishlist = async (userId: number) => {
     return response.data;
 }
 
+export const getProductWishlist = async (productId: number) => {
+    const response = await axios.get<{ id: number } | null>(
+        `${base_url}/wishlist/product/${productId}`,
+        {
+            headers: {
+                "Access-Control-Allow-Origin": "*"
+            },
+            withCredentials: true
+        }
+    )
+    console.log(response.data);
+    return response.data;
+}
+
 export const getProducts = async () => {
     const response = await axios.get<Product[]>(
         base_url + '/products/all',

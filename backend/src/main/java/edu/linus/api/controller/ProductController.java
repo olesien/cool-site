@@ -153,6 +153,7 @@ public class ProductController {
     }
 
 
+
     @PostMapping(path = "/add")
     public ResponseEntity<String> addProduct(HttpServletRequest request, @RequestBody NewProductForm productForm){
         DecodedJWT validToken = Auth.extractTokenFromCookie(request.getCookies(), env);

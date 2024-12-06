@@ -1,3 +1,4 @@
+import { queryClient } from "@/main";
 import { User } from "@/pages/login/login";
 import React, {
     createContext,
@@ -53,6 +54,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     const logout = () => {
         //axios post req here
         localStorage.setItem(key, JSON.stringify(null));
+        queryClient.refetchQueries();
         setUser(null);
         toast.success("Successfully logged out!");
     };

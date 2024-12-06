@@ -44,6 +44,26 @@ public class UserWishListController {
         return null;
     }
 
+    @GetMapping(path = "/product/{productId}")
+    public ResponseEntity<UserWishListDTO> getProductByID(HttpServletRequest request, @PathVariable Long productId){
+        DecodedJWT validToken = Auth.extractTokenFromCookie(request.getCookies(), env);
+        if (validToken == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+        }
+        Integer userId = Integer.parseInt(validToken.getSubject());
+        //Get a wishlist by product and
+        Optional<UserWishList> wishlist = wishlistRepository.findByProductIdAndUsersId(productId, userId);
+        if (wishlist.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.OK).body(null);
+        }
+
+        // Check if the product exists, and map it to DTO
+
+        //Basic DTO
+        UserWishListDTO dto = new UserWishListDTO(wishlist.get().getId(), null, "");
+        return ResponseEntity.status(HttpStatus.OK).body(dto);
+    }
+
     // GET endpoint to fetch all products in a user's wishlist by userId
     @GetMapping(path = "/{userId}")
     public ResponseEntity<List<UserWishListDTO>> getUserWishlist(@PathVariable int userId, HttpServletRequest request) {

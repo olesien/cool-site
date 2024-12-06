@@ -9,7 +9,7 @@ import App from "./App.tsx";
 
 import './style/main.scss'
 import 'react-toastify/dist/ReactToastify.css'
-const queryClient = new QueryClient();
+export const queryClient = new QueryClient();
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
     <React.StrictMode>

@@ -1,5 +1,6 @@
 package edu.linus.api.repository;
 
+import edu.linus.api.entity.Product;
 import edu.linus.api.entity.UserWishList;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -10,4 +11,6 @@ public interface UserWishListRepository extends JpaRepository<UserWishList, Long
     List<UserWishList> findByUsersId(int userId);
 
     Optional<UserWishList> findByUsersIdAndId(int authenticatedUserIdLong, int id);
+
+    Optional<UserWishList> findByProductIdAndUsersId(Long productId, Integer userId);
 }
