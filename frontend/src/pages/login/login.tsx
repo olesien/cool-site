@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import './login.css';
 import { useAppContext } from '@/contexts/useAppContext';
-import { Navigate } from 'react-router-dom';
+import { Navigate, NavLink } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 
@@ -33,12 +33,12 @@ export default function Login() {
         try {
             setLoading(true);
             const res = await axios.post<{ message: string, data: User }>
-            ("http://localhost:8080/users/login", { username, password }, {
-                headers: {
-                    "Access-Control-Allow-Origin": "*"
-                },
-                withCredentials: true
-            });
+                ("http://localhost:8080/users/login", { username, password }, {
+                    headers: {
+                        "Access-Control-Allow-Origin": "*"
+                    },
+                    withCredentials: true
+                });
             console.log(res.data);
 
             //Login on frontend
@@ -90,7 +90,7 @@ export default function Login() {
                     onClick={loggingIn}>{loading ? "Signing in..." : "Sign in"}</button>
                 <div className="register-link">
                     <p>
-                        Don't have an account? <a href="#">Click here</a>
+                        Don't have an account? <NavLink to="/register">Click here</NavLink>
                     </p>
                 </div>
             </div>

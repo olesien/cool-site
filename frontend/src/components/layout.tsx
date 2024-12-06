@@ -7,7 +7,7 @@ import { faQuestionCircle } from "@fortawesome/free-solid-svg-icons/faQuestionCi
 import { faBoxArchive } from "@fortawesome/free-solid-svg-icons/faBoxArchive";
 import { faShirt } from "@fortawesome/free-solid-svg-icons/faShirt";
 import { faMessage } from "@fortawesome/free-solid-svg-icons/faMessage";
-import { faAddressBook, faHeart } from "@fortawesome/free-regular-svg-icons";
+import { faHeart } from "@fortawesome/free-regular-svg-icons";
 
 const navigation = [
     {
@@ -28,12 +28,12 @@ const navigation = [
             icon={faQuestionCircle}
         />
     },
-    {
-        name: "Register", href: "/register", icon: <FontAwesomeIcon
-            className="icon"
-            icon={faAddressBook}
-        />
-    },
+    // { It is better to have this be in login page itself
+    //     name: "Register", href: "/register", icon: <FontAwesomeIcon
+    //         className="icon"
+    //         icon={faAddressBook}
+    //     />
+    // },
 ];
 
 export default function Layout() {
@@ -79,7 +79,7 @@ export default function Layout() {
                         if (item.name === "Register" && user) {
                             // take out the register nav if someone is logged in
                             return null;
-                          }
+                        }
                         return <NavLink
                             key={item.name}
                             to={item.href}
