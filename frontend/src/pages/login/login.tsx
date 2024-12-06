@@ -89,7 +89,7 @@ export default function Login() {
                 <button type="submit" className="btn" disabled={loading}
                     onClick={loggingIn}>{loading ? "Signing in..." : "Sign in"}</button>
                 <div className="register-link">
-                    <p>
+                    <p className='p-1'>
                         Don't have an account? <NavLink to="/register">Click here</NavLink>
                     </p>
                 </div>
