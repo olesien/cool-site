@@ -1,5 +1,6 @@
-import React from "react";
-import { Button } from "antd";
+import { Product } from './types';
+import { Carousel, Button, Image } from 'antd';
+import { React, useState } from 'react';
 import { useAppContext } from "@/contexts/useAppContext";
 import axios from "axios";
 import { base_url } from "@/services/api";
@@ -18,6 +19,12 @@ interface ProductDisplayProps {
 export function ProductDisplay({ product, refetch }: ProductDisplayProps) {
     const { user } = useAppContext();
 
+    const [mainImage, setMainImage] = useState<string>(product.images[0]?.url || '');
+
+  // Handle thumbnail click to change main image
+    const handleThumbnailClick = (imageUrl: string) => {
+        setMainImage(imageUrl);
+    };
 
     const onAddToWishlist = async (productId: number) => {
         try {
@@ -78,38 +85,40 @@ export function ProductDisplay({ product, refetch }: ProductDisplayProps) {
     }
     const wishlist = user && product.wishlist.length > 0 ? product.wishlist[0] : null;
 
-    return <div className="product-display-container">
-        <div className="product-display">
-            <div className="product-images">
-                <img
-                    src={product.images[0]?.url || "/placeholder.jpg"}
-                    alt={product.name}
-                    className="main-product-image"
-                />
-                <div className="thumbnail-images">
-                    {product.images.slice(1).map((image) => (
-                        <img
-                            key={image.id}
-                            src={image.url}
-                            alt={image.name}
-                            className="thumbnail-image"
-                        />
-                    ))}
+    return (
+        <div className="product-display-container">
+            <div className="product-display">
+                <div className="product-images">
+                    <div className="thumbnail-images">
+                        {product.images.slice(0).map((image) => (
+                            <img
+                                key={image.id}
+                                src={image.url}
+                                alt={image.name}
+                                className="thumbnail-image"
+                                onClick={() => handleThumbnailClick(image.url)}
+                            />
+                        ))}
+                    </div>
+                    <Image
+                        width={400}
+                        height={400}
+                        src={mainImage} alt={product.name}
+                        className="main-image-product"
+                    />
+                </div>
+                <div className="product-info">
+                    <h1 className="product-title">{product.name}</h1>
+                    <p className="product-price">SEK {product.price.toFixed(2)}</p>
+                    <p className="product-quantity">
+                        Available Quantity: {product.quantity}
+                    </p>
+                    {!!user && (wishlist ? <Button className="wishlist-button" color="danger" onClick={() => removeFromWishlist(wishlist.id)}>
+                        Remove from Wishlist
+                    </Button> : <Button className="wishlist-button" color="default" onClick={() => onAddToWishlist(product.id)}>
+                        Add to Wishlist
+                    </Button>)}
                 </div>
             </div>
-            <div className="product-info">
-                <h1 className="product-title">{product.name}</h1>
-                <p className="product-price">SEK {product.price.toFixed(2)}</p>
-                <p className="product-quantity">
-                    Available Quantity: {product.quantity}
-                </p>
-                {!!user && (wishlist ? <Button className="wishlist-button" color="danger" onClick={() => removeFromWishlist(wishlist.id)}>
-                    Remove from Wishlist
-                </Button> : <Button className="wishlist-button" color="default" onClick={() => onAddToWishlist(product.id)}>
-                    Add to Wishlist
-                </Button>)}
-            </div>
-        </div>
-
-    </div>
+            </div>)
 }

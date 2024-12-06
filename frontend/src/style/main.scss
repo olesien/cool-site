@@ -444,3 +444,46 @@ header {
     color: gray;
     font-size: 14px;
 }
+
+.product-images {
+    display: block;
+}
+
+.main-image-container {
+  width: 100%;
+  display: flex;
+  justify-content: left;
+  align-items: center;
+}
+
+.main-image-product {
+  width: 100%;
+  max-width: 400px;
+  max-height: 400px;
+  object-fit: contain;
+  object-position: center;
+}
+
+.carousel-image-thumbnail {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.carousel-image-thumbnail img {
+  margin: 0;
+  padding: 0;
+  width: 100px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  max-width: 100px;
+  height: 100px;
+  object-fit: contain;
+  object-position: center;
+  cursor: pointer;
+  transition: transform 0.3s ease-in-out;
+}
+
+.carousel-image-thumbnail img:hover {
+  transform: scale(1.1);
+}
