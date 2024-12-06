@@ -268,5 +268,13 @@ public class ProductController {
 
         return ResponseEntity.ok().body("Successfully deleted");
     }
-    
+
+    @GetMapping(path = "/my-products/{id}")
+    public ResponseEntity<List<ProductDTO>> getProductsByUser(@PathVariable int id) {
+        List<Product> productsBy = productRepository.findByUserId(id);
+        List<ProductDTO> dtoProducts = productsBy.stream()
+                .map(ProductDTO::convertToDto)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(dtoProducts);
+    }
 }

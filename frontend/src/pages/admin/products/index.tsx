@@ -4,14 +4,16 @@ import { faTrash, faPlus, faEdit } from "@fortawesome/free-solid-svg-icons";
 import { useMemo, useState } from "react";
 import productstyles from "./product.module.scss";
 import { useQuery } from "@tanstack/react-query";
-import { base_url, getCategories, getProducts, getFilteredProducts  } from "@/services/api";
+import { base_url, getCategories, getProducts, getFilteredProducts, getProductsAddedByAdmin } from "@/services/api";
 import Loading from "@/components/Loading";
 import ProductModal, { SaveProduct } from "./components/ProductModal";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { Category, SubCategory } from "../categories";
+import { useAppContext } from "@/contexts/useAppContext";
 
 import { NavLink, useSearchParams } from "react-router-dom";
+
 export type ProductImages = {
     id: number;
     name: string;
@@ -27,12 +29,16 @@ export type Product = {
     wishlist: {id: number}[];
 }
 export default function Products() {
+    const { user } = useAppContext();
+    const loggedInUserId = user?.id;
+
     const [searchParams, setSearchParams] = useSearchParams();
     const changePage = (newPage: number) => {
         searchParams.set("page", String(newPage));
         setSearchParams(searchParams);
     }
     const [filterQuantity, setFilterQuantity] = useState(1); // Default quantity filter
+    const [filterInputValue, setFilterInputValue] = useState("");
     const [isChecked, setIsChecked] = useState(false);
     const [filteredData, setFilteredData] = useState<Product[] | null>(null);
     const [isFiltered, setIsFiltered] = useState(false); 
@@ -81,7 +87,6 @@ export default function Products() {
 
     const saveEditProduct = async (data: { old: Product, new: SaveProduct }) => {
         setEditProduct(null);
-        console.log(data);
         const split = data.new.category.split("^");
         if (split.length < 2) {
             return toast.error("The category must be selected");
@@ -161,6 +166,7 @@ export default function Products() {
             const filteredProducts = await getFilteredProducts(filterQuantity+1);
             setFilteredData(filteredProducts);
             setIsFiltered(true);
+            setIsChecked(false);
         } catch (error) {
             console.error("Error fetching filtered products", error);
         }
@@ -169,10 +175,11 @@ export default function Products() {
     const handleCheckboxChange = async (event: any) => {
         const checked = event.target.checked;
         setIsChecked(checked);
-
+        
         if (checked) {
+            setFilterInputValue("");
             try {
-                const filteredProducts = await getFilteredProducts(2);
+                const filteredProducts = await getProductsAddedByAdmin(loggedInUserId);
                 setFilteredData(filteredProducts);
                 setIsFiltered(true);
             } catch (error) {
@@ -185,8 +192,27 @@ export default function Products() {
     };
 
     const handleReset = () => {
+        setFilterInputValue("");
         setFilteredData(null);
-        setIsFiltered(false); // Mark the data as not filtered
+        setIsFiltered(false);
+        setFilterQuantity(1);
+        setIsChecked(false);
+    };
+
+    const handleFilterInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        setFilterInputValue(value);
+        setFilterQuantity(Number(value));
+    };
+
+    // pick the right name based on the applied filter
+    const handleTitleOfResultTable = (): string => {
+        if (isChecked) {
+            return `Products added by me (${filteredData?.length || 0} result/s)`;
+        } else if (isFiltered) {
+            return `Filtered Products (${filteredData?.length || 0} result/s)`;
+        }
+        return `All Products (${data?.length || 0} product/s)`;
     };
     
 
@@ -218,10 +244,11 @@ export default function Products() {
         <>       
         <div className="filter-container">
             <div className="max-quantity">
-            <h3>Filter by max quantity:</h3>
+                <h3>Filter by max quantity:</h3>
                 <Input
                     type="number"
-                    onChange={(e) => setFilterQuantity(Number(e.target.value))}
+                    value={filterInputValue}
+                    onChange={handleFilterInputChange}
                     placeholder="Quantity"
                     className="quantity-input"
 
@@ -233,9 +260,15 @@ export default function Products() {
                     Reset
                 </Button>
             </div>
+            <div className="my-products">
+                <h3>Added by me:</h3>
+                <Checkbox checked={isChecked} onChange={handleCheckboxChange}>
+                    Show my products
+                </Checkbox>
+            </div>
         </div>
         <div className="main-header">
-            <h2>{isFiltered ? "Filtered products (" + filteredData?.length + " result/s)" : "All Products" + " (" + data?.length + " product/s)" }</h2>
+            <h2>{handleTitleOfResultTable()}</h2>
             <Button variant="filled" color="primary" onClick={() => setShowAddProduct(true)}><FontAwesomeIcon
                 className={productstyles.addIcon}
                 icon={faPlus}

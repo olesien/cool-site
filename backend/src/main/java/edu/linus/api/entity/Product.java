@@ -37,6 +37,11 @@ public class Product {
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private List<UserWishList> wishlists = new ArrayList<>();
 
+    @ManyToOne
+    @JoinColumn(name = "added_by", referencedColumnName = "id")
+    @JsonBackReference
+    private Users user;
+
     public String getName() {
         return name;
     }
