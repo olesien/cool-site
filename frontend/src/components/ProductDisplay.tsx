@@ -112,11 +112,15 @@ export function ProductDisplay({ product, refetch }: ProductDisplayProps) {
                     <p className="product-quantity">
                         Available: {product.quantity}
                     </p>
-                    {!!user && (wishlist ? <Button className="wishlist-button" color="danger" onClick={() => removeFromWishlist(wishlist.id)}>
-                        Remove from Wishlist
-                    </Button> : <Button className="wishlist-button" color="default" onClick={() => onAddToWishlist(product.id)}>
-                        Add to Wishlist
-                    </Button>)}
+                    {!!user && <>
+                        {
+                            (wishlist ? <Button className="wishlist-button" color="danger" onClick={() => removeFromWishlist(wishlist.id)}>
+                                Remove from Wishlist
+                            </Button> : <Button className="wishlist-button" color="default" onClick={() => onAddToWishlist(product.id)}>
+                                Add to Wishlist
+                            </Button>)
+                        }
+                    </>}
                     <Button
                         style={{ marginTop: 10 }}
                         className="buy-button"

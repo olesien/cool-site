@@ -53,7 +53,7 @@ public class UserWishListController {
 
         // If the userId in the path doesn't match the authenticated userId (for security), reject the request
         if (authenticatedUserId == null || authenticatedUserId != userId) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);  // Forbidden if userId doesn't match
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);  // Forbidden if userId doesn't match
         }
 
         // Fetch the user's wishlist

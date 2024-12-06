@@ -199,7 +199,7 @@ public class ProductController {
         DecodedJWT validToken = Auth.extractTokenFromCookie(request.getCookies(), env);
 
         if (validToken == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("You are not logged in");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("No token found. Please log out and back in");
         }
         int userId = Integer.parseInt(validToken.getSubject());
 
