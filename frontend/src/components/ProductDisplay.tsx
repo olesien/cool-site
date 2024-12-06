@@ -1,6 +1,5 @@
-import { Product } from './types';
-import { Carousel, Button, Image } from 'antd';
-import { React, useState } from 'react';
+import { Button, Image } from 'antd';
+import { useState } from 'react';
 import { useAppContext } from "@/contexts/useAppContext";
 import axios from "axios";
 import { base_url } from "@/services/api";
@@ -21,7 +20,7 @@ export function ProductDisplay({ product, refetch }: ProductDisplayProps) {
 
     const [mainImage, setMainImage] = useState<string>(product.images[0]?.url || '');
 
-  // Handle thumbnail click to change main image
+    // Handle thumbnail click to change main image
     const handleThumbnailClick = (imageUrl: string) => {
         setMainImage(imageUrl);
     };
@@ -111,14 +110,27 @@ export function ProductDisplay({ product, refetch }: ProductDisplayProps) {
                     <h1 className="product-title">{product.name}</h1>
                     <p className="product-price">SEK {product.price.toFixed(2)}</p>
                     <p className="product-quantity">
-                        Available Quantity: {product.quantity}
+                        Available: {product.quantity}
                     </p>
                     {!!user && (wishlist ? <Button className="wishlist-button" color="danger" onClick={() => removeFromWishlist(wishlist.id)}>
                         Remove from Wishlist
                     </Button> : <Button className="wishlist-button" color="default" onClick={() => onAddToWishlist(product.id)}>
                         Add to Wishlist
                     </Button>)}
+                    <Button
+                        style={{ marginTop: 10 }}
+                        className="buy-button"
+                        type="primary"
+                        disabled={product.quantity === 0}
+                        onClick={() => {
+                            if (product.quantity > 0) {
+                                toast.success("Product in checkout");
+                            }
+                        }}
+                    >
+                        {product.quantity === 0 ? "Out of Stock" : "Buy"}
+                    </Button>
                 </div>
             </div>
-            </div>)
+        </div>)
 }

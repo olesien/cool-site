@@ -98,6 +98,18 @@
           background-color: #ff3f3f;
         }
       }
+
+      .buy-button {
+        align-self: start;
+        background-color: #ff6f61;
+        color: white;
+        border: none;
+        transition: background-color 0.3s ease;
+
+        &:hover {
+          background-color: #ff3f3f;
+        }
+      }
     }
   }
 
