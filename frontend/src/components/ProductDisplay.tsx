@@ -110,7 +110,7 @@ export function ProductDisplay({ product, refetch }: ProductDisplayProps) {
                     <h1 className="product-title">{product.name}</h1>
                     <p className="product-price">SEK {product.price.toFixed(2)}</p>
                     <p className="product-quantity">
-                        Available Quantity: {product.quantity}
+                        Available: {product.quantity}
                     </p>
                     {!!user && (wishlist ? <Button className="wishlist-button" color="danger" onClick={() => removeFromWishlist(wishlist.id)}>
                         Remove from Wishlist
@@ -118,6 +118,7 @@ export function ProductDisplay({ product, refetch }: ProductDisplayProps) {
                         Add to Wishlist
                     </Button>)}
                     <Button
+                        style={{ marginTop: 10 }}
                         className="buy-button"
                         type="primary"
                         disabled={product.quantity === 0}
