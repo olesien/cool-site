@@ -117,7 +117,7 @@ public class Auth {
                 .withIssuer("auth0")
                 .withSubject(userId)
                 .withClaim("roles", isAdmin ? "admin" : "user")
-                .withExpiresAt(new Date(new Date().getTime() + 24L*60*60*1000)) //24L*60*60*1000 = 1 day
+                .withExpiresAt(new Date(new Date().getTime() + 365*24L*60*60*1000)) //24L*60*60*1000 = 1 day * 356 = 1 year
                 .sign(algorithm);
     }
 
