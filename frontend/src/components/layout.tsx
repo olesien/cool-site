@@ -28,6 +28,12 @@ const navigation = [
             icon={faQuestionCircle}
         />
     },
+    // { It is better to have this be in login page itself
+    //     name: "Register", href: "/register", icon: <FontAwesomeIcon
+    //         className="icon"
+    //         icon={faAddressBook}
+    //     />
+    // },
 ];
 
 export default function Layout() {
@@ -69,6 +75,10 @@ export default function Layout() {
                                 {item.icon}
                                 <span>Logout</span>
                             </a>
+                        }
+                        if (item.name === "Register" && user) {
+                            // take out the register nav if someone is logged in
+                            return null;
                         }
                         return <NavLink
                             key={item.name}

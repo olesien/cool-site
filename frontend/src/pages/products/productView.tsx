@@ -2,7 +2,6 @@ import { NavMenu } from "@/components/NavMenu";
 import { getChosenProduct } from "@/services/api";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
-import { Item } from "@/components/ItemCard";
 import { ProductDisplay } from "@/components/ProductDisplay";
 
 export default function ProductView() {
@@ -28,17 +27,17 @@ export default function ProductView() {
         errorMessage = "No product found.";
     }
 
-    if(!product) {
+    if (!product) {
         return (<div></div>)
     }
     return (
         <div>
-        <NavMenu />
-        {errorMessage ? (
+            <NavMenu />
+            {errorMessage ? (
                 <h3 className="error-text">{errorMessage}</h3>
             ) : (
                 <ProductDisplay product={product} refetch={refetch} />
             )}
-    </div>
+        </div>
     );
 }

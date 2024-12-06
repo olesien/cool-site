@@ -2,6 +2,7 @@ package edu.linus.api.controller;
 
 
 import edu.linus.api.DTO.UserDTO;
+import edu.linus.api.entity.Messages;
 import edu.linus.api.entity.Users;
 import edu.linus.api.forms.LoginForm;
 import edu.linus.api.models.ApiResponse;
@@ -101,5 +102,17 @@ public class UsersController {
         List<Users> user = usersRepository.findAll();
 
         return ResponseEntity.ok(user);
+    }
+
+    @PostMapping(path = "/add")
+    public ResponseEntity<ApiResponse<Users>> addUser (@RequestBody Users user){
+        try{
+            Users userSave = usersRepository.save(user);
+            return ResponseEntity.status(HttpStatus.CREATED)
+                    .body(new ApiResponse<>("Success", userSave));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ApiResponse<>("Failed to add user", null));
+        }
     }
 }
