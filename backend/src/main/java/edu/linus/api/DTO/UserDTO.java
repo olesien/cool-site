@@ -3,12 +3,8 @@ package edu.linus.api.DTO;
 public class UserDTO {
     Integer id;
     String username;
-
     String password;
-
-
     Integer user_role;
-
     Boolean isAdmin;
 
     public UserDTO(Integer id, String username, String password, Integer user_role, Boolean isAdmin) {

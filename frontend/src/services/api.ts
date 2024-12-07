@@ -155,3 +155,16 @@ export const getChosenProduct = async (productId: number) => {
     console.log(response.data);
     return response.data;
 }
+
+export const getProductsAddedByAdmin = async (userId: number) => {
+    const response = await axios.get<Product[]>(
+        `${base_url}/products/my-products/${userId}`,
+        {
+            headers: {
+                "Access-Control-Allow-Origin": "*"
+            },
+            withCredentials: true
+        }
+    )
+    return response.data;
+}

@@ -11,14 +11,11 @@ import java.util.stream.Collectors;
 public class ProductDTO {
     private Long id;
     private String name;
-
-
-
-    private List<UserWishListDTO> wishlist;
     private Double price;
     private int quantity;
+    private Long addedBy;
+    private List<UserWishListDTO> wishlist;
     private SubCategoryDTO sub_category;
-
     private List<ProductImageDTO> images;
 
     private static ModelMapper modelMapper = new ModelMapper();
@@ -79,6 +76,14 @@ public class ProductDTO {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    public void setAddedBy(Long userId) {
+        this.addedBy = userId;
+    }
+
+    public Long getAddedBy() {
+        return this.addedBy;
     }
 
     public SubCategoryDTO getSub_category() {
