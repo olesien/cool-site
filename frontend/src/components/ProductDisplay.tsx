@@ -19,13 +19,17 @@ interface ProductDisplayProps {
 
 export function ProductDisplay({ product, refetch, productId }: ProductDisplayProps) {
     const { user } = useAppContext();
-
+    
     const { data: userWishlist, refetch: wishlistRefetch } = useQuery({
         queryKey: ['chosen-wishlist', productId],
         queryFn: () => getProductWishlist(productId),
     });
 
-    const [mainImage, setMainImage] = useState<string>(product.images[0]?.url || '');
+    //const [mainImage, setMainImage] = useState<string>(product.images[0]?.url || '');
+
+    const [mainImage, setMainImage] = useState<string>(
+        product.images[0]?.url || 'https://images.pexels.com/photos/102155/pexels-photo-102155.jpeg?auto=compress&cs=tinysrgb&w=600'
+    );
 
     // Handle thumbnail click to change main image
     const handleThumbnailClick = (imageUrl: string) => {
@@ -111,8 +115,10 @@ export function ProductDisplay({ product, refetch, productId }: ProductDisplayPr
                     <Image
                         width={400}
                         height={400}
-                        src={mainImage} alt={product.name}
+                        src={mainImage}
+                        alt={product.name}
                         className="main-image-product"
+                        preview={mainImage !== 'https://images.pexels.com/photos/102155/pexels-photo-102155.jpeg?auto=compress&cs=tinysrgb&w=600'}
                     />
                 </div>
                 <div className="product-info">
