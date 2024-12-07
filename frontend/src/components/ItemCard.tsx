@@ -10,6 +10,9 @@ interface ItemProps {
 
 
 export function Item({ id, name, price, image }: ItemProps) {
+  if (!image) {
+    image = 'https://images.pexels.com/photos/102155/pexels-photo-102155.jpeg?auto=compress&cs=tinysrgb&w=600';
+  }
   return (
     <div className="item-card">
       <Link to={`/product/${id}`}>
