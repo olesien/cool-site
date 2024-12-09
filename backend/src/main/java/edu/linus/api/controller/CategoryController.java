@@ -4,6 +4,7 @@ import edu.linus.api.DTO.CategoryDTO;
 import edu.linus.api.DTO.ProductDTO;
 import edu.linus.api.entity.Category;
 import edu.linus.api.entity.SubCategory;
+import edu.linus.api.forms.SubCategoryForm;
 import edu.linus.api.repository.CategoryRepository;
 import edu.linus.api.repository.SubCategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -52,13 +54,13 @@ public class CategoryController {
     }
 
     @PostMapping("sub/{categoryId}")
-    public ResponseEntity<String> addSubcategory(@PathVariable Long categoryId, @RequestBody SubCategory subCategory){
+    public ResponseEntity<String> addSubcategory(@PathVariable Long categoryId, @RequestBody SubCategoryForm subCategory){
          Category category = categoryRepository.findById(categoryId).orElse(null);
-
-            subCategory.setCategory(category);
-
-
-            SubCategory savedSub = subCategoryRepository.save(subCategory);
+         SubCategory subcat = new SubCategory();
+         subcat.setName(subCategory.getName());
+         subcat.setLink_name(subCategory.getLink_name());
+         subcat.setCategory(category);
+            SubCategory savedSub = subCategoryRepository.save(subcat);
 
             return ResponseEntity.status(HttpStatus.CREATED).body("Successfully added");
 
@@ -95,7 +97,7 @@ public class CategoryController {
     }
 
     @PutMapping("putsub/{id}")
-    public ResponseEntity<String> updateSubCategory(@PathVariable Long id, @RequestBody SubCategory putSubCategory){
+    public ResponseEntity<String> updateSubCategory(@PathVariable Long id, @RequestBody SubCategoryForm putSubCategory){
         SubCategory subCategory = subCategoryRepository.findById(id).orElse(null);
 
         if (subCategory == null){
