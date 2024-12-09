@@ -5,6 +5,7 @@ import edu.linus.api.DTO.UserDTO;
 import edu.linus.api.entity.Messages;
 import edu.linus.api.entity.Users;
 import edu.linus.api.forms.LoginForm;
+import edu.linus.api.forms.RegisterForm;
 import edu.linus.api.models.ApiResponse;
 import edu.linus.api.repository.UsersRepository;
 import jakarta.servlet.http.Cookie;
@@ -52,20 +53,20 @@ public class UsersController {
     }
 
 
-//    @PostMapping(path="/register") // Map ONLY POST Requests
-//    public @ResponseBody ResponseEntity<ApiResponse<Object>> register (HttpServletResponse response, @RequestBody RegisterForm registerForm) throws NoSuchAlgorithmException {
-//        Users21 n = new Users21();
-//        n.setName(registerForm.getName());
-//        n.setEmail(registerForm.getEmail());
-//        n.setPassword(hashPassword(registerForm.getPassword(), env));
-//        Users21 savedUser = usersRepository.save(n);
-//        String jwt = generateJWT(env, savedUser.getId().toString());
-//
-//        // Set HttpOnly cookie
-//        response.addCookie(makeSecureCookie(jwt));
-//        System.out.println("Added cookie");
-//        return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse<>("Success", new UserWithJWT(savedUser.getId(), savedUser.getName(), savedUser.getEmail(), jwt)));
-//    }
+    @PostMapping(path="/add") // Map ONLY POST Requests
+    public @ResponseBody ResponseEntity<ApiResponse<Object>> register (HttpServletResponse response, @RequestBody RegisterForm registerForm) throws NoSuchAlgorithmException {
+        Users n = new Users();
+        n.setUsername(registerForm.getUsername());
+        n.setUser_role(1);
+        n.setPassword(registerForm.getPassword());
+        Users savedUser = usersRepository.save(n);
+        //String jwt = generateJWT(env, savedUser.getId().toString());
+
+        // Set HttpOnly cookie
+        //response.addCookie(makeSecureCookie(jwt));
+        System.out.println("Added cookie");
+        return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse<>("Success", savedUser));
+    }
 
     @PostMapping(path="/login") // Map ONLY POST Requests
     public @ResponseBody ResponseEntity<ApiResponse<Object>> login (HttpServletResponse response, @RequestBody LoginForm loginForm) throws NoSuchAlgorithmException {
@@ -104,15 +105,15 @@ public class UsersController {
         return ResponseEntity.ok(user);
     }
 
-    @PostMapping(path = "/add")
-    public ResponseEntity<ApiResponse<Users>> addUser (@RequestBody Users user){
-        try{
-            Users userSave = usersRepository.save(user);
-            return ResponseEntity.status(HttpStatus.CREATED)
-                    .body(new ApiResponse<>("Success", userSave));
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new ApiResponse<>("Failed to add user", null));
-        }
-    }
+//    @PostMapping(path = "/add")
+//    public ResponseEntity<ApiResponse<Users>> addUser (@RequestBody Users user){
+//        try{
+//            Users userSave = usersRepository.save(user);
+//            return ResponseEntity.status(HttpStatus.CREATED)
+//                    .body(new ApiResponse<>("Success", userSave));
+//        } catch (Exception e) {
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+//                    .body(new ApiResponse<>("Failed to add user", null));
+//        }
+//    }
 }
